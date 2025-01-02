@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play, List, Heart, BookmarkPlus } from 'lucide-react';
 import MovieDetails from '../../../type/movie/movie_detail.type';
-import { UserScore } from './UserScore';
+import { UserScore } from '../../shared/UserScore';
 
 interface ShowHeaderProps {
   movieDetail: MovieDetails;

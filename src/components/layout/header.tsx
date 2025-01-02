@@ -20,20 +20,6 @@ const Header: React.FC = () => {
           <Link to="/" className="flex items-center">
             <img src={logo} width={154} height={20}></img>
           </Link>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link to="movies" className="text-[15px] font-semibold hover:text-[#01b4e4]">
-              Movies
-            </Link>
-            <Link to="#" className="text-[15px] font-semibold hover:text-[#01b4e4]">
-              TV Shows
-            </Link>
-            <Link to="#" className="text-[15px] font-semibold hover:text-[#01b4e4]">
-              People
-            </Link>
-            <Link to="#" className="text-[15px] font-semibold hover:text-[#01b4e4]">
-              More
-            </Link>
-          </nav>
         </div>
         <div className="flex items-center gap-6">
           {!isAuthenticated ? (

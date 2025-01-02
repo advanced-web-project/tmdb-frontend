@@ -55,17 +55,17 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <div className='relative'>
-      {/* Trending Movies */}
-      <TrendingMovie />
+      <div className="relative">
+        {/* Trending Movies */}
+        <TrendingMovie />
 
-      {/* Latest Trailers */}
-      <TrailerSection />
+        {/* Latest Trailers */}
+        <TrailerSection />
 
-      {/* Popular Movies */}
-      <PopularMovie />
+        {/* Popular Movies */}
+        <PopularMovie />
 
-      <div
+        <div
           className="absolute right-0 top-0 bottom-4 w-[90px] pointer-events-none
                       bg-gradient-to-l from-white via-white/70 to-transparent"
         />
