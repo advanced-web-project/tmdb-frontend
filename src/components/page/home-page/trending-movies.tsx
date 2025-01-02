@@ -1,5 +1,5 @@
 import TimeWindowButton from './time-window-button';
-import {MovieCard} from '../home-page/movie-card';
+import { MovieCard } from '../home-page/movie-card';
 import ToggleShowMoreButton from './toggle-showmore-button';
 import { useState, useEffect } from 'react';
 import TrendingMovies from '../../../type/movie/movie_trending.type';
@@ -13,7 +13,7 @@ export function TrendingMovie() {
   const [visibleMovies, setVisibleMovies] = useState(6);
   const [initialVisibleMovies] = useState(6);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchTrendingMovie = async () => {
       try {
@@ -55,15 +55,19 @@ export function TrendingMovie() {
     setVisibleMovies(initialVisibleMovies);
   };
 
-
-  return (<>
-  <section className="py-8">
+  return (
+    <>
+      <section className="py-8">
         <div className="container px-10">
           <div className="flex items-center gap-4 mb-6">
             <h2 className="text-[1.5rem] font-semibold">Trending</h2>
-            <div className="relative inline-flex h-[30px] p-[1.5px] rounded-full bg-[#1ed5a9]">
+            <div className="relative inline-flex h-[34px] pb-[0.8px] pt-[1.4px] px-[1.3px]  rounded-full  bg-[#042541]/95">
               <div className="flex w-full h-full rounded-full bg-[#FFFF]">
-                <TimeWindowButton label="Today" isActive={timeWindowTrending === 'day'} onClick={() => setTimeWindowTrending('day')} />
+                <TimeWindowButton
+                  label="Today"
+                  isActive={timeWindowTrending === 'day'}
+                  onClick={() => setTimeWindowTrending('day')}
+                />
                 <TimeWindowButton
                   label="This Week"
                   isActive={timeWindowTrending === 'week'}
@@ -78,7 +82,11 @@ export function TrendingMovie() {
             ))}
           </div>
           <div className="flex justify-center mt-4 gap-4">
-            <ToggleShowMoreButton isVisible={visibleMovies < trendingMovies.length} onClick={handleSeeMore} showMore={true} />
+            <ToggleShowMoreButton
+              isVisible={visibleMovies < trendingMovies.length}
+              onClick={handleSeeMore}
+              showMore={true}
+            />
             <ToggleShowMoreButton
               isVisible={visibleMovies >= trendingMovies.length && visibleMovies > initialVisibleMovies}
               onClick={handleSeeLess}
@@ -87,5 +95,6 @@ export function TrendingMovie() {
           </div>
         </div>
       </section>
-  </>)
+    </>
+  );
 }

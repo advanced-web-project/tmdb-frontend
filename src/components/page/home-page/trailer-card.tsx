@@ -3,9 +3,21 @@ import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import DropdownInteraction from './dropdown-interaction';
 
-function TrailerCard({ title, subtitle, image }: { title: string; subtitle: string; image: string }) {
+function TrailerCard({
+  title,
+  subtitle,
+  image,
+  onHover,
+  onLeave,
+}: {
+  title: string;
+  subtitle: string;
+  image: string;
+  onHover: () => void;
+  onLeave: () => void;
+}) {
   return (
-    <motion.div className="flex-none w-[300px] rounded-[10px] group">
+    <motion.div className="flex-none w-[300px] rounded-[10px] group" onHoverStart={onHover} onHoverEnd={onLeave}>
       <div className="relative aspect-video rounded-[10px] overflow-auto cursor-pointer">
         <img src={image} alt={title} className="relative z-10 w-full h-full object-cover rounded-[10px]" />
         <div className="absolute inset-0 z-20 bg-black/40 flex items-center justify-center">
