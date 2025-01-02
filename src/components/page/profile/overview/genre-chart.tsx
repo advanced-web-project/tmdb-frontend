@@ -10,7 +10,7 @@ const data = [
 export default function GenreChart() {
   return (
     <div className="max-w-md mx-auto">
-      <h3 className="text-lg mb-4">Total Watchlist</h3>
+      <h3 className="text-lg mb-4">Most Watched Genres</h3>
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
         <div className="mt-4 w-[180px] h-[180px] shrink-0">
           <PieChart data={data} />

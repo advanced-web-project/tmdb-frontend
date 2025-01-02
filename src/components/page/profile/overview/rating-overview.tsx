@@ -31,7 +31,7 @@ const RatingOverview: React.FC = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-lg mb-4">Total Watchlist</h3>
+      <h3 className="text-lg mb-4">Rating Overview</h3>
 
       <div className="relative">
         <div className="flex items-end h-32 gap-[11px] mb-2">

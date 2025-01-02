@@ -1,4 +1,3 @@
-
 import { Tabs, TabsList, TabsTrigger } from '../../components/shared/tabs';
 // import { useNavigate } from 'react-router-dom';
 // import { getUserByToken } from '../../api/UserApi';
@@ -6,23 +5,23 @@ import { Tabs, TabsList, TabsTrigger } from '../../components/shared/tabs';
 // import { showError } from '../../utility/ErrorToastifyRender';
 import { useEffect, useState } from 'react';
 
-
-import HeaderProfile from '../../components/page/profile/header-profile';
-import StaticSection from '../../components/page/profile/statics';
+import HeaderProfile from '../../components/page/profile/overview/header-profile';
+import StaticSection from '../../components/page/profile/overview/statics';
+import FavoriteSection from '../../components/page/profile/favorite/favorite-section';
+import RatingSection from '../../components/page/profile/rating/rating-section';
 
 const exampleUser = {
-    username: 'Minh Hoang 123',
-    email: 'john.doe@example.com',
-    password: 'securepassword123',
-    confirmPassword: 'securepassword123',
-    profile: 'https://res.cloudinary.com/dt0ps34k9/image/upload/v1733309869/vxrvgd9pbnkk8iei2xpx.jpg',
-};   
+  username: 'Minh Hoang 123',
+  email: 'john.doe@example.com',
+  password: 'securepassword123',
+  confirmPassword: 'securepassword123',
+  profile: 'https://res.cloudinary.com/dt0ps34k9/image/upload/v1733309869/vxrvgd9pbnkk8iei2xpx.jpg',
+};
 
 const ProfilePage: React.FC = () => {
   // const navigate = useNavigate();
   // const { accessToken, refreshAccessToken, userInfo, updateTokens, updateAfterLogout } = useAuth();
   const [tab, setTab] = useState('overview');
-
 
   // useEffect(() => {
   //   const fetchUserInfo = async () => {
@@ -73,13 +72,15 @@ const ProfilePage: React.FC = () => {
           >
             Favorite
           </TabsTrigger>
-          <TabsTrigger onClick={() => setTab('ratings')}
+          <TabsTrigger
+            onClick={() => setTab('ratings')}
             value="ratings"
             className="data-[state=active] data-[state=active]:border-b-2 data-[state=active]:border-pink-500 rounded-none"
           >
             Ratings
           </TabsTrigger>
-          <TabsTrigger onClick={() => setTab('watchlist')}
+          <TabsTrigger
+            onClick={() => setTab('watchlist')}
             value="watchlist"
             className="data-[state=active] data-[state=active]:border-b-2 data-[state=active]:border-pink-500 rounded-none"
           >
@@ -89,7 +90,9 @@ const ProfilePage: React.FC = () => {
       </Tabs>
 
       {/* Static Section */}
-      {tab == 'overview' && <StaticSection/>}
+      {tab == 'overview' && <StaticSection />}
+      {tab == 'favorite' && <FavoriteSection />}
+      {tab == 'ratings' && <RatingSection />}
     </>
   );
 };
