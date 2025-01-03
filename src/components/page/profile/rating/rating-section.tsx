@@ -1,5 +1,6 @@
 import HeaderList from '../header-list';
 import MovieCardList from '../movie-card-list';
+import RatingsChart from './rating-chart';
 
 const movies = [
   {
@@ -24,6 +25,7 @@ export default function RatingSection() {
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl py-4 mx-4">
+        <RatingsChart />
         <HeaderList title={"Ratings"} totalMovie={2} />
         <div className="space-y-8">
           {movies.map((movie) => (
