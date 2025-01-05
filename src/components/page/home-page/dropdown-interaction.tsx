@@ -9,7 +9,6 @@ import {
   DropdownMenuPortal,
 } from '@radix-ui/react-dropdown-menu';
 import { StarRating } from './star-rating';
-import { AddToListDialog } from './add-to-list-dialog';
 import { MoreHorizontal, Heart, Bookmark, Star } from 'lucide-react';
 
 export default function DropdownInteraction() {
@@ -25,8 +24,6 @@ export default function DropdownInteraction() {
         sideOffset={5}
         className="w-40 z-[1100] bg-white shadow-lg rounded-[10px] p-2 border-gray-200 bottom-2"
       >
-        <AddToListDialog />
-        <hr />
         <DropdownMenuItem className="text-gray-700 hover:bg-gray-100 flex my-1">
           <Heart className="mr-2 mt-1 h-4 w-4" />
           <span>Favorite</span>

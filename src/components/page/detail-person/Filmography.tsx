@@ -125,16 +125,8 @@ export function Filmography() {
     <section className="mt-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Acting</h2>
-        <div className="flex gap-2">
-          <select className="px-3 py-1.5 border rounded-md text-sm">
-            <option>All</option>
-          </select>
-          <select className="px-3 py-1.5 border rounded-md text-sm">
-            <option>Department</option>
-          </select>
-        </div>
       </div>
-      <div className="overflow-x-auto border rounded-[10px] shadow-sm">
+      <div className="overflow-x-auto border rounded-[10px] shadow-lg">
         <div className="relative">
           <table className="w-full">
             <tbody>

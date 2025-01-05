@@ -25,7 +25,7 @@ export function TrailerSection() {
       <div className="container px-4 md:px-10 mx-auto">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 mb-6">
           <h2 className="text-2xl font-bold text-white">Latest Trailers</h2>
-          <div className="relative inline-flex sm:overflow-x-auto md:h-[34px] rounded-full bg-opacity-0 rounded-full border-[1px] border-[#c0fecf]/95">
+          <div className="relative inline-flex  overflow-x-auto sm:overflow-x-auto md:h-[34px] rounded-full bg-opacity-0 rounded-full border-[1px] border-[#c0fecf]/95">
             <div className="flex w-full h-full rounded-full ">
               {trailerTabs.map((tab) => (
                 <button

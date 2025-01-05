@@ -64,13 +64,18 @@ const knownForMovies = [
   },
 ];
 
+const biography = {
+  name: '정윤하',
+  biography: `Jung Yoon-ha (born March 4, 1986) is a South Korean actress. She is best known for her roles in the films The Suspect (2013) and The Dude in Me (2019).`,
+}
+
 export default function App() {
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
         <ProfileInfo personalInfo={personalInfo} />
         <div>
-          <Biography />
+          <Biography name={biography.name} biography={biography.biography} />
           <MovieGrid movies={knownForMovies} />
           <Filmography />
         </div>

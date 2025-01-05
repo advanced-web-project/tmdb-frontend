@@ -17,7 +17,7 @@ interface MoviePreviewProps {
 export default function MoviePreview({ title, description, rating, image, style }: MoviePreviewProps) {
   return (
     <div
-      className="fixed z-[9999] w-[535px] h-[170px] bg-[#051829] text-white rounded-[10px] overflow-hidden shadow-xl movie-preview"
+      className="fixed z-[9999] max-w-[535px] max-h-[170px] bg-[#051829] text-white rounded-[10px] overflow-hidden shadow-xl movie-preview"
       style={style}
     >
       {/* Arrow pointer */}

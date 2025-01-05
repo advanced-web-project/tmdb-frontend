@@ -1,5 +1,4 @@
 import { PieChart } from './pie-chart';
-
 const data = [
   { genre: 'Drama', value: 35, color: '#FF1493' },
   { genre: 'Mystery', value: 25, color: '#FF69B4' },

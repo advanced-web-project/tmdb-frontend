@@ -25,8 +25,6 @@ const LoginPage: React.FC = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
   const [isDisabled, setDisabled] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const isResetPassword = location.state?.isResetPassword;
-  const titleResetPassword = location.state?.titleResetPassword;
   const isResendEmail = location.state?.isResendEmail;
   const titleResendEmail = location.state?.titleResendEmail;
   const isNotVeriable = location.state?.isNotVeriable;
@@ -130,8 +128,8 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      {(isResetPassword || isResendEmail) && (
-        <InfoAlert header={titleResetPassword || titleResendEmail}>
+      {( isResendEmail) && (
+        <InfoAlert header={titleResendEmail}>
           <p className="text-[20px] leading-[1.2] mb-2">
             We have sent to this email address if it belongs to a registered account on TMDB.
           </p>

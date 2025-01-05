@@ -1,19 +1,84 @@
-import { useState } from 'react';
-export function Biography() {
-  const [showFullBio, setShowFullBio] = useState(false);
-  const biography =
-    'Jung Yun-ha (정윤하) is a South Korean actress. She was born on March 4, 1986 in Seoul, South Korea. She is known for her work in the film industry and has appeared in various films and television dramas. Jung Yun-ha made her acting debut in 2008 and has since starred in numerous films and television dramas. She has received critical acclaim for her performances and has won several awards for her work. Jung Yun-ha is considered one of the most talented and versatile actresses in South Korea.';
-  return (
-    <>
-      <h1 className="text-3xl font-bold text-dark">Le Minh Hoang</h1>
-      <h2 className="text-xl font-semibold mb-2 mt-7">Biography</h2>
-      <p className="text-gray-700">{showFullBio ? biography : `${biography.slice(0, 200)}...`}</p>
-      <button
-        className="mt-2 text-blue-600 hover:underline focus:outline-none"
-        onClick={() => setShowFullBio(!showFullBio)}
-      >
-        {showFullBio ? 'Show Less' : 'Read More'}
-      </button>
-    </>
-  );
+'use client'
+
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight, ChevronLeft } from 'lucide-react'
+
+interface BiographyProps {
+  name: string
+  biography: string
 }
+
+export function Biography({ name, biography }: BiographyProps) {
+  const [showFullBio, setShowFullBio] = useState(false)
+
+  return (
+    <div className="relative">
+      <h1 className="text-3xl font-bold text-[#000000]">{name}</h1>
+      <h2 className="text-2xl font-semibold mb-2 mt-7">Biography</h2>
+      <div className="relative">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={showFullBio ? 'full' : 'truncated'}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ 
+              opacity: 1, 
+              height: 'auto',
+              transition: {
+                height: { duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] },
+                opacity: { duration: 0.3, delay: 0.1 }
+              }
+            }}
+            exit={{ 
+              opacity: 0,
+              height: 0,
+              transition: {
+                height: { duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] },
+                opacity: { duration: 0.2 }
+              }
+            }}
+          >
+            <div className={`relative ${!showFullBio ? 'max-h-[100px] overflow-hidden' : ''}`}>
+              <motion.p 
+                className="text-[#4a4a4a] text-base leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {biography}
+              </motion.p>
+              {!showFullBio && (
+                <motion.div 
+                  className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+        <motion.button
+          className="mt-2 text-[#01B4E4] hover:text-[#0093C4] transition-colors duration-200 text-base flex items-center gap-1"
+          onClick={() => setShowFullBio(!showFullBio)}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {showFullBio ? 'Show Less' : 'Read More'}
+          <motion.span
+            initial={{ x: 0 }}
+            animate={{ x: showFullBio ? -3 : 3 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 20
+            }}
+          >
+            {showFullBio ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
+          </motion.span>
+        </motion.button>
+      </div>
+    </div>
+  )
+}
+

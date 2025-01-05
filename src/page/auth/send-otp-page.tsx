@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
-// Define the LoginPage component
-const ForgotPasswordPage: React.FC = () => {
+// Define th LoginPage component
+const SendOtpPage: React.FC = () => {
+  const email = useParams<{ email: string }>();  
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>('');
-  const [isEmailError, setEmailError] = useState<boolean>(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
+  const [otp, setOtp] = useState<string>('');
+  const [isOtpError, setOtpError] = useState<boolean>(false);
+  const [otpErrorMessage, setOtpErrorMessage] = useState<string>('');
   const [isDisabled, setDisabled] = useState<boolean>(false);
 
-  function validateEmail(email: string): boolean {
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(true);
-      setEmailErrorMessage('Valid email is required');
+
+  const validateOtp = (otp: string): boolean => {
+    if (otp.length < 6) {
+      setOtpError(true);
+      setOtpErrorMessage('OTP must be 6 digits');
       return false;
     } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
+      setOtpError(false);
+      setOtpErrorMessage('');
       return true;
     }
   }
@@ -25,42 +27,40 @@ const ForgotPasswordPage: React.FC = () => {
   const handleSubmit = function () {
     // Implement the handleChange function
     setDisabled(true);
-
-    if (!validateEmail(email)) {
-      // If the email is invalid, set the disabled state to false
-    } else {
-      navigate('/send-otp/'+email);
+    if(validateOtp(otp)){
+        // Send OTP and Email to Backend
+        // recieve token from backend
+        const token = 'token';
+        navigate('/reset-password/'+token);
     }
     setDisabled(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
-    setEmail(value);
+    setOtp(value);
   };
 
   return (
     <div className="max-w-[1200px] mx-auto py-10 my-10 px-4 font-sans">
-      <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Reset password</h1>
+      <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Send OTP</h1>
 
       <p className="mb-5 text-[16px] leading-[1.5]">
-        Enter the email you used to sign up for a TMDB account and we'll send you the steps required to reset your
-        password.
+        Enter the OTP you received on your email address to reset your password. The OTP is valid for 10 minutes only. After that, you will need to request a new OTP.
       </p>
-
       <form className="space-y-6">
         <TextField
-          label="Email"
-          placeholder="Enter your email"
+          label="OTP"
+          placeholder="Enter OTP"
           variant="outlined"
           fullWidth
           onChange={handleChange}
-          value={email}
-          id="email"
-          name="email"
-          error={isEmailError}
-          helperText={emailErrorMessage}
-          color={isEmailError ? 'error' : 'primary'}
+          value={otp}
+          id="otp"
+          name="otp"
+          error={isOtpError}
+          helperText={otpErrorMessage}
+          color={isOtpError ? 'error' : 'primary'}
           InputLabelProps={{
             style: { fontSize: '14px', color: '#6E6E6E' },
           }}
@@ -87,11 +87,22 @@ const ForgotPasswordPage: React.FC = () => {
                   ':hover': { backgroundColor: '#333' },
                 }}
               >
-                Continue
+                Send
               </Button>
-              <Link to="/login" className="text-blue-500 font-semibold hover:underline">
-                Cancel
-              </Link>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  height: '38px',
+                  width: '120px',
+                  fontWeight: '600',
+                  ':hover': { backgroundColor: '#333' },
+                }}
+              >
+                Resend OTP
+              </Button>
             </>
           )}
         </div>
@@ -100,4 +111,4 @@ const ForgotPasswordPage: React.FC = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default SendOtpPage;

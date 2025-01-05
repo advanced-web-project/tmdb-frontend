@@ -5,3 +5,4 @@ export { default as ForgotPasswordPage } from './forgot-password-page';
 export { default as ResetPasswordPage } from './reset-password-page';
 export { default as ResendEmailPage } from './resend-email-page';
 export { default as VerifyEmailPage } from './verify-email-page';
+export { default as SendOtpPage } from './send-otp-page';

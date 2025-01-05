@@ -6,11 +6,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import AuthRequest from '../../type/auth/auth_request.type';
-import { AlertBox } from '../../components/page/auth/error-alert';
 
 // Define the LoginPage component
 const ResetPasswordPage: React.FC = () => {
-  const { code } = useParams<{ code: string }>();
+  const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
   const [isUsernameError, setUsernameError] = useState<boolean>(false);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>('');
@@ -25,9 +24,6 @@ const ResetPasswordPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   const [isDisabled, setDisabled] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [isValidCode, setValidCode] = useState<boolean>(false);
-
   // Initial form data
   const initialData: AuthRequest = {
     username: '',
@@ -90,36 +86,9 @@ const ResetPasswordPage: React.FC = () => {
 
   const handleSubmit = function () {
     // Implement the handleChange function
-    if (validateFormData(formData)) {
-      // If the email is invalid, set the disabled state to false
-    }
     navigate('/login');
     setDisabled(true);
   };
-
-  useEffect(() => {
-    if (code === 'ok') {
-      setValidCode(true);
-    } else {
-      setValidCode(false);
-    }
-    setLoading(false);
-  }, []);
-
-  if (isLoading) {
-    return <Spinner loading={true} alignStyle="flex justify-center items-center h-screen" />;
-  }
-
-  if (!isValidCode) {
-    return (
-      <>
-        <div className="max-w-[1200px] mx-auto py-2 my-5 px-4 font-sans">
-          <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Reset password</h1>
-          <AlertBox header="There was a problem">The password reset code is invalid.</AlertBox>
-        </div>
-      </>
-    );
-  }
 
   return (
     <div className="max-w-[1200px] mx-auto py-2 my-2 px-4 font-sans">
