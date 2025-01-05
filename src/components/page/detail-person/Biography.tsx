@@ -40,7 +40,7 @@ export function Biography({ name, biography }: BiographyProps) {
           >
             <div className={`relative ${!showFullBio ? 'max-h-[100px] overflow-hidden' : ''}`}>
               <motion.p 
-                className="text-[#4a4a4a] text-base leading-relaxed"
+                className="text-[#4a4a4a] text-base leading-relaxed text-justify"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}

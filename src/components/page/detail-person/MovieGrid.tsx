@@ -33,7 +33,7 @@ export function MovieGrid({ movies }: MovieGridProps) {
 
   return (
     <section style={{ maxWidth: `${maxWidth}px` }}>
-      <h2 className="text-xl font-semibold mb-6">Known for</h2>
+      <h2 className="text-xl font-semibold my-6">Known for</h2>
       <div className="relative">
         <div className="flex gap-[12px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
           {movies.map((movie) => (

@@ -9,6 +9,7 @@ import HeaderProfile from '../../components/page/profile/overview/header-profile
 import StaticSection from '../../components/page/profile/overview/statics';
 import FavoriteSection from '../../components/page/profile/favorite/favorite-section';
 import RatingSection from '../../components/page/profile/rating/rating-section';
+import WatchListSection from '../../components/page/profile/watch/watchlist-section';
 
 const exampleUser = {
   username: 'Minh Hoang 123',
@@ -93,6 +94,7 @@ const ProfilePage: React.FC = () => {
       {tab == 'overview' && <StaticSection />}
       {tab == 'favorite' && <FavoriteSection />}
       {tab == 'ratings' && <RatingSection />}
+      {tab == 'watchlist' && <WatchListSection />}
     </>
   );
 };

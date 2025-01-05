@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { Range } from 'react-range';
 import { genres } from '../../../data/genres';
 
 import Button from '../../shared/button';
@@ -9,8 +8,7 @@ export default function FilterPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [fromDate, setFromDate] = useState<string>('');
   const [toDate, setToDate] = useState<string>('');
-  const [userScore, setUserScore] = useState([0, 10]);
-
+  
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(e.target.value);
   };
@@ -104,41 +102,7 @@ export default function FilterPanel() {
               {/* User Score Section */}
               <div className="space p-2">
                 <h3 className="text-base font-normal text-gray-500 mb-5">User Score</h3>
-                <Range
-                  step={1}
-                  min={0}
-                  max={10}
-                  values={userScore}
-                  onChange={(newValues: number[]) => setUserScore(newValues)}
-                  renderTrack={({ props, children }: RangeProps['renderTrack']) => (
-                    <div
-                      {...props}
-                      className="h-2 w-full bg-gray-200 rounded-lg"
-                      style={{
-                        ...props.style,
-                        background: `linear-gradient(to right, #03a9f4 ${((userScore[0] - 0) / 10) * 100}%, #03a9f4 ${
-                          ((userScore[1] - 0) / 10) * 100
-                        }%, #e2e8f0 ${((userScore[1] - 0) / 10) * 100}%)`,
-                      }}
-                    >
-                      {children}
-                    </div>
-                  )}
-                  renderThumb={({ props, index }: RangeProps['renderThumb']) => (
-                    <div
-                      {...props}
-                      className="h-6 w-6 bg-blue-500 rounded-full border-2 border-white shadow-md flex items-center justify-center"
-                      style={{ ...props.style }}
-                    >
-                      <span className="text-xs text-white font-bold">{userScore[index]}</span>
-                    </div>
-                  )}
-                />
-                <div className="flex justify-between mt-2 text-gray-500 text-sm">
-                  <span>0</span>
-                  <span>5</span>
-                  <span>10</span>
-                </div>
+                
               </div>
             </div>
           </motion.div>
