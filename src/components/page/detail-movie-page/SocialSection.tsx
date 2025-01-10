@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Star, ChevronDown, ChevronUp } from 'lucide-react';
-import { MovieReviews } from '../../../type/movie/review.type';
+import { MovieReviews } from '../../../type/temp/movie/review.type';
 
 interface SocialSectionProps {
   reviews: MovieReviews['results'];

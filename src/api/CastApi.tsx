@@ -1,5 +1,5 @@
 import axios from 'axios';
-import MovieCredits from '../type/cast/cast.type';
+import MovieCredits from '../type/temp/cast/cast.type';
 
 const BASE_URL = import.meta.env.VITE_TMDB_API_URL;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN; // Replace with your TMDb bearer token

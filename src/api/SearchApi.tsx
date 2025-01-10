@@ -1,10 +1,10 @@
 import axios from 'axios';
-import TVResult from '../type/search/tv';
-import { CollectionResult } from '../type/search/collection';
-import { PersonResult } from '../type/search/person';
-import { MovieResult } from '../type/search/movie';
-import { KeyWordResult } from '../type/search/keyword';
-import { CompanyResult } from '../type/search/company';
+import TVResult from '../type/temp/search/tv';
+import { CollectionResult } from '../type/temp/search/collection';
+import { PersonResult } from '../type/temp/search/person';
+import { MovieResult } from '../type/temp/search/movie';
+import { KeyWordResult } from '../type/temp/search/keyword';
+import { CompanyResult } from '../type/temp/search/company';
 
 const BASE_URL = import.meta.env.VITE_TMDB_API_URL;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;

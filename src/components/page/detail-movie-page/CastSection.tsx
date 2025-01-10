@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieCredits from '../../../type/cast/cast.type';
+import MovieCredits from '../../../type/temp/cast/cast.type';
 
 interface CastSectionProps {
   cast: MovieCredits['cast'];

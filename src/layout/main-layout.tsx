@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify'; // Importing the ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/layout/header';
 import Footer from '../components/layout/footer';
+import Assistant from '../components/shared/assistant';
 
 /**
  * MainLayout component that serves as the main layout for the application.
@@ -14,6 +15,7 @@ const MainLayout: React.FC = () => {
       <Header /> {/* Render the Header component */}
       <Outlet /> {/* Render the nested routes */}
       <ToastContainer /> {/* Render the ToastContainer for notifications */}
+      <Assistant /> {/* Render the Assistant component */}
       <Footer /> {/* Render the Footer component */}
     </div>
   );

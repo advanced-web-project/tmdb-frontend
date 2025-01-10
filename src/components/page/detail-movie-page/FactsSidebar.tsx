@@ -1,6 +1,6 @@
 import React from 'react';
-import { MovieKeywords } from '../../../type/movie/keyword.type';
-import MovieDetails from '../../../type/movie/movie_detail.type';
+import { MovieKeywords } from '../../../type/temp/movie/keyword.type';
+import MovieDetails from '../../../type/temp/movie/movie_detail.type';
 import { languages } from '../../../data/language';
 
 interface FactsSidebarProps {

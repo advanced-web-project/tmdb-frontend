@@ -2,7 +2,7 @@ import TimeWindowButton from './time-window-button';
 import { MovieCard } from '../home-page/movie-card';
 import ToggleShowMoreButton from './toggle-showmore-button';
 import { useState, useEffect } from 'react';
-import TrendingMovies from '../../../type/movie/movie_trending.type';
+import TrendingMovies from '../../../type/temp/movie/movie_trending.type.tsx';
 import { fetchTrendingMovies } from '../../../api/MovieApi.tsx';
 import { showError } from '../../../utility/ErrorToastifyRender.tsx';
 import { useNavigate } from 'react-router-dom';

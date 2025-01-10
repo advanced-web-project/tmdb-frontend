@@ -3,8 +3,8 @@ import axios from 'axios';
 // Import the showError function for displaying error messages
 import { showError } from '../utility/ErrorToastifyRender';
 import { refreshAccessToken } from './AuthApi';
-import user from '../type/auth/user.type';
-import AuthResponse from '../type/auth/auth_response.type';
+import user from '../type/temp/auth/user.type';
+import AuthResponse from '../type/temp/auth/auth_response.type';
 
 // Get the backend URL from environment variables
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;

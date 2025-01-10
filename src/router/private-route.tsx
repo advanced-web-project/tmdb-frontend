@@ -8,7 +8,6 @@ interface RouteProps {
 
 function ProtectedRoute({ children }: RouteProps) {
   const { isAuthenticated } = useAuth();
-
   if (!isAuthenticated) {
     showError('You must be logged in to access this page');
     return <Navigate to="/login" replace />;

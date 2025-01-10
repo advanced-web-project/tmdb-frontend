@@ -11,13 +11,13 @@ import {
 } from '../../api/SearchApi';
 
 import MovieCard from '../../components/page/search-page/MovieCard';
-import { MovieResult } from '../../type/search/movie';
+import { MovieResult } from '../../type/temp/search/movie';
 import Spinner from '../../components/shared/spinner';
-import TVResult from '../../type/search/tv';
-import { PersonResult } from '../../type/search/person';
-import { CollectionResult } from '../../type/search/collection';
-import { CompanyResult } from '../../type/search/company';
-import { KeyWordResult } from '../../type/search/keyword';
+import TVResult from '../../type/temp/search/tv';
+import { PersonResult } from '../../type/temp/search/person';
+import { CollectionResult } from '../../type/temp/search/collection';
+import { CompanyResult } from '../../type/temp/search/company';
+import { KeyWordResult } from '../../type/temp/search/keyword';
 import { Search, X, ChevronDown } from 'lucide-react';
 import FilterPanel from '../../components/page/search-page/MovieFilters';
 

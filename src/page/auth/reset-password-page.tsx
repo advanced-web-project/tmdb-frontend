@@ -5,7 +5,7 @@ import Spinner from '../../components/shared/spinner';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import AuthRequest from '../../type/auth/auth_request.type';
+import AuthRequest from '../../type/temp/auth/auth_request.type';
 
 
 // Define the LoginPage component

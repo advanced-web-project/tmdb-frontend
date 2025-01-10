@@ -9,11 +9,11 @@ import { ShowHeader } from '../../../components/page/detail-movie-page/ShowHeade
 import { fetchMovieDetails, movieRecommendationPerMovie, movieKeywords, movieReviews } from '../../../api/MovieApi';
 import { listCastPerMovie } from '../../../api/CastApi';
 import { showError } from '../../../utility/ErrorToastifyRender';
-import MovieDetails from '../../../type/movie/movie_detail.type';
-import MovieCredits from '../../../type/cast/cast.type';
-import MovieRecommendation from '../../../type/movie/movie_recommendation';
-import { MovieKeywords } from '../../../type/movie/keyword.type';
-import { MovieReviews } from '../../../type/movie/review.type';
+import MovieDetails from '../../../type/temp/movie/movie_detail.type';
+import MovieCredits from '../../../type/temp/cast/cast.type';
+import MovieRecommendation from '../../../type/temp/movie/movie_recommendation';
+import { MovieKeywords } from '../../../type/temp/movie/keyword.type';
+import { MovieReviews } from '../../../type/temp/movie/review.type';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/shared/spinner';
 

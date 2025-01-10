@@ -8,7 +8,7 @@ import Spinner from '../../components/shared/spinner';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import user from '../../type/auth/user.type';
+import user from '../../type/temp/auth/user.type';
 import { checkEmailUniqueness, checkUsernameUniqueness, registerUser } from '../../api/UserApi';
 import { benefits } from '../../data/benefits';
 

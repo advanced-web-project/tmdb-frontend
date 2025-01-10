@@ -1,7 +1,7 @@
 import default_avatar from '../../../../assets/default_avatar.jpg';
 import { UserScore } from '../../../shared/UserScore';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../shared/avatar';
-import User from '../../../../type/auth/user.type';
+import User from '../../../../type/temp/auth/user.type';
 
 export const HeaderProfile: React.FC<{ user: User }> = ({ user }) => {
   return (

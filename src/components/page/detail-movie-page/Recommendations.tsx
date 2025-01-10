@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, Star, Heart, Bookmark } from 'lucide-react';
-import MovieRecommendation from '../../../type/movie/movie_recommendation';
+import MovieRecommendation from '../../../type/temp/movie/movie_recommendation';
 import { Link } from 'react-router-dom';
 
 interface RecommendationsProps {
