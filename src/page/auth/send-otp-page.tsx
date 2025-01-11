@@ -28,15 +28,15 @@ const SendOtpPage: React.FC = () => {
   };
 
   const handleResendOtp = async () => {
-      if (email) {
-        try {
-          await getOtp(email);
-          showSuccess('OTP resent successfully! Please check your email.');
-        } catch (error) {
-          console.log('Failed to resend OTP: ' + error);
-        }
+    if (email) {
+      try {
+        await getOtp(email);
+        showSuccess('OTP resent successfully! Please check your email.');
+      } catch (error) {
+        console.log('Failed to resend OTP: ' + error);
       }
-    };
+    }
+  };
 
   const handleSubmit = async function () {
     setDisabled(true);

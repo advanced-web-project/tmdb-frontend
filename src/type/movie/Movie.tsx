@@ -14,6 +14,7 @@ export interface Movie {
   genres: Genre[];
   homepage: string;
   imdb_id: string;
+  tmdbId: number;
   origin_country: object;
   original_language: string;
   original_title: string;

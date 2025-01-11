@@ -1,33 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from '@mui/material';
-import {
-  searchCollection,
-  searchCompany,
-  searchKeyWord,
-  searchMovie,
-  searchPerson,
-  searchTV,
-} from '../../apis/temp/SearchApi';
-
+import { searchMovie } from '../../apis/temp/SearchApi';
 import MovieCard from '../../components/page/search-page/MovieCard';
 import { MovieResult } from '../../type/temp/search/movie';
 import Spinner from '../../components/shared/spinner';
-import TVResult from '../../type/temp/search/tv';
-import { PersonResult } from '../../type/temp/search/person';
-import { CollectionResult } from '../../type/temp/search/collection';
-import { CompanyResult } from '../../type/temp/search/company';
-import { KeyWordResult } from '../../type/temp/search/keyword';
-import { Search, X, ChevronDown } from 'lucide-react';
 import FilterPanel from '../../components/page/search-page/MovieFilters';
+import { SearchBar } from '../../components/page/search-page/SearchBar';
 
 type SearchResults = {
   movie: MovieResult | null;
-  tv: TVResult | null;
-  people: PersonResult | null;
-  collection: CollectionResult | null;
-  company: CompanyResult | null;
-  keyword: KeyWordResult | null;
 };
 
 const searchOptions = ['Movie Name', 'Actor Name', 'Natural Query'];
@@ -38,18 +20,12 @@ const SearchPage: React.FC<SearchPageProps> = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [results, setResults] = useState<SearchResults>({
     movie: null,
-    tv: null,
-    people: null,
-    collection: null,
-    company: null,
-    keyword: null,
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const comboboxRef = useRef<HTMLDivElement>(null);
-  const optionsRef = useRef<HTMLDivElement>(null);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Movie Name');
+  const [naturalQueryValue, setNaturalQueryValue] = useState(50);
 
   useEffect(() => {
     const queryValue = searchParams.get('query');
@@ -63,15 +39,8 @@ const SearchPage: React.FC<SearchPageProps> = () => {
     const searchValue = term.trim() || searchTerm.trim();
     setLoading(true);
     try {
-      const [movie, tv, people, collection, company, keyword] = await Promise.all([
-        searchMovie(searchValue, 1),
-        searchTV(searchValue, 1),
-        searchPerson(searchValue, 1),
-        searchCollection(searchValue, 1),
-        searchCompany(searchValue, 1),
-        searchKeyWord(searchValue, 1),
-      ]);
-      setResults({ movie, tv, people, collection, company, keyword });
+      const [movie] = await Promise.all([searchMovie(searchValue, 1)]);
+      setResults({ movie });
     } catch (error) {
       console.error('Error when searching', error);
     } finally {
@@ -79,15 +48,9 @@ const SearchPage: React.FC<SearchPageProps> = () => {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch(searchTerm);
-    }
-  };
-
   function handlePageChange(page: number) {
-    // setLoading(true);
-    //handleSearch(searchTerm);
+    setLoading(true);
+    handleSearch(searchTerm);
   }
 
   const currentResults = results['movie'];
@@ -96,54 +59,16 @@ const SearchPage: React.FC<SearchPageProps> = () => {
     <div className="flex flex-col h-auto">
       {/* Search Bar with Combobox */}
       <div className="relative border-b border-[#d7d7d7]" ref={comboboxRef}>
-        <div className="relative flex h-[46px] items-center">
-          <Search className="absolute left-[14px] h-[20px] w-[20px] text-[#666666]" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-            onKeyDown={handleKeyDown}
-            className="h-full w-full border-none bg-white pl-[40px] pr-[120px] text-[16px] text-black placeholder-[#666] outline-none"
-            placeholder="Search for a movie, tv show, person..."
-          />
-          {searchTerm && (
-            <button
-              className="absolute right-[100px] p-[4px] hover:text-[#01b4e4]"
-              onClick={() => {
-                setSearchTerm('');
-              }}
-            >
-              <X className="h-[22px] w-[22px] text-[#666666]" />
-            </button>
-          )}
-          <div className="absolute right-[10px]" ref={optionsRef}>
-            <button
-              className="flex h-[30px] items-center rounded bg-[#01b4e4] px-[10px] text-[14px] font-semibold text-white hover:bg-[#0093c4]"
-              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-            >
-              {selectedOption}
-              <ChevronDown className="ml-[6px] h-[16px] w-[16px]" />
-            </button>
-            {isOptionsOpen && (
-              <div className="absolute right-0 top-[34px] z-50 w-[200px] rounded-[4px] border border-[#e3e3e3] bg-white shadow-lg">
-                {searchOptions.map((option) => (
-                  <div
-                    key={option}
-                    className="cursor-pointer px-[20px] py-[10px] text-[14px] text-[#000] hover:bg-[#f7f7f7]"
-                    onClick={() => {
-                      setSelectedOption(option);
-                      setIsOptionsOpen(false);
-                    }}
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          threshold={naturalQueryValue}
+          setThreshold={setNaturalQueryValue}
+          onSearch={handleSearch}
+          searchOptions={searchOptions}
+        />
       </div>
 
       {/* Main Content */}

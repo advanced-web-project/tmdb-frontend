@@ -4,7 +4,7 @@ import { CastSection } from '../../../components/page/detail-movie-page/CastSect
 import { SocialSection } from '../../../components/page/detail-movie-page/SocialSection';
 import { FactsSidebar } from '../../../components/page/detail-movie-page/FactsSidebar';
 import { ShowHeader } from '../../../components/page/detail-movie-page/ShowHeader';
-import { apiGetMovieById } from '../../../apis/movieApi';
+import { apiGetMovieByTmdbId } from '../../../apis/movieApi';
 import { showError } from '../../../util/ErrorToastifyRender';
 import { Movie } from '../../../type/movie/Movie';
 import Spinner from '../../../components/shared/spinner';
@@ -18,8 +18,8 @@ const DetailMoviePage: React.FC = () => {
     setLoading(true);
     const fetchDetailMovie = async () => {
       if (id) {
-        const detailedMovie = await apiGetMovieById(id); // Fetch movie details using the id
-        console.log(detailedMovie);
+        const detailedMovie = await apiGetMovieByTmdbId(id); // Fetch movie details using the id
+        //console.log(detailedMovie);
         setDetailMovie(detailedMovie); // Set the movie details in the state
         setLoading(false); // Set loading
       } else {

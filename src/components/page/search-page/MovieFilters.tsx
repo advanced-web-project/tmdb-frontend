@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { genres } from '../../../data/genres';
+import * as Slider from '@radix-ui/react-slider';
 
 import Button from '../../shared/button';
 export default function FilterPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [fromDate, setFromDate] = useState<string>('');
   const [toDate, setToDate] = useState<string>('');
+  const [rangeValues, setRangeValues] = useState([2, 8]);
 
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(e.target.value);
@@ -102,6 +104,26 @@ export default function FilterPanel() {
               {/* User Score Section */}
               <div className="space p-2">
                 <h3 className="text-base font-normal text-gray-500 mb-5">User Score</h3>
+                <p className="text-sm font-300 text-gray-500 mb-5">
+                  Selected Range: {rangeValues[0]} - {rangeValues[1]}
+                </p>
+                <Slider.Root
+                  className="relative flex items-center select-none w-full max-w-md h-6"
+                  min={0}
+                  max={10}
+                  step={1}
+                  value={rangeValues}
+                  onValueChange={(values) => setRangeValues(values)}
+                >
+                  {/* Track */}
+                  <Slider.Track className="relative flex-grow h-2 bg-gray-200 rounded-full">
+                    <Slider.Range className="absolute h-full bg-blue-500 rounded-full" />
+                  </Slider.Track>
+
+                  {/* Thumbs */}
+                  <Slider.Thumb className="block w-5 h-5 bg-blue-500 rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300 hover:bg-blue-600" />
+                  <Slider.Thumb className="block w-5 h-5 bg-blue-500 rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300 hover:bg-blue-600" />
+                </Slider.Root>
               </div>
             </div>
           </motion.div>

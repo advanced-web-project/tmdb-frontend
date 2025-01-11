@@ -8,6 +8,12 @@ export const apiGetMovieById = (id: string): Promise<Movie> =>
     method: 'get',
   });
 
+export const apiGetMovieByTmdbId = (id: string): Promise<Movie> =>
+  axiosInstance({
+    url: `/movies/tmdb/${id}`,
+    method: 'get',
+  });
+
 export const apiGetTrendingMovies = (type: string, page: number, size: number): Promise<DataPageResponse<Movie>> =>
   axiosInstance({
     url: `/movies/trending/${type}`,

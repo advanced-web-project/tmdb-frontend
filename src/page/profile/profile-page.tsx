@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from '../../components/shared/tabs';
 // import { getUserByToken } from '../../api/UserApi';
 // import { useAuth } from '../../context/auth-context';
 // import { showError } from '../../utility/ErrorToastifyRender';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import HeaderProfile from '../../components/page/profile/overview/header-profile';
 import StaticSection from '../../components/page/profile/overview/statics';

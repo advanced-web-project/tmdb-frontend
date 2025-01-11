@@ -16,6 +16,7 @@ export function TrendingMovie() {
       const response = await apiGetTrendingMovies(timeWindowTrending, 0, 20); // Adjust page and size as needed
       const movies = response.data;
       //console.log(movies);
+      //console.log(movies);
       const transformedMovies = movies.map((movie) => ({
         ...movie,
         poster_path: movie.poster_path

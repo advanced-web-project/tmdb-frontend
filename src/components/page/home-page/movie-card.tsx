@@ -8,13 +8,13 @@ import { Movie } from '../../../type/movie/Movie';
 
 const BASE_URL = import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD;
 
-export function MovieCard({ _id, title, poster_path, release_date, vote_average }: Movie) {
+export function MovieCard({ tmdbId, title, poster_path, release_date, vote_average }: Movie) {
   const navigate = useNavigate();
 
   const handleNavigateToDetail = () => {
-    console.log(_id);
-    navigate(`/movie/${_id}`);
+    navigate(`/movie/${tmdbId}`);
   };
+
   return (
     <div className="relative rounded-[8px] shadow-lg flex-shrink-0 w-full max-w-[175px]">
       <div className="relative rounded-[8px]">

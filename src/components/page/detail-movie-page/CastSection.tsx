@@ -1,5 +1,6 @@
 import React from 'react';
 import { Cast } from '../../../type/movie/Cast';
+import { Link } from 'react-router-dom';
 
 interface CastSectionProps {
   cast: Cast[];
@@ -17,7 +18,8 @@ export const CastSection: React.FC<CastSectionProps> = ({ cast }) => {
       <div className="relative">
         <div className="flex gap-[12px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
           {cast.map((member) => (
-            <div
+            <Link
+              to={`/person/${member.id}`}
               key={member.id}
               className="flex-shrink-0 w-[160px] rounded-[12px] bg-white shadow-[0_2px_8px_rgb(0,0,0,0.1)] 
                        hover:shadow-[0_2px_8px_rgb(0,0,0,0.2)] transition-shadow duration-300"
@@ -33,7 +35,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ cast }) => {
                 </h3>
                 <p className="text-[0.9em] text-[#666666] mt-1">{member.character}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div

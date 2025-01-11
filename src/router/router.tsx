@@ -12,7 +12,7 @@ import SearchPage from '../page/search/search-page';
 import Authenticate from '../page/auth/authenticate-page';
 import { ListCreatorPage, ListEditorPage } from '../page/list';
 import { DetailPerson } from '../page/person';
-import { ForgotPasswordPage, ResetPasswordPage, ResendEmailPage, VerifyEmailPage, SendOtpPage } from '../page/auth';
+import { ForgotPasswordPage, ResetPasswordPage, ResendEmailPage, SendOtpPage } from '../page/auth';
 import SendOtpActiveAccountPage from '../page/auth/send-otp-active-page';
 
 // Define the router with typed routes
@@ -75,14 +75,6 @@ const router = createBrowserRouter(
         element={
           <RedirectIfAuthenticated>
             <ResendEmailPage />
-          </RedirectIfAuthenticated>
-        }
-      />
-      <Route
-        path="verify-email/:token"
-        element={
-          <RedirectIfAuthenticated>
-            <VerifyEmailPage />
           </RedirectIfAuthenticated>
         }
       />

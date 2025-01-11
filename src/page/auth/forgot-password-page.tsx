@@ -39,6 +39,7 @@ const ForgotPasswordPage: React.FC = () => {
         showSuccess('Password reset instructions sent successfully! Please check your email.');
         navigate('/send-otp/' + email);
       } catch (error) {
+        console.log(error);
         showError('Failed to send password reset instructions');
       }
     }
