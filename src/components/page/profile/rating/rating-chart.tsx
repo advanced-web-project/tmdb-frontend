@@ -7,11 +7,11 @@ interface DataPoint {
 }
 
 const data: DataPoint[] = [
-  { year: 2021,  movies: 1 },
-  { year: 2022,  movies: 0 },
-  { year: 2023,  movies: 0 },
-  { year: 2024,  movies: 2 },
-  { year: 2025,  movies: 1 },
+  { year: 2021, movies: 1 },
+  { year: 2022, movies: 0 },
+  { year: 2023, movies: 0 },
+  { year: 2024, movies: 2 },
+  { year: 2025, movies: 1 },
 ];
 
 interface TooltipProps {
@@ -66,38 +66,23 @@ export default function RatingsChart() {
       <h2 className="text-xl font-bold ml-2 mb-6">Ratings By Year</h2>
       <div className="w-full h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data}
-        
-          >
+          <AreaChart data={data}>
             <defs>
               <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#ff4d94" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#ff4d94" stopOpacity={0.2}/>
+                <stop offset="5%" stopColor="#ff4d94" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#ff4d94" stopOpacity={0.2} />
               </linearGradient>
             </defs>
-            <CartesianGrid 
-              strokeDasharray="3 3" 
-              vertical={false} 
-              stroke="#eee"
-            />
-            <XAxis 
-              dataKey="year" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: '#666', fontSize: 12 }}
-            />
-            <YAxis 
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+            <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fill: '#666', fontSize: 12 }} />
+            <YAxis
               domain={[0, 3]}
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#666', fontSize: 12 }}
               ticks={[0, 1, 2, 3]}
             />
-            <Tooltip 
-              content={<CustomTooltip />}
-              cursor={false}
-            />
+            <Tooltip content={<CustomTooltip />} cursor={false} />
             <Area
               type="monotone"
               dataKey="movies"
@@ -105,7 +90,7 @@ export default function RatingsChart() {
               fillOpacity={1}
               fill="url(#colorRating)"
               dot={<CustomDot />}
-              activeDot={{ r: 6, fill: "white", stroke: "#ff4d94", strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: 'white', stroke: '#ff4d94', strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

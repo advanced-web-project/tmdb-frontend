@@ -5,9 +5,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import InputAdornment from '@mui/material/InputAdornment';
-import { login } from '../../api/AuthApi';
+import { login } from '../../apis/temp/AuthApi';
 import AuthRequest from '../../type/temp/auth/auth_request.type';
-import { showSuccess } from '../../utility/SuccessToastifyRender';
+import { showSuccess } from '../../util/SuccessToastifyRender';
 import AuthResponse from '../../type/temp/auth/auth_response.type';
 import IconButton from '@mui/material/IconButton';
 import { useAuth } from '../../context/auth-context';
@@ -128,7 +128,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      {( isResendEmail) && (
+      {isResendEmail && (
         <InfoAlert header={titleResendEmail}>
           <p className="text-[20px] leading-[1.2] mb-2">
             We have sent to this email address if it belongs to a registered account on TMDB.

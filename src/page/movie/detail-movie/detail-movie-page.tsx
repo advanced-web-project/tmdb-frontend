@@ -6,9 +6,14 @@ import { SocialSection } from '../../../components/page/detail-movie-page/Social
 import { Recommendations } from '../../../components/page/detail-movie-page/Recommendations';
 import { FactsSidebar } from '../../../components/page/detail-movie-page/FactsSidebar';
 import { ShowHeader } from '../../../components/page/detail-movie-page/ShowHeader';
-import { fetchMovieDetails, movieRecommendationPerMovie, movieKeywords, movieReviews } from '../../../api/MovieApi';
-import { listCastPerMovie } from '../../../api/CastApi';
-import { showError } from '../../../utility/ErrorToastifyRender';
+import {
+  fetchMovieDetails,
+  movieRecommendationPerMovie,
+  movieKeywords,
+  movieReviews,
+} from '../../../apis/temp/MovieApi';
+import { listCastPerMovie } from '../../../apis/temp/CastApi';
+import { showError } from '../../../util/ErrorToastifyRender';
 import MovieDetails from '../../../type/temp/movie/movie_detail.type';
 import MovieCredits from '../../../type/temp/cast/cast.type';
 import MovieRecommendation from '../../../type/temp/movie/movie_recommendation';

@@ -4,13 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
 // Define th LoginPage component
 const SendOtpPage: React.FC = () => {
-  const email = useParams<{ email: string }>();  
+  const email = useParams<{ email: string }>();
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>('');
   const [isOtpError, setOtpError] = useState<boolean>(false);
   const [otpErrorMessage, setOtpErrorMessage] = useState<string>('');
   const [isDisabled, setDisabled] = useState<boolean>(false);
-
 
   const validateOtp = (otp: string): boolean => {
     if (otp.length < 6) {
@@ -22,16 +21,16 @@ const SendOtpPage: React.FC = () => {
       setOtpErrorMessage('');
       return true;
     }
-  }
+  };
 
   const handleSubmit = function () {
     // Implement the handleChange function
     setDisabled(true);
-    if(validateOtp(otp)){
-        // Send OTP and Email to Backend
-        // recieve token from backend
-        const token = 'token';
-        navigate('/reset-password/'+token);
+    if (validateOtp(otp)) {
+      // Send OTP and Email to Backend
+      // recieve token from backend
+      const token = 'token';
+      navigate('/reset-password/' + token);
     }
     setDisabled(false);
   };
@@ -46,7 +45,8 @@ const SendOtpPage: React.FC = () => {
       <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Send OTP</h1>
 
       <p className="mb-5 text-[16px] leading-[1.5]">
-        Enter the OTP you received on your email address to reset your password. The OTP is valid for 10 minutes only. After that, you will need to request a new OTP.
+        Enter the OTP you received on your email address to reset your password. The OTP is valid for 10 minutes only.
+        After that, you will need to request a new OTP.
       </p>
       <form className="space-y-6">
         <TextField

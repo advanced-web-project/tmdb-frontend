@@ -1,3 +1,3 @@
 export interface RequestFavoriteListDTO {
-    movieId: string;
+  movieId: string;
 }

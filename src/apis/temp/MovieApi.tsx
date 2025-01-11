@@ -1,9 +1,9 @@
 import axios from 'axios';
-import MovieDetails from '../type/temp/movie/movie_detail.type';
-import MovieRecommendation from '../type/temp/movie/movie_recommendation';
-import { MovieReviews } from '../type/temp/movie/review.type';
-import { MovieKeywords } from '../type/temp/movie/keyword.type';
-import TrendingMovies from '../type/temp/movie/movie_trending.type';
+import MovieDetails from '../../type/temp/movie/movie_detail.type';
+import MovieRecommendation from '../../type/temp/movie/movie_recommendation';
+import { MovieReviews } from '../../type/temp/movie/review.type';
+import { MovieKeywords } from '../../type/temp/movie/keyword.type';
+import TrendingMovies from '../../type/temp/movie/movie_trending.type';
 
 const BASE_URL = import.meta.env.VITE_TMDB_API_URL;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN; // Replace with your TMDb bearer token

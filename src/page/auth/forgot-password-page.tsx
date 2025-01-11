@@ -29,7 +29,7 @@ const ForgotPasswordPage: React.FC = () => {
     if (!validateEmail(email)) {
       // If the email is invalid, set the disabled state to false
     } else {
-      navigate('/send-otp/'+email);
+      navigate('/send-otp/' + email);
     }
     setDisabled(false);
   };

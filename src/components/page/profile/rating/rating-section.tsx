@@ -26,7 +26,7 @@ export default function RatingSection() {
     <div className="min-h-screen">
       <div className="max-w-6xl py-4 mx-4">
         <RatingsChart />
-        <HeaderList title={"Ratings"} totalMovie={2} />
+        <HeaderList title={'Ratings'} totalMovie={2} />
         <div className="space-y-8">
           {movies.map((movie) => (
             <MovieCardList key={movie.title} {...movie} />

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AuthContextType from '../type/temp/auth/auth_context.type';
 import user from '../type/temp/auth/user.type';
-import { getUserByToken } from '../api/UserApi';
+import { getUserByToken } from '../apis/temp/UserApi';
 
 // Define types for context
 

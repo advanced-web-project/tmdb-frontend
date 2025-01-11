@@ -1,5 +1,5 @@
 import { useAuth } from '../context/auth-context';
-import { showError } from '../utility/ErrorToastifyRender';
+import { showError } from '../util/ErrorToastifyRender';
 import { Navigate } from 'react-router-dom';
 
 interface RouteProps {

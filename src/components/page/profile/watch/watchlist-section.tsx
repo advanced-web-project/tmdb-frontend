@@ -24,7 +24,7 @@ export default function WatchListSection() {
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl py-4 mx-4">
-        <HeaderList title={"My Watchlist"} totalMovie={2} />
+        <HeaderList title={'My Watchlist'} totalMovie={2} />
         <div className="space-y-8">
           {movies.map((movie) => (
             <MovieCardList key={movie.title} {...movie} />

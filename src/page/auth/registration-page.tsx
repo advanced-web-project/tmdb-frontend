@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import user from '../../type/temp/auth/user.type';
-import { checkEmailUniqueness, checkUsernameUniqueness, registerUser } from '../../api/UserApi';
+import { checkEmailUniqueness, checkUsernameUniqueness, registerUser } from '../../apis/temp/UserApi';
 import { benefits } from '../../data/benefits';
 
 // Define form data interface

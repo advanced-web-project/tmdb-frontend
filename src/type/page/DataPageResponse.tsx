@@ -1,7 +1,7 @@
-export interface DataPageResponse {
-    page: number;
-    totalResults: number;
-    totalPages: number;
-    perPage: number;
-    data: any;
+export interface DataPageResponse<T> {
+  page: number;
+  totalResults: number;
+  totalPages: number;
+  perPage: number;
+  data: T[];
 }

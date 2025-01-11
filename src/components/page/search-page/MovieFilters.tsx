@@ -8,7 +8,7 @@ export default function FilterPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [fromDate, setFromDate] = useState<string>('');
   const [toDate, setToDate] = useState<string>('');
-  
+
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(e.target.value);
   };
@@ -102,7 +102,6 @@ export default function FilterPanel() {
               {/* User Score Section */}
               <div className="space p-2">
                 <h3 className="text-base font-normal text-gray-500 mb-5">User Score</h3>
-                
               </div>
             </div>
           </motion.div>

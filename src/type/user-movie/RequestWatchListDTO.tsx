@@ -1,3 +1,3 @@
 export interface RequestWatchListDTO {
-    movieId: string;
+  movieId: string;
 }

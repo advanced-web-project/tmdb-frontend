@@ -1,4 +1,4 @@
 export interface SignInResponseDto {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
@@ -37,7 +37,7 @@ export function StarRating({ onRate }: StarRatingProps) {
   };
 
   return (
-    <div 
+    <div
       className="flex gap-1 p-2"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -55,9 +55,7 @@ export function StarRating({ onRate }: StarRatingProps) {
           <div
             className="absolute top-0 left-0 overflow-hidden pointer-events-none"
             style={{
-              width: `${
-                Math.max(0, Math.min(100, ((isHovering ? hoveredStar : rating) || 0) - (star - 1)) * 100)
-              }%`,
+              width: `${Math.max(0, Math.min(100, ((isHovering ? hoveredStar : rating) || 0) - (star - 1)) * 100)}%`,
             }}
           >
             <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
@@ -67,4 +65,3 @@ export function StarRating({ onRate }: StarRatingProps) {
     </div>
   );
 }
-

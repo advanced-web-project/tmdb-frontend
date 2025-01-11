@@ -7,7 +7,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import AuthRequest from '../../type/temp/auth/auth_request.type';
 
-
 // Define the LoginPage component
 const ResetPasswordPage: React.FC = () => {
   const { code } = useParams<{ code: string }>();
@@ -109,7 +108,6 @@ const ResetPasswordPage: React.FC = () => {
     return <Spinner loading={true} alignStyle="flex justify-center items-center h-screen" />;
   }
 
-  
   return (
     <div className="max-w-[1200px] mx-auto py-2 my-2 px-4 font-sans">
       <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Reset password</h1>

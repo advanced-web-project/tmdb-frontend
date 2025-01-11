@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { Bot, X, Send, Minimize2 } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react';
+import { Bot, X, Send, Minimize2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Assistant() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [message, setMessage] = useState('')
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (message.trim()) {
-      console.log('Message sent:', message)
-      setMessage('')
+      console.log('Message sent:', message);
+      setMessage('');
     }
-  }
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-[1100] rounded-[10px]">
@@ -32,10 +32,7 @@ export default function Assistant() {
                 </div>
                 <span className="font-medium text-white">AI Assistant</span>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="rounded-full p-1 hover:bg-white/20"
-              >
+              <button onClick={() => setIsOpen(false)} className="rounded-full p-1 hover:bg-white/20">
                 <Minimize2 className="h-5 w-5 text-white" />
               </button>
             </div>
@@ -43,9 +40,7 @@ export default function Assistant() {
             {/* Chat Area */}
             <div className="h-[300px] rounded-[10px] overflow-y-auto p-4">
               <div className="rounded-[10px] bg-gray-100 p-3 dark:bg-gray-700">
-                <p className="text-sm text-gray-700 dark:text-gray-200">
-                  Hello! ? 👋
-                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-200">Hello! ? 👋</p>
               </div>
             </div>
 
@@ -80,10 +75,9 @@ export default function Assistant() {
         whileTap={{ scale: 0.9 }}
       >
         {isOpen ? (
-            <div className="relative">
+          <div className="relative">
             <X className="h-6 w-6" />
           </div>
-          
         ) : (
           <div className="relative">
             <Bot className="h-6 w-6" />
@@ -95,13 +89,12 @@ export default function Assistant() {
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                repeatType: "reverse",
+                repeatType: 'reverse',
               }}
             />
           </div>
         )}
       </motion.button>
     </div>
-  )
+  );
 }
-

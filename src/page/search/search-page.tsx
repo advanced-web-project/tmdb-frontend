@@ -8,7 +8,7 @@ import {
   searchMovie,
   searchPerson,
   searchTV,
-} from '../../api/SearchApi';
+} from '../../apis/temp/SearchApi';
 
 import MovieCard from '../../components/page/search-page/MovieCard';
 import { MovieResult } from '../../type/temp/search/movie';

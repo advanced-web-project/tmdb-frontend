@@ -1,4 +1,4 @@
 export interface VerifyOtpDto {
-    otp: string;
-    email: string;
+  otp: string;
+  email: string;
 }

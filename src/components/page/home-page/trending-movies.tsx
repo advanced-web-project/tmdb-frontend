@@ -2,47 +2,28 @@ import TimeWindowButton from './time-window-button';
 import { MovieCard } from '../home-page/movie-card';
 import ToggleShowMoreButton from './toggle-showmore-button';
 import { useState, useEffect } from 'react';
-import TrendingMovies from '../../../type/temp/movie/movie_trending.type.tsx';
-import { fetchTrendingMovies } from '../../../api/MovieApi.tsx';
-import { showError } from '../../../utility/ErrorToastifyRender.tsx';
-import { useNavigate } from 'react-router-dom';
+import { apiGetTrendingMovies } from '../../../apis/movieApi';
+import { Movie } from '../../../type/movie/Movie';
 
 export function TrendingMovie() {
-  const [trendingMovies, setTrendingMovies] = useState<TrendingMovies[]>([]);
+  const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
   const [timeWindowTrending, setTimeWindowTrending] = useState<'day' | 'week'>('day');
   const [visibleMovies, setVisibleMovies] = useState(6);
   const [initialVisibleMovies] = useState(6);
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchTrendingMovie = async () => {
-      try {
-        const movies = await fetchTrendingMovies(timeWindowTrending);
-        const transformedMovies = movies.map((movie) => ({
-          id: movie.id,
-          title: movie.title,
-          release_date: movie.release_date,
-          poster_path: movie.poster_path
-            ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
-            : '/placeholder.svg',
-          vote_average: Math.round(movie.vote_average * 10),
-        }));
-        setTrendingMovies(transformedMovies);
-        setVisibleMovies(initialVisibleMovies);
-      } catch (error: any) {
-        if (error.response) {
-          const status = error.response.status;
-          if (status === 404) {
-            navigate('/not-found');
-          } else if (status === 500) {
-            navigate('/server-error');
-          } else {
-            showError('Failed to fetch trending movies: ' + error.message);
-          }
-        } else {
-          showError('Failed to fetch trending movies: ' + error.message);
-        }
-      }
+      const response = await apiGetTrendingMovies(timeWindowTrending, 1, 20); // Adjust page and size as needed
+      console.log(response);
+      const movies = response.data;
+      const transformedMovies = movies.map((movie) => ({
+        ...movie,
+        poster_path: movie.poster_path
+          ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
+          : '/placeholder.svg',
+        vote_average: Math.round(movie.vote_average * 10),
+      }));
+      setTrendingMovies(transformedMovies);
+      setVisibleMovies(initialVisibleMovies);
     };
     fetchTrendingMovie();
   }, [timeWindowTrending]);

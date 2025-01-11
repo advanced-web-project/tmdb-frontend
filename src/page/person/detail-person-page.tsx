@@ -71,7 +71,7 @@ const biography = {
 This was followed by a series of critical hits like Il Mare (2000) and commercial successes including Last Present (2001), The Last Witness (2001), Oh Brothers (2003), and the blockbuster Typhoon (2005). After a brief career slump of flop movies and tv shows, he returned with the critical and commercial hit The Housemaid (2010), which is a remake of the 1960 film of the same name. Since then, he went on to cement himself as one of Korea's biggest movie stars with a string of some of the biggest blockbusters in Korean history including The Thieves (2012), New World (2013), The Face Reader (2013), Assassination (2015), Operation Chromite (2016), and the Along with the Gods films (2017-2018). Most of these films did north of 12 million admissions at the domestic box-office, with The Thieves (2012) and Along with the Gods (2017) becoming the #2 biggest Korean hit in history at their respective time of release. He received a number of awards and nominations for these works including a Popularity Award at the prestigious Grand Bell awards.
 
 His most recent blockbuster is Deliver Us From Evil (2020) in which he reunited with his New World (2013) co-star Hwang Jung-min. It crossed 4 million admissions domestically and was the second biggest hit of the year in Korea.`,
-}
+};
 
 export default function App() {
   return (
