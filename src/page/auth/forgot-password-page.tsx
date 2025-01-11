@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
+import { showError } from '../../util/ErrorToastifyRender';
+import { showSuccess } from '../../util/SuccessToastifyRender';
+import { getOtp } from '../../apis/authApi';
+
 // Define the LoginPage component
 const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
@@ -22,14 +26,21 @@ const ForgotPasswordPage: React.FC = () => {
     }
   }
 
-  const handleSubmit = function () {
+  const handleSubmit = async function () {
     // Implement the handleChange function
     setDisabled(true);
 
     if (!validateEmail(email)) {
       // If the email is invalid, set the disabled state to false
+      showError('Invalid email');
     } else {
-      navigate('/send-otp/' + email);
+      try {
+        await getOtp(email);
+        showSuccess('Password reset instructions sent successfully! Please check your email.');
+        navigate('/send-otp/' + email);
+      } catch (error) {
+        showError('Failed to send password reset instructions');
+      }
     }
     setDisabled(false);
   };

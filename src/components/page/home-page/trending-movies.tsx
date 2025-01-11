@@ -12,15 +12,16 @@ export function TrendingMovie() {
   const [initialVisibleMovies] = useState(6);
   useEffect(() => {
     const fetchTrendingMovie = async () => {
-      const response = await apiGetTrendingMovies(timeWindowTrending, 1, 20); // Adjust page and size as needed
-      console.log(response);
+      //console.log(timeWindowTrending);
+      const response = await apiGetTrendingMovies(timeWindowTrending, 0, 20); // Adjust page and size as needed
       const movies = response.data;
+      //console.log(movies);
       const transformedMovies = movies.map((movie) => ({
         ...movie,
         poster_path: movie.poster_path
           ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
           : '/placeholder.svg',
-        vote_average: Math.round(movie.vote_average * 10),
+        vote_average: movie.vote_average,
       }));
       setTrendingMovies(transformedMovies);
       setVisibleMovies(initialVisibleMovies);
@@ -59,7 +60,7 @@ export function TrendingMovie() {
           </div>
           <div className="grid grid-cols-1 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {trendingMovies.slice(0, visibleMovies).map((movie) => (
-              <MovieCard key={movie.id} {...movie} />
+              <MovieCard key={movie._id} {...movie} />
             ))}
           </div>
           <div className="flex justify-center mt-4 gap-4">

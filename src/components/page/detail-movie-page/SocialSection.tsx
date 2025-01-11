@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Star, ChevronDown, ChevronUp } from 'lucide-react';
-import { MovieReviews } from '../../../type/temp/movie/review.type';
+import { Review } from '../../../type/movie/Review';
 
 interface SocialSectionProps {
-  reviews: MovieReviews['results'];
+  reviews: Review[];
 }
 
 const AVATAR_REVIEWER_BASE_URL = import.meta.env.VITE_AVATAR_REVIEWER;
@@ -39,7 +39,7 @@ export const SocialSection: React.FC<SocialSectionProps> = ({ reviews }) => {
           style={{ maxHeight: showAllReviews ? '500px' : 'none' }}
         >
           {reviews.map((review) => (
-            <div key={review.id} className="bg-white rounded-[12px] border border-[#E3E3E3] p-5">
+            <div key={review.url} className="bg-white rounded-[12px] border border-[#E3E3E3] p-5">
               <div className="flex items-start gap-4">
                 <img
                   src={`${AVATAR_REVIEWER_BASE_URL}/${review.author_details.avatar_path}`}

@@ -1,7 +1,8 @@
-import { Credit } from './MovieCredit';
 import { Trailer } from './Trailer';
 import { Keyword } from './Keyword';
 import { Review } from './Review';
+import { Genre } from './Genre';
+import { Credit } from './Credit';
 
 export interface Movie {
   _id: string;
@@ -10,7 +11,7 @@ export interface Movie {
   backdrop_path: string;
   belongs_to_collection: object;
   budget: number;
-  genres: object;
+  genres: Genre[];
   homepage: string;
   imdb_id: string;
   origin_country: object;

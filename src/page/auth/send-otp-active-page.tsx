@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
-import { showSuccess } from '../../util/SuccessToastifyRender';
+import { verifyOtp, getOtp } from '../../apis/authApi';
 import { VerifyOtpDto } from '../../type/auth/VerifyOtpDto';
-import { verifyOtpChangePassword } from '../../apis/authApi';
-import { getOtp } from '../../apis/authApi';
+import { showSuccess } from '../../util/SuccessToastifyRender';
+import { showError } from '../../util/ErrorToastifyRender';
+
 // Define th LoginPage component
-const SendOtpPage: React.FC = () => {
+const SendOtpActiveAccountPage: React.FC = () => {
   const { email } = useParams<{ email: string }>();
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>('');
@@ -27,33 +28,28 @@ const SendOtpPage: React.FC = () => {
     }
   };
 
-  const handleResendOtp = async () => {
-      if (email) {
+  const handleSubmit = async function () {
+    // Implement the handleChange function
+    setDisabled(true);
+    if (validateOtp(otp)) {
+      //
+      setDisabled(true);
+      if (validateOtp(otp) && email) {
+        const verifyOtpDto: VerifyOtpDto = {
+          otp,
+          email,
+        };
+
         try {
-          await getOtp(email);
-          showSuccess('OTP resent successfully! Please check your email.');
+          await verifyOtp(verifyOtpDto);
+          const isEmailVerification = true;
+          navigate('/login', { state: { isEmailVerification } });
         } catch (error) {
-          console.log('Failed to resend OTP: ' + error);
+          console.log('Failed to verify OTP: ' + error);
+          showError('Failed to verify OTP');
         }
       }
-    };
-
-  const handleSubmit = async function () {
-    setDisabled(true);
-    if (validateOtp(otp) && email) {
-      const verifyOtpDto: VerifyOtpDto = {
-        otp,
-        email,
-      };
-
-      try {
-        const response = await verifyOtpChangePassword(verifyOtpDto);
-        showSuccess('OTP verified successfully! You can now reset your password.');
-        console.log(response);
-        navigate(`/reset-password/${response.token}`);
-      } catch (error) {
-        console.log('Failed to verify OTP: ' + error);
-      }
+      setDisabled(false);
     }
     setDisabled(false);
   };
@@ -63,12 +59,24 @@ const SendOtpPage: React.FC = () => {
     setOtp(value);
   };
 
+  const handleResendOtp = async () => {
+    if (email) {
+      try {
+        await getOtp(email);
+        showSuccess('OTP resent successfully! Please check your email.');
+      } catch (error) {
+        console.log('Failed to resend OTP: ' + error);
+        showError('Failed to resend OTP');
+      }
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto py-10 my-10 px-4 font-sans">
       <h1 className="text-[1.5em] font-semibold text-black mb-5 leading-[1.1]">Send OTP</h1>
 
       <p className="mb-5 text-[16px] leading-[1.5]">
-        Enter the OTP you received on your email address to reset your password. The OTP is valid for 5 minutes only.
+        Enter the OTP you received on your email address to active your account. The OTP is valid for 5 minutes only.
         After that, you will need to request a new OTP.
       </p>
       <form className="space-y-6">
@@ -135,4 +143,4 @@ const SendOtpPage: React.FC = () => {
   );
 };
 
-export default SendOtpPage;
+export default SendOtpActiveAccountPage;

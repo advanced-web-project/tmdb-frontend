@@ -20,16 +20,20 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response.data,
   (error) => {
+    console.error(error.response?.status);
     if (error.response?.status === 401) {
       showError('Unauthorized! Token may be invalid or expired.');
+      console.error('Unauthorized! Token may be invalid or expired.');
       removeAccessToken();
-      if (window.location.pathname !== '/') {
+      if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
     } else if (error.response?.status === 404) {
       window.location.href = '/not-found';
     } else if (error.response?.status === 500) {
       window.location.href = '/server-error';
+    } else {
+      showError(error.response?.data.errors);
     }
     return Promise.reject(error);
   },

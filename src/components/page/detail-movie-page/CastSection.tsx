@@ -1,8 +1,8 @@
 import React from 'react';
-import MovieCredits from '../../../type/temp/cast/cast.type';
+import { Cast } from '../../../type/movie/Cast';
 
 interface CastSectionProps {
-  cast: MovieCredits['cast'];
+  cast: Cast[];
 }
 
 const AVATAR_CAST_BASE_URL = import.meta.env.VITE_AVATAR_CAST_URL;
@@ -12,7 +12,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ cast }) => {
     <div className="max-w-[900px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Series Cast</h2>
-        <button className="text-sm text-[#01b4e4] font-semibold hover:text-[#032541]">Full Cast & Crew</button>
+        <button className="text-sm text-[#01b4e4] font-semibold hover:text-[#032541]">Full Cast</button>
       </div>
       <div className="relative">
         <div className="flex gap-[12px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">

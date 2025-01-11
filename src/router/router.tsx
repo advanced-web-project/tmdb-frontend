@@ -13,6 +13,7 @@ import Authenticate from '../page/auth/authenticate-page';
 import { ListCreatorPage, ListEditorPage } from '../page/list';
 import { DetailPerson } from '../page/person';
 import { ForgotPasswordPage, ResetPasswordPage, ResendEmailPage, VerifyEmailPage, SendOtpPage } from '../page/auth';
+import SendOtpActiveAccountPage from '../page/auth/send-otp-active-page';
 
 // Define the router with typed routes
 const router = createBrowserRouter(
@@ -42,6 +43,14 @@ const router = createBrowserRouter(
         element={
           <RedirectIfAuthenticated>
             <SendOtpPage />
+          </RedirectIfAuthenticated>
+        }
+      />
+      <Route
+        path="send-otp-verify-account/:email"
+        element={
+          <RedirectIfAuthenticated>
+            <SendOtpActiveAccountPage />
           </RedirectIfAuthenticated>
         }
       />
@@ -93,7 +102,7 @@ const router = createBrowserRouter(
       <Route path="list/:id/edit" element={<ListEditorPage />} />
       <Route path="movie/:id" element={<DetailMoviePage />} />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/detail-person" element={<DetailPerson />} />
+      <Route path="/person/:id" element={<DetailPerson />} />
       <Route path="/not-found" element={<NotFoundPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Route>,

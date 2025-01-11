@@ -5,14 +5,15 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import InputAdornment from '@mui/material/InputAdornment';
-import { login } from '../../apis/temp/AuthApi';
-import AuthRequest from '../../type/temp/auth/auth_request.type';
 import { showSuccess } from '../../util/SuccessToastifyRender';
-import AuthResponse from '../../type/temp/auth/auth_response.type';
 import IconButton from '@mui/material/IconButton';
 import { useAuth } from '../../context/auth-context';
 import { AlertBox } from '../../components/page/auth/error-alert';
 import { InfoAlert } from '../../components/page/auth/info-alert';
+import { SignInDto } from '../../type/auth/SignInDto';
+import { SignInResponseDto } from '../../type/auth/SignInResponseDto';
+import { login } from '../../apis/authApi';
+
 const LOGIN_SUCCESS_MESSAGE = 'Login successfully!';
 // Define the LoginPage component
 const LoginPage: React.FC = () => {
@@ -34,13 +35,13 @@ const LoginPage: React.FC = () => {
   const { updateAfterLogin } = useAuth();
 
   // Initial form data
-  const initialData: AuthRequest = {
+  const initialData: SignInDto = {
     username: '',
     password: '',
   };
 
   // Reducer function for form data
-  function formReducer(state: AuthRequest, action: { name: string; value: string }): AuthRequest {
+  function formReducer(state: SignInDto, action: { name: string; value: string }): SignInDto {
     return {
       ...state,
       [action.name]: action.value,
@@ -81,7 +82,7 @@ const LoginPage: React.FC = () => {
   };
 
   // Validate form data
-  const validateFormData = (formData: AuthRequest): boolean => {
+  const validateFormData = (formData: SignInDto): boolean => {
     let isValid = true;
 
     if (!formData.username || formData.username.trim() === '') {
@@ -108,7 +109,7 @@ const LoginPage: React.FC = () => {
     setDisabled(true);
     if (validateFormData(formData)) {
       try {
-        const data: AuthResponse | undefined = await login(formData);
+        const data: SignInResponseDto | undefined = await login(formData);
         if (data?.accessToken) {
           resetAllErrorMessage();
           showSuccess(LOGIN_SUCCESS_MESSAGE);

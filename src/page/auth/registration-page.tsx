@@ -8,9 +8,16 @@ import Spinner from '../../components/shared/spinner';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import user from '../../type/temp/auth/user.type';
-import { checkEmailUniqueness, checkUsernameUniqueness, registerUser } from '../../apis/temp/UserApi';
 import { benefits } from '../../data/benefits';
+import { register } from '../../apis/authApi';
+import { SignUpDto } from '../../type/auth/SignUpDto';
+
+interface formInput {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 // Define form data interface
 const RegistrationPage: React.FC = () => {
@@ -33,12 +40,11 @@ const RegistrationPage: React.FC = () => {
 
   const [isDisabled, setDisabled] = useState<boolean>(false);
 
-  const initialData: user = {
+  const initialData: formInput = {
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
-    profile: '',
   };
 
   // Handle visibility toggle for password fields
@@ -51,7 +57,7 @@ const RegistrationPage: React.FC = () => {
   }
 
   // Reducer for form state management
-  function formReducer(state: user, action: { name: string; value: string }): user {
+  function formReducer(state: formInput, action: { name: string; value: string }): formInput {
     return {
       ...state,
       [action.name]: action.value,
@@ -78,7 +84,7 @@ const RegistrationPage: React.FC = () => {
   }
 
   // Validate form data
-  function validateFormData(formData: user): boolean {
+  function validateFormData(formData: formInput): boolean {
     let isValid = true;
 
     if (!/^[a-zA-Z][a-zA-Z0-9_]*$/.test(formData.username)) {
@@ -124,47 +130,29 @@ const RegistrationPage: React.FC = () => {
     return isValid;
   }
 
-  // Check email uniqueness
-  async function checkUniqueEmail(email: string): Promise<boolean> {
-    const isUniqueEmail = await checkEmailUniqueness(email);
-    if (!isUniqueEmail) {
-      setEmailError(true);
-      setEmailErrorMessage('The email already exists!');
-    }
-    return isUniqueEmail;
-  }
-
-  // Check username uniqueness
-  async function checkUniqueUsername(username: string): Promise<boolean> {
-    const isUniqueUsername = await checkUsernameUniqueness(username);
-    if (!isUniqueUsername) {
-      setUsernameError(true);
-      setUsernameErrorMessage('The username already exists!');
-    }
-    return isUniqueUsername;
-  }
-
   // Handle form submission
   async function handleSubmit(): Promise<void> {
     setDisabled(true);
 
     if (validateFormData(formData)) {
-      //const isUniqueEmail = await checkUniqueEmail(formData.email);
-      //const isUniqueUsername = await checkUniqueUsername(formData.username);
+      setDisabled(true);
 
-      // if (isUniqueEmail && isUniqueUsername) {
-      //   // const savedUserData = await registerUser(formData);
-      //   // if (savedUserData) {
-      //   //   resetAllErrorMessage();
-      //   //   const isNotVeriable = true;
-      //   //   navigate('/login', { state: { isNotVeriable } });
-      //   // }
-
-      // }
-      const isNotVeriable = true;
-      navigate('/login', { state: { isNotVeriable } });
+      if (validateFormData(formData)) {
+        resetAllErrorMessage();
+        const signUpDto: SignUpDto = {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        };
+        try {
+          await register(signUpDto);
+          const isNotVeriable = true;
+          navigate('/send-otp-verify-account/' + formData.email, { state: { isNotVeriable } });
+        } catch (error) {
+          console.log('Registration failed: ' + error);
+        }
+      }
     }
-
     setDisabled(false);
   }
 

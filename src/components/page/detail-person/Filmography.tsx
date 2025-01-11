@@ -1,86 +1,25 @@
 import { useState, useEffect } from 'react';
 import MoviePreview from './MoviePreview';
+import { MovieCast } from '../../../type/person/MovieCast';
 
-interface Entry {
-  year: number;
-  title: string;
-  episodes?: string;
-  role: string;
-  description?: string;
-  rating?: number;
-  image?: string;
+interface FilmographyProps {
+  movieCast: MovieCast[];
 }
 
-const entries: Entry[] = [
-  {
-    year: 2024,
-    title: 'Jentry Chau vs the Underworld',
-    role: 'Moonie / Imprisoned Ghost (voice)',
-    description:
-      "As her 16th birthday approaches, a not-so-average teen rediscovers the fiery powers she's long suppressed and is force...",
-    rating: 8.7,
-    image: 'https://media.themoviedb.org/t/p/w220_and_h330_face/szpzEL2rjXQLzaoZqH1EnBQWtZE.jpg',
-  },
-  {
-    year: 2024,
-    title: 'Nobody Nothing Nowhere',
-    role: 'Ruth',
-    description:
-      'The story of Ruth, one of the Non-People, human-looking beings created and trained for the sole purpose of filling in a realistic...',
-    rating: 0.0,
-    image: 'https://media.themoviedb.org/t/p/w220_and_h330_face/szpzEL2rjXQLzaoZqH1EnBQWtZE.jpg',
-  },
-  {
-    year: 2024,
-    title: 'Red One',
-    role: 'Zoe',
-    description:
-      "After Santa Claus (codename: Red One) is kidnapped, the North Pole's Head of Security must team up with the world's most elite special forces to save Christmas...",
-    rating: 6.984,
-    image: 'https://media.themoviedb.org/t/p/w220_and_h330_face/szpzEL2rjXQLzaoZqH1EnBQWtZE.jpg',
-  },
-  {
-    year: 2024,
-    title: 'Mufasa: The Lion King',
-    role: 'Sarabi (voice)',
-  },
-  {
-    year: 2024,
-    title: 'The Big Cigar',
-    episodes: '6 episodes',
-    role: 'Gwen Fontaine',
-  },
-  {
-    year: 2021,
-    title: 'Nine Perfect Strangers',
-    episodes: '8 episodes',
-    role: 'Delilah',
-  },
-  {
-    year: 2020,
-    title: 'The Midnight Sky',
-    role: 'Maya',
-  },
-  {
-    year: 2020,
-    title: 'Little Fires Everywhere',
-    episodes: '2 episodes',
-    role: 'Young Mia',
-  },
-  {
-    year: 2020,
-    title: 'Hunters',
-    episodes: '18 episodes',
-    role: 'Roxy Jones',
-  },
-];
-
-export function Filmography() {
+export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
   const [hoveredRow, setHoveredRow] = useState<string | null>(null);
-  const [selectedEntry, setSelectedEntry] = useState<{ entry: Entry; position: { x: number; y: number } } | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<{ entry: MovieCast; position: { x: number; y: number } } | null>(
+    null,
+  );
   const [hoveredTitle, setHoveredTitle] = useState<string | null>(null);
 
-  const handleCircleClick = (entry: Entry, event: React.MouseEvent<HTMLButtonElement>) => {
+  const sortedMovieCast = [...movieCast].sort((a, b) => {
+    const dateA = new Date(a.release_date).getTime();
+    const dateB = new Date(b.release_date).getTime();
+    return dateB - dateA;
+  });
+
+  const handleCircleClick = (entry: MovieCast, event: React.MouseEvent<HTMLButtonElement>) => {
     const button = event.currentTarget;
     const rect = button.getBoundingClientRect();
 
@@ -130,7 +69,7 @@ export function Filmography() {
         <div className="relative">
           <table className="w-full">
             <tbody>
-              {entries.map((entry, index) => (
+              {sortedMovieCast.map((entry, index) => (
                 <tr
                   key={index}
                   className="border-b last:border-b-0 transition-colors duration-200 hover:bg-blue-50/50"
@@ -139,7 +78,7 @@ export function Filmography() {
                 >
                   <td className="py-4 pr-4 whitespace-nowrap font-medium text-[15px] w-24">
                     <div className="flex items-center ml-4">
-                      <span className="text-gray-900 mr-6">{entry.year}</span>
+                      <span className="text-gray-900 mr-6">{entry.release_date}</span>
                       <button onClick={(e) => handleCircleClick(entry, e)} className="relative group">
                         <div
                           className={`w-[18px] h-[18px] rounded-full border-2 transition-colors
@@ -171,9 +110,7 @@ export function Filmography() {
                     >
                       {entry.title}
                     </div>
-                    <div className="text-[13px] ml-3 text-gray-500 mt-0.5">
-                      {entry.episodes && `(${entry.episodes}) `}as {entry.role}
-                    </div>
+                    <div className="text-[13px] ml-3 text-gray-500 mt-0.5">as {entry.character || 'Unknown'}</div>
                   </td>
                 </tr>
               ))}
@@ -184,9 +121,9 @@ export function Filmography() {
       {selectedEntry && (
         <MoviePreview
           title={selectedEntry.entry.title}
-          description={selectedEntry.entry.description || ''}
-          rating={selectedEntry.entry.rating}
-          image={selectedEntry.entry.image}
+          description={selectedEntry.entry.overview || ''}
+          rating={selectedEntry.entry.vote_average}
+          image={selectedEntry.entry.poster_path}
           style={{
             top: `${selectedEntry.position.y - 190}px`,
             left: `${selectedEntry.position.x - 250}px`,
@@ -195,4 +132,4 @@ export function Filmography() {
       )}
     </section>
   );
-}
+};

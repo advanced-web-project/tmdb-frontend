@@ -1,4 +1,4 @@
-export interface Keyword {
+export interface Genre {
   id: number;
   name: string;
 }

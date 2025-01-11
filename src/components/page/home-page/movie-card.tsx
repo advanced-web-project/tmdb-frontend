@@ -4,28 +4,17 @@ import Image from '../../shared/image';
 import DropdownInteraction from './dropdown-interaction';
 import { useNavigate } from 'react-router-dom';
 import RatingProgressBar from '../../shared/rating-progress-bar';
+import { Movie } from '../../../type/movie/Movie';
 
-interface MovieCardProps {
-  id: number;
-  title: string;
-  release_date: string;
-  poster_path: string;
-  vote_average: number;
-}
+const BASE_URL = import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD;
 
-export function MovieCard({
-  id = 402413,
-  title = 'Moana 2',
-  release_date = 'Nov 27, 2024',
-  poster_path = '/placeholder.svg',
-  vote_average = 71,
-}: MovieCardProps) {
+export function MovieCard({ _id, title, poster_path, release_date, vote_average }: Movie) {
   const navigate = useNavigate();
 
   const handleNavigateToDetail = () => {
-    navigate(`/movie/${id}`);
+    console.log(_id);
+    navigate(`/movie/${_id}`);
   };
-
   return (
     <div className="relative rounded-[8px] shadow-lg flex-shrink-0 w-full max-w-[175px]">
       <div className="relative rounded-[8px]">
@@ -34,7 +23,7 @@ export function MovieCard({
           <div onClick={handleNavigateToDetail} className="cursor-pointer">
             <Image
               z-0
-              src={poster_path}
+              src={BASE_URL + poster_path}
               alt={title}
               width={150}
               height={225}
@@ -50,7 +39,7 @@ export function MovieCard({
         <div className="absolute -bottom-5 left-2 z-20">
           <div className="relative w-[38px] h-[38px]">
             <div className="absolute inset-0 rounded-[8px]" />
-            <RatingProgressBar rating={vote_average} />
+            <RatingProgressBar rating={Math.round(vote_average * 10)} />
           </div>
         </div>
       </div>

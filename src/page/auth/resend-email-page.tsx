@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
+import { showSuccess } from '../../util/SuccessToastifyRender';
+import { getOtp } from '../../apis/authApi';
+
 // Define the LoginPage component
 const ResendEmailPage: React.FC = () => {
   const [isDisabled, setDisabled] = useState<boolean>(false);
@@ -25,16 +28,16 @@ const ResendEmailPage: React.FC = () => {
     }
   }
 
-  const handleSubmit = function () {
-    // Implement the handleChange function
+  const handleSubmit = async function () {
     setDisabled(true);
-
-    if (!validateEmail(email)) {
-      // If the email is invalid, set the disabled state to false
-    } else {
-      const isResendEmail = true;
-      const titleResendEmail = 'Resend activation email';
-      navigate('/login', { state: { isResendEmail, titleResendEmail } });
+    if (validateEmail(email)) {
+      try {
+        await getOtp(email);
+        showSuccess('Activation email resent successfully! Please check your email.');
+        navigate('/send-otp-verify-account/' + email);
+      } catch (error) {
+        console.log('Failed to resend activation email: ' + error);
+      }
     }
     setDisabled(false);
   };

@@ -1,15 +1,17 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../components/shared/spinner';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import AuthRequest from '../../type/temp/auth/auth_request.type';
+import { ResetPasswordDto } from '../../type/auth/ResetPasswordDto';
+import { showSuccess } from '../../util/SuccessToastifyRender';
+import { resetPassword } from '../../apis/authApi';
 
 // Define the LoginPage component
 const ResetPasswordPage: React.FC = () => {
-  const { code } = useParams<{ code: string }>();
+  const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
   const [isUsernameError, setUsernameError] = useState<boolean>(false);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>('');
@@ -24,16 +26,21 @@ const ResetPasswordPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   const [isDisabled, setDisabled] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(true);
+  interface formInput {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }
 
   // Initial form data
-  const initialData: AuthRequest = {
+  const initialData: formInput = {
     username: '',
     password: '',
+    confirmPassword: '',
   };
 
   // Reducer function for form data
-  function formReducer(state: AuthRequest, action: { name: string; value: string }): AuthRequest {
+  function formReducer(state: formInput, action: { name: string; value: string }): formInput {
     return {
       ...state,
       [action.name]: action.value,
@@ -64,7 +71,7 @@ const ResetPasswordPage: React.FC = () => {
     setUsernameErrorMessage('');
   };
   // Validate form data
-  const validateFormData = (formData: AuthRequest): boolean => {
+  const validateFormData = (formData: formInput): boolean => {
     let isValid = true;
 
     if (!formData.username || formData.username.trim() === '') {
@@ -83,30 +90,37 @@ const ResetPasswordPage: React.FC = () => {
       resetPasswordErrorMessage();
     }
 
+    if (formData.password !== formData.confirmPassword) {
+      setConfirmPasswordError(true);
+      setConfirmPasswordErrorMessage('Passwords do not match');
+      isValid = false;
+    } else {
+      setConfirmPasswordError(false);
+      setConfirmPasswordErrorMessage('');
+    }
+
     return isValid;
   };
 
-  const handleSubmit = function () {
-    // Implement the handleChange function
-    if (validateFormData(formData)) {
-      // If the email is invalid, set the disabled state to false
-    }
-    navigate('/login');
+  const handleSubmit = async function () {
     setDisabled(true);
-  };
+    if (validateFormData(formData) && token) {
+      const resetPasswordDto: ResetPasswordDto = {
+        password: formData.password,
+        refreshToken: token,
+      };
 
-  useEffect(() => {
-    if (code === 'ok') {
-      setValidCode(true);
-    } else {
-      setValidCode(false);
+      try {
+        await resetPassword(resetPasswordDto);
+        showSuccess('Password reset successfully! You can now log in with your new password.');
+        navigate('/login');
+      } catch (error) {
+        console.log('Failed to reset password: ' + error);
+      }
     }
-    setLoading(false);
-  }, []);
 
-  if (isLoading) {
-    return <Spinner loading={true} alignStyle="flex justify-center items-center h-screen" />;
-  }
+    setDisabled(false);
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto py-2 my-2 px-4 font-sans">

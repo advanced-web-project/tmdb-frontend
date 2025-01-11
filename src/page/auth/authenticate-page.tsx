@@ -9,8 +9,6 @@ export default function Authenticate(): JSX.Element {
   const [isLoggedin, setIsLoggedin] = useState<boolean>(false);
   const { updateAfterLogin } = useAuth();
   useEffect(() => {
-    console.log(window.location.href);
-
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 

@@ -1,4 +1,4 @@
-import { MovieCredit } from '../movie/MovieCredit';
+import { MovieCredit } from './MovieCredit';
 
 export interface Person {
   _id: string;

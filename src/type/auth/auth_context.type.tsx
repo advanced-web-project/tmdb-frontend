@@ -1,10 +1,10 @@
-import user from './user.type';
+import { User } from '../user/user';
 export default interface AuthContextType {
   isAuthenticated: boolean;
-  userInfo: user | null;
+  userInfo: User | null;
   accessToken: string | null;
   refreshAccessToken: string | null;
   updateTokens: (token: string, refreshAccessToken: string) => void;
-  updateAfterLogin: (user: user, token: string, refreshAccessToken: string) => void;
+  updateAfterLogin: (user: User, token: string, refreshAccessToken: string) => void;
   updateAfterLogout: () => void;
 }

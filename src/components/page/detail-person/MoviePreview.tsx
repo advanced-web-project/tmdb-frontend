@@ -14,6 +14,8 @@ interface MoviePreviewProps {
   style?: React.CSSProperties;
 }
 
+const MOVIE_PREVIEW_URL = import.meta.env.VITE_MOVIE_PREVIEW;
+
 export default function MoviePreview({ title, description, rating, image, style }: MoviePreviewProps) {
   return (
     <div
@@ -28,7 +30,7 @@ export default function MoviePreview({ title, description, rating, image, style 
       <div className="flex p-3 gap-4">
         <div className="w-39 h-48 flex-shrink-0">
           <img
-            src={image || '/placeholder.svg?height=192&width=144'}
+            src={MOVIE_PREVIEW_URL + image || '/placeholder.svg?height=192&width=144'}
             alt={title}
             className="w-[94px] h-[141px]  object-cover rounded-[10px]"
           />

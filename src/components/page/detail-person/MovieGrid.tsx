@@ -11,6 +11,8 @@ interface MovieGridProps {
   movies: Movie[];
 }
 
+const BASE_URL = import.meta.env.VITE_MOVIE_ACTOR;
+
 export function MovieGrid({ movies }: MovieGridProps) {
   const [maxWidth, setMaxWidth] = useState(870);
   const [prevWidth, setPrevWidth] = useState(window.innerWidth);
@@ -33,13 +35,13 @@ export function MovieGrid({ movies }: MovieGridProps) {
 
   return (
     <section style={{ maxWidth: `${maxWidth}px` }}>
-      <h2 className="text-xl font-semibold my-6">Known for</h2>
+      <h2 className="text-xl font-semibold my-3">Known for</h2>
       <div className="relative">
         <div className="flex gap-[12px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
           {movies.map((movie) => (
             <div key={movie.id} className="flex-shrink-0 w-[130px]">
               <img
-                src={movie.posterPath}
+                src={BASE_URL + movie.posterPath}
                 alt={movie.title}
                 className="h-[195px] object-cover rounded-[10px] shadow-sm"
               />

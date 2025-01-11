@@ -1,14 +1,14 @@
 import React from 'react';
-import { Play, List, Heart, BookmarkPlus } from 'lucide-react';
-import MovieDetails from '../../../type/temp/movie/movie_detail.type';
+import { List, Heart, BookmarkPlus } from 'lucide-react';
 import { UserScore } from '../../shared/UserScore';
-
-interface ShowHeaderProps {
-  movieDetail: MovieDetails;
-}
+import { Movie } from '../../../type/movie/Movie';
 
 const base_poster_url = import.meta.env.VITE_IMAGE_MOVIE_POSTER;
 const base_backdrop_url = import.meta.env.VITE_IMAGE_MOVIE_BACKDROP;
+
+interface ShowHeaderProps {
+  movieDetail: Movie;
+}
 
 export const ShowHeader: React.FC<ShowHeaderProps> = ({ movieDetail }) => {
   return (
@@ -33,8 +33,7 @@ export const ShowHeader: React.FC<ShowHeaderProps> = ({ movieDetail }) => {
 
           <div className="flex-1 text-white">
             <h1 className="text-4xl font-bold">
-              {movieDetail.title}{' '}
-              <span className="font-normal text-white">({movieDetail.release_date.substring(0, 4)})</span>
+              {movieDetail.title} <span className="font-normal text-white">({movieDetail.release_date})</span>
             </h1>
 
             <div className="mt-2 text-md font-semibold">
@@ -60,10 +59,6 @@ export const ShowHeader: React.FC<ShowHeaderProps> = ({ movieDetail }) => {
               <button className="w-12 h-12  rounded-full bg-[#000000] flex items-center justify-center text-white">
                 <BookmarkPlus className="w-6 h-6" />
               </button>
-              <button className="flex items-center gap-2 text-sm font-semibold">
-                <Play className="w-6 h-6" />
-                <h3 className="font-semibold"> Play Trailer </h3>
-              </button>
             </div>
 
             <div className="mt-8">
@@ -71,9 +66,13 @@ export const ShowHeader: React.FC<ShowHeaderProps> = ({ movieDetail }) => {
               <h3 className="text-xl font-semibold">Overview</h3>
               <p className="mt-2 text-white font-500px text-justify">{movieDetail.overview}</p>
             </div>
-            <div className="mt-6">
-              {/* <h4 className="text-sm font-semibold">{show.creator.role}</h4>
-              <p className="mt-1">{show.creator.name}</p> */}
+            <div className="grid grid-cols-6 mt-6 gap-6">
+              {movieDetail.credits.crew.slice(0, 12).map((person) => (
+                <div>
+                  <h4 className="text-md font-bold">{person.name}</h4>
+                  <p className="text-sm mt-1">{person.job}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

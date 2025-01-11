@@ -1,16 +1,8 @@
 export const trailerTabs = [
   { id: 'popular', label: 'Popular' },
-  { id: 'streaming', label: 'Streaming' },
-  { id: 'onTv', label: 'On TV' },
-  { id: 'forRent', label: 'For Rent' },
-  { id: 'inTheaters', label: 'In Theaters' },
-];
-
-export const popularTabs = [
-  { id: 'streaming1', label: 'Streaming' },
-  { id: 'onTv1', label: 'On TV' },
-  { id: 'forRent1', label: 'For Rent' },
-  { id: 'inTheaters1', label: 'In Theaters' },
+  { id: 'top_rated', label: 'Top Rated' },
+  { id: 'now_playing', label: 'Now Playing' },
+  { id: 'up_coming', label: 'Up Coming' },
 ];
 
 export const trendingTabs = [
