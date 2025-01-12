@@ -10,7 +10,7 @@ interface SearchBarProps {
   threshold: number;
   setThreshold: (value: number) => void;
   onSearch: (term: string) => void;
-  searchOptions: string[];
+  searchOptions: { label: string; value: string }[];
 }
 
 export function SearchBar({
@@ -86,21 +86,21 @@ export function SearchBar({
             <div className="absolute right-0 top-[34px] z-50 w-[200px] rounded-[4px] border border-[#e3e3e3] bg-white shadow-lg">
               {searchOptions.map((option) => (
                 <div
-                  key={option}
+                  key={option.value}
                   className="cursor-pointer px-[20px] py-[10px] text-[14px] text-[#000] hover:bg-[#f7f7f7]"
                   onClick={() => {
-                    setSelectedOption(option);
+                    setSelectedOption(option.value);
                     setIsOptionsOpen(false);
                   }}
                 >
-                  {option}
+                  {option.label}
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
-      {selectedOption === 'Natural Query' && (
+      {selectedOption === 'naturalQuery' && (
         <div className="mt-4 mb-6 flex justify-center">
           <label htmlFor="natural-query-slider" className="block text-sm font-medium text-gray-700 mb-2 mr-4">
             Threshold: {threshold}%
