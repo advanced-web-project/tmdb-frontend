@@ -2,7 +2,6 @@ interface PersonalInfo {
   profilePath: string;
   stageName: string;
   knownFor: string;
-  credits: number;
   gender: string;
   birthday: string;
   placeOfBirth: string;

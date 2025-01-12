@@ -1,6 +1,7 @@
 import axiosInstance from './axios';
 import { DataPageResponse } from '../type/page/DataPageResponse';
 import { Movie } from '../type/movie/Movie';
+import { TrailerWithMovieInfo } from '../type/movie/TrailerWithMovieInfo';
 
 export const apiGetMovieById = (id: string): Promise<Movie> =>
   axiosInstance({
@@ -31,6 +32,17 @@ export const apiGetMovies = (page: number, size: number): Promise<DataPageRespon
 export const apiGetCategoriesMovies = (type: string, page: number, size: number): Promise<DataPageResponse<Movie>> =>
   axiosInstance({
     url: `/movies/categories/${type}`,
+    method: 'get',
+    params: { page, size },
+  });
+
+export const apiGetLastTrailersByCategories = (
+  type: string,
+  page: number,
+  size: number,
+): Promise<DataPageResponse<TrailerWithMovieInfo>> =>
+  axiosInstance({
+    url: `/movies/lasttrailers/categories/${type}`,
     method: 'get',
     params: { page, size },
   });

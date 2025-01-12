@@ -40,20 +40,21 @@ const DetailPersonPage: React.FC = () => {
     profilePath: personDetail.profile_path,
     stageName: personDetail.name,
     knownFor: personDetail.known_for_department,
-    credits: personDetail.movie_credits.cast.length + personDetail.movie_credits.crew.length,
     gender: personDetail.gender === 1 ? 'Female' : 'Male',
     birthday: personDetail.birthday,
     placeOfBirth: personDetail.place_of_birth,
     alsoKnownAs: personDetail.also_known_as,
   };
 
-  const knownForMovies = personDetail.movie_credits.cast.map((movie) => ({
-    id: movie.id,
-    title: movie.title,
-    posterPath: movie.poster_path,
-    year: movie.release_date.split('-')[0],
-    role: movie.character || 'Unknown', // Assuming 'character' is the role property
-  }));
+  const knownForMovies = personDetail.movie_credits
+    ? personDetail.movie_credits.cast.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        posterPath: movie.poster_path,
+        year: movie.release_date.split('-')[0],
+        role: movie.character || 'Unknown',
+      }))
+    : [];
 
   const biography = {
     name: personDetail.name,
@@ -67,7 +68,7 @@ const DetailPersonPage: React.FC = () => {
         <div>
           <Biography name={biography.name} biography={biography.biography} />
           <MovieGrid movies={knownForMovies} />
-          <Filmography movieCast={personDetail.movie_credits.cast} />
+          <Filmography movieCast={personDetail.movie_credits ? personDetail.movie_credits.cast : []} />
         </div>
       </div>
     </main>

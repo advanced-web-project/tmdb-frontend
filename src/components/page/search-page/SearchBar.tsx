@@ -50,7 +50,6 @@ export function SearchBar({
       onSearch(searchTerm);
     }
   };
-
   return (
     <>
       <div className="relative flex h-[46px] items-center">

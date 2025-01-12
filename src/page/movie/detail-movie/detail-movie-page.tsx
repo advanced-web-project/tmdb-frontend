@@ -8,11 +8,15 @@ import { apiGetMovieByTmdbId } from '../../../apis/movieApi';
 import { showError } from '../../../util/ErrorToastifyRender';
 import { Movie } from '../../../type/movie/Movie';
 import Spinner from '../../../components/shared/spinner';
+import { Recommendations } from '../../../components/page/detail-movie-page/Recommendations';
+import { HistoryMovies } from '../../../components/page/detail-movie-page/HistoryMovie';
 
 const DetailMoviePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [detailMovie, setDetailMovie] = useState<Movie>({} as Movie);
   const [loading, setLoading] = useState(true);
+  const [arrMovie, setArrMovie] = useState<Movie[]>([]);
+  const [historyMovies, setHistoryMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -21,6 +25,23 @@ const DetailMoviePage: React.FC = () => {
         const detailedMovie = await apiGetMovieByTmdbId(id); // Fetch movie details using the id
         //console.log(detailedMovie);
         setDetailMovie(detailedMovie); // Set the movie details in the state
+
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+        setArrMovie((prev) => [...prev, detailedMovie]);
+
+        // Update history movies in local storage
+        const historyMovies = JSON.parse(localStorage.getItem('historyMovies') || '[]');
+        const updatedHistoryMovies = [
+          detailedMovie,
+          ...historyMovies.filter((movie: Movie) => movie.id !== detailedMovie.id),
+        ];
+        localStorage.setItem('historyMovies', JSON.stringify(updatedHistoryMovies));
+        setHistoryMovies(updatedHistoryMovies.filter((movie: Movie) => movie.id !== detailedMovie.id));
         setLoading(false); // Set loading
       } else {
         showError('Movie ID is undefined');
@@ -41,7 +62,8 @@ const DetailMoviePage: React.FC = () => {
           <div className="flex-1">
             <CastSection cast={detailMovie.credits.cast} />
             <SocialSection reviews={detailMovie.reviews} />
-            {/* <Recommendations recommendations={detailMovie.recommendations} /> */}
+            <Recommendations recommendations={arrMovie} />
+            <HistoryMovies historyMovies={historyMovies} />
           </div>
           <FactsSidebar detailMovie={detailMovie} />
         </div>

@@ -12,6 +12,8 @@ export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
     null,
   );
   const [hoveredTitle, setHoveredTitle] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
 
   const sortedMovieCast = [...movieCast].sort((a, b) => {
     const dateA = new Date(a.release_date).getTime();
@@ -60,6 +62,12 @@ export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [selectedEntry]);
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedMovieCast = sortedMovieCast.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <section className="mt-6">
       <div className="flex justify-between items-center mb-6">
@@ -69,7 +77,7 @@ export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
         <div className="relative">
           <table className="w-full">
             <tbody>
-              {sortedMovieCast.map((entry, index) => (
+              {paginatedMovieCast.map((entry, index) => (
                 <tr
                   key={index}
                   className="border-b last:border-b-0 transition-colors duration-200 hover:bg-blue-50/50"
@@ -78,7 +86,7 @@ export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
                 >
                   <td className="py-4 pr-4 whitespace-nowrap font-medium text-[15px] w-24">
                     <div className="flex items-center ml-4">
-                      <span className="text-gray-900 mr-6">{entry.release_date}</span>
+                      <span className="text-gray-900 mr-6">{entry.release_date.substring(0, 4)}</span>
                       <button onClick={(e) => handleCircleClick(entry, e)} className="relative group">
                         <div
                           className={`w-[18px] h-[18px] rounded-full border-2 transition-colors
@@ -118,8 +126,22 @@ export const Filmography: React.FC<FilmographyProps> = ({ movieCast }) => {
           </table>
         </div>
       </div>
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: Math.ceil(sortedMovieCast.length / itemsPerPage) }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i + 1)}
+            className={`px-4 py-2 mx-1 rounded-full ${
+              currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
       {selectedEntry && (
         <MoviePreview
+          id={selectedEntry.entry.id}
           title={selectedEntry.entry.title}
           description={selectedEntry.entry.overview || ''}
           rating={selectedEntry.entry.vote_average}

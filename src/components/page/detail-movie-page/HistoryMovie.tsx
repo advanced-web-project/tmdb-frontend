@@ -3,19 +3,19 @@ import { Calendar, Star, Heart, Bookmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../../../type/movie/Movie';
 
-interface RecommendationsProps {
-  recommendations: Movie[];
+interface HistoryMoviesProps {
+  historyMovies: Movie[];
 }
 
 const IMAGE_RECOMMENDATION = import.meta.env.VITE_IMAGE_RECOMMENDATION;
 
-export const Recommendations: React.FC<RecommendationsProps> = ({ recommendations }) => {
+export const HistoryMovies: React.FC<HistoryMoviesProps> = ({ historyMovies }) => {
   return (
     <div className="mt-8 max-w-[900px]">
-      <h2 className="text-[1.5em] font-semibold mb-4">Recommendations</h2>
+      <h2 className="text-[1.5em] font-semibold mb-4">History movies</h2>
       <div className="relative">
         <div className="flex gap-[14px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
-          {recommendations.map((item) => (
+          {historyMovies.map((item) => (
             <Link to={`/movie/${item.id}`} className="group cursor-pointer">
               <div className="relative rounded-[10px] overflow-hidden bg-[#032541] h-40 w-72">
                 <img

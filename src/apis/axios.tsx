@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken, removeAccessToken } from '../util/localStorageUtils';
+import { getAccessToken } from '../util/localStorageUtils';
 import { showError } from '../util/ErrorToastifyRender';
 
 const instance = axios.create({
@@ -24,9 +24,11 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       showError('Unauthorized! Token may be invalid or expired.');
       console.error('Unauthorized! Token may be invalid or expired.');
-      removeAccessToken();
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('username');
       if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+        // window.location.href = '/login';
       }
     } else if (error.response?.status === 404) {
       window.location.href = '/not-found';

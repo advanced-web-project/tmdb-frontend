@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AuthContextType from '../type/auth/auth_context.type';
-import user from '../type/temp/auth/user.type';
-import { getUserByToken } from '../apis/temp/UserApi';
+import { User } from '../type/user/user';
+import { apiGetUserByAuthorization } from '../apis/profileApi';
 
 // Define types for context
 
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [refreshAccessToken, setRefreshAccessToken] = useState<string | null>(null);
 
   // State to manage user information
-  const [userInfo, setUserInfo] = useState<user | null>(null);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
 
   /**
    * Updates the authentication state after a successful login.
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * @param {object} user - The user information.
    * @param {string} token - The JWT token.
    */
-  const updateAfterLogin = (user: user, token: string, refreshAccessToken: string) => {
+  const updateAfterLogin = (user: User, token: string, refreshAccessToken: string) => {
     setIsAuthenticated(true);
     setUserInfo(user);
     setAccessToken(token);
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     console.log(refreshToken);
 
     if (token && refreshToken && username) {
-      const userData = await getUserByToken(token, refreshToken, username, updateTokens);
+      const userData = await apiGetUserByAuthorization(token);
       if (userData?.username) {
         updateAfterLogin(userData, token, refreshToken);
       } else if (!userData) {

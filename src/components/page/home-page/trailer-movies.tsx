@@ -1,12 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TrailerCard } from './trailer-card';
 import { trailerTabs } from '../../../data/tabs';
 import { trailerMovies } from '../../../data/trailer-movies';
+import { apiGetLastTrailersByCategories } from '../../../apis/movieApi';
+import { TrailerWithMovieInfo } from '../../../type/movie/TrailerWithMovieInfo';
+import { showError } from '../../../util/ErrorToastifyRender';
+
+const MOVIE_TRAILER = import.meta.env.VITE_MOVIE_TRAILER;
 
 export function TrailerSection() {
   const [activeTrailerTab, setActiveTrailerTab] = useState(trailerTabs[0].id);
   const [hoveredImage, setHoveredImage] = useState<string | null>(trailerMovies[0].image);
+  const [trailers, setTrailers] = useState<TrailerWithMovieInfo[]>([]);
+
+  useEffect(() => {
+    const fetchTrailers = async () => {
+      try {
+        const response = await apiGetLastTrailersByCategories(activeTrailerTab, 1, 20);
+        setTrailers(response.data);
+        setHoveredImage(response.data[0].poster_path ? MOVIE_TRAILER + response.data[0].poster_path : null);
+      } catch (error) {
+        console.error(error);
+        showError('Failed to fetch trailers');
+      }
+    };
+    fetchTrailers();
+  }, [activeTrailerTab]);
 
   return (
     <section
@@ -49,14 +69,14 @@ export function TrailerSection() {
           </div>
         </div>
         <div className="flex overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded pb-6 gap-4 no-scrollbar">
-          {trailerMovies.map((movie, i) => (
+          {trailers.map((trailer, i) => (
             <TrailerCard
               key={i}
-              {...movie}
+              {...trailer}
               onHover={() => {
-                setHoveredImage(movie.image);
+                setHoveredImage(trailer.poster_path ? MOVIE_TRAILER + trailer.poster_path : null);
               }}
-              onLeave={() => setHoveredImage(trailerMovies[0].image)}
+              onLeave={() => setHoveredImage(trailers[0].poster_path ? MOVIE_TRAILER + trailers[0].poster_path : null)}
             />
           ))}
         </div>
