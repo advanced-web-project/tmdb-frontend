@@ -1,16 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { genres } from '../../../data/genres';
 import * as Slider from '@radix-ui/react-slider';
+import { apiGetGenres } from '../../../apis/genreApi';
+import { Genre } from '../../../type/movie/Genre';
 
 import Button from '../../shared/button';
-export default function FilterPanel() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [fromDate, setFromDate] = useState<string>('');
-  const [toDate, setToDate] = useState<string>('');
-  const [rangeValues, setRangeValues] = useState([2, 8]);
 
+type FilterPanelProps = {
+  fromDate: string;
+  setFromDate: React.Dispatch<React.SetStateAction<string>>;
+  toDate: string;
+  setToDate: React.Dispatch<React.SetStateAction<string>>;
+  selectedGenres: number[];
+  setSelectedGenres: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedTrending: string;
+  setSelectedTrending: React.Dispatch<React.SetStateAction<string>>;
+  rangeValues: [number, number];
+  setRangeValues: React.Dispatch<React.SetStateAction<[number, number]>>;
+};
+
+export default function FilterPanel({
+  fromDate,
+  setFromDate,
+  toDate,
+  setToDate,
+  selectedGenres,
+  setSelectedGenres,
+  selectedCategories,
+  setSelectedCategories,
+  selectedTrending,
+  setSelectedTrending,
+  rangeValues,
+  setRangeValues,
+}: FilterPanelProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const data = await apiGetGenres();
+        setGenres(data);
+      } catch (error) {
+        console.error('Failed to fetch genres:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGenres();
+  }, []);
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(e.target.value);
   };
@@ -18,7 +61,33 @@ export default function FilterPanel() {
     setToDate(e.target.value);
   };
 
-  const trendings = ['This week', 'Today'];
+  const handleGenreToggle = (genreId: number) => {
+    setSelectedGenres((prevGenres) =>
+      prevGenres.includes(genreId) ? prevGenres.filter((id) => id !== genreId) : [...prevGenres, genreId],
+    );
+  };
+
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories((prevCategories) =>
+      prevCategories.includes(category) ? prevCategories.filter((c) => c !== category) : [...prevCategories, category],
+    );
+  };
+
+  const handleTrendingChange = (trending: string) => {
+    setSelectedTrending(trending);
+  };
+
+  const trendings = [
+    { label: 'This Week', value: 'week' },
+    { label: 'Today', value: 'day' },
+  ];
+
+  const categories = [
+    { label: 'Popular', value: 'popular' },
+    { label: 'Top Rated', value: 'top_rated' },
+    { label: 'Upcoming', value: 'upcoming' },
+    { label: 'Now Playing', value: 'now_playing' },
+  ];
 
   return (
     <div className="relative w-full max-w-[250px] mb-4">
@@ -74,13 +143,38 @@ export default function FilterPanel() {
               {/* Genres Section */}
               <div className="space-y-3">
                 <h3 className="text-base font-normal text-gray-500">Genres</h3>
+                {isLoading ? (
+                  <p className="text-gray-500">Loading genres...</p>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {genres.map((genre) => (
+                      <button
+                        key={genre.id}
+                        onClick={() => handleGenreToggle(genre.id)}
+                        className={`px-3 py-1 text-sm border rounded-full ${
+                          selectedGenres.includes(genre.id) ? 'bg-blue-200' : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        {genre.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <hr />
+              {/* Categories Section */}
+              <div className="space-y-3">
+                <h3 className="text-base font-normal text-gray-500">Categories</h3>
                 <div className="flex flex-wrap gap-2">
-                  {genres.map((genre) => (
+                  {categories.map((category) => (
                     <button
-                      key={genre}
-                      className="px-3 py-1 text-sm border rounded-full hover:bg-gray-50 transition-colors"
+                      key={category.value}
+                      onClick={() => handleCategoryToggle(category.value)}
+                      className={`px-3 py-1 border rounded-full ${
+                        selectedCategories.includes(category.value) ? 'bg-blue-200' : 'hover:bg-gray-50'
+                      }`}
                     >
-                      {genre}
+                      {category.label}
                     </button>
                   ))}
                 </div>
@@ -92,10 +186,13 @@ export default function FilterPanel() {
                 <div className="flex flex-wrap gap-2">
                   {trendings.map((trending) => (
                     <button
-                      key={trending}
-                      className="px-3 py-1 text-sm border rounded-full hover:bg-gray-50 transition-colors"
+                      key={trending.value}
+                      onClick={() => handleTrendingChange(trending.value)}
+                      className={`px-3 py-1 text-sm border rounded-full ${
+                        selectedTrending === trending.value ? 'bg-blue-200' : 'hover:bg-gray-50'
+                      }`}
                     >
-                      {trending}
+                      {trending.label}
                     </button>
                   ))}
                 </div>
@@ -113,7 +210,7 @@ export default function FilterPanel() {
                   max={10}
                   step={1}
                   value={rangeValues}
-                  onValueChange={(values) => setRangeValues(values)}
+                  onValueChange={(values) => setRangeValues([values[0], values[1]])}
                 >
                   {/* Track */}
                   <Slider.Track className="relative flex-grow h-2 bg-gray-200 rounded-full">
