@@ -1,11 +1,9 @@
 import React from 'react';
-import { List, Heart, BookmarkPlus } from 'lucide-react';
 import { UserScore } from '../../shared/UserScore';
 import { Movie } from '../../../type/movie/Movie';
-
 const base_poster_url = import.meta.env.VITE_IMAGE_MOVIE_POSTER;
 const base_backdrop_url = import.meta.env.VITE_IMAGE_MOVIE_BACKDROP;
-
+import DropdownInteraction from '../home-page/dropdown-interaction';
 interface ShowHeaderProps {
   movieDetail: Movie;
 }
@@ -46,19 +44,11 @@ export const ShowHeader: React.FC<ShowHeaderProps> = ({ movieDetail }) => {
               <div className="flex items-center gap-2">
                 <UserScore score={Math.round(movieDetail.vote_average * 10)} />
 
-                <span className="text-lg font-semibold ">
+                <span className="text-lg font-semibold mr-2">
                   User <br></br> Score
                 </span>
+                <DropdownInteraction tmdb_id={movieDetail.tmdbId} />
               </div>
-              <button className="w-12 h-12 rounded-full bg-[#000000] flex items-center justify-center text-white">
-                <List className="w-6 h-6" />
-              </button>
-              <button className="w-12 h-12 rounded-full bg-[#000000] flex items-center justify-center text-white">
-                <Heart className="w-6 h-6" />
-              </button>
-              <button className="w-12 h-12  rounded-full bg-[#000000] flex items-center justify-center text-white">
-                <BookmarkPlus className="w-6 h-6" />
-              </button>
             </div>
 
             <div className="mt-8">

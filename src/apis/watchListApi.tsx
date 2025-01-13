@@ -16,7 +16,7 @@ export const apiGetWatchlistByUser = (): Promise<ResponseWatchListDTO[]> =>
     method: 'get',
   });
 
-export const apiRemoveWatchlist = (movieId: string): Promise<void> =>
+export const apiRemoveWatchlist = (movieId: number): Promise<void> =>
   axiosInstance({
     url: `/watchlists/${movieId}`,
     method: 'delete',

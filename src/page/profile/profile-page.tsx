@@ -1,60 +1,52 @@
 import { Tabs, TabsList, TabsTrigger } from '../../components/shared/tabs';
-// import { useNavigate } from 'react-router-dom';
-// import { getUserByToken } from '../../api/UserApi';
-// import { useAuth } from '../../context/auth-context';
-// import { showError } from '../../utility/ErrorToastifyRender';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/auth-context';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
+import Spinner from '../../components/shared/spinner';
 import HeaderProfile from '../../components/page/profile/overview/header-profile';
 import StaticSection from '../../components/page/profile/overview/statics';
 import FavoriteSection from '../../components/page/profile/favorite/favorite-section';
 import RatingSection from '../../components/page/profile/rating/rating-section';
 import WatchListSection from '../../components/page/profile/watch/watchlist-section';
-
-const exampleUser = {
-  username: 'Minh Hoang 123',
-  email: 'john.doe@example.com',
-  password: 'securepassword123',
-  confirmPassword: 'securepassword123',
-  profile: 'https://res.cloudinary.com/dt0ps34k9/image/upload/v1733309869/vxrvgd9pbnkk8iei2xpx.jpg',
-};
+import { ResponseProfileDTO } from '../../type/profile/ResponseProfileDTO';
+import { apiGetProfile } from '../../apis/profileApi';
 
 const ProfilePage: React.FC = () => {
-  // const navigate = useNavigate();
-  // const { accessToken, refreshAccessToken, userInfo, updateTokens, updateAfterLogout } = useAuth();
+  const navigate = useNavigate();
+  const { accessToken, refreshAccessToken, userInfo, updateTokens, updateAfterLogout } = useAuth();
   const [tab, setTab] = useState('overview');
+  const [profile, setProfile] = useState<ResponseProfileDTO | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchUserInfo = async () => {
-  //     try {
-  //       if (!userInfo?.username) {
-  //         throw new Error('Username is undefined');
-  //       }
-  //       const userData = await getUserByToken(accessToken, refreshAccessToken, userInfo.username, updateTokens);
-  //       if (userData?.username) {
-  //         setUserInfo(userData);
-  //       } else if (!userData) {
-  //         showError('User not found');
-  //         updateAfterLogout();
-  //         navigate('/login');
-  //       }
-  //     } catch (error) {
-  //       showError((error as Error).message);
-  //       updateAfterLogout();
-  //       navigate('/login');
-  //     }
-  //   };
-  //   fetchUserInfo();
-  // }, [accessToken, refreshAccessToken, userInfo?.username, updateTokens, updateAfterLogout, navigate]);
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const profileData = await apiGetProfile();
+        setProfile(profileData);
+      } catch (error) {
+        console.error(error);
+        updateAfterLogout();
+        navigate('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserInfo();
+  }, [accessToken, refreshAccessToken, userInfo?.username, updateTokens, updateAfterLogout, navigate, tab]);
 
-  // if (!user) {
-  //   return <Spinner alignStyle={'flex justify-center items-center mt-6'} loading={true} />;
-  // }
+  if (loading) {
+    return <Spinner alignStyle={'flex justify-center items-center mt-6'} loading={true} />;
+  }
+  if (!profile) {
+    return null;
+  }
 
   return (
     <>
       {/* Profile Header */}
-      <HeaderProfile user={exampleUser} />
+      <HeaderProfile profile={profile} />
 
       {/* Tabs */}
       <Tabs defaultValue="overview" className="px-8">
@@ -91,8 +83,8 @@ const ProfilePage: React.FC = () => {
       </Tabs>
 
       {/* Static Section */}
-      {tab == 'overview' && <StaticSection />}
-      {tab == 'favorite' && <FavoriteSection />}
+      {tab == 'overview' && <StaticSection profile={profile} />}
+      {tab == 'favorite' && <FavoriteSection  profile={profile}/>}
       {tab == 'ratings' && <RatingSection />}
       {tab == 'watchlist' && <WatchListSection />}
     </>

@@ -45,7 +45,7 @@ const Assistant: React.FC = () => {
     }
   };
 
-  const sendMessage = async (text: string) =>  {
+  const sendMessage = async (text: string) => {
     const newMessage: Message = { type: 'user', content: text };
     setMessages([...messages, newMessage]);
     setMessage('');
@@ -55,49 +55,44 @@ const Assistant: React.FC = () => {
       const response: NavigationDto = await apiNavigationAI(text);
       let content = '';
       let route = window.location.pathname;
-    
+
       if (response.is_success) {
-       const routeRs = response.route;
-       if(routeRs === 'HOME_PAGE') {
-         content = 'Navigating to the home page';
-         route = '/';
-       }
-       else if(routeRs === 'PROFILE_PAGE') {
-         content = 'Navigating to the profile page';
-         route = '/profile';
-       }
-       else if(routeRs === 'SEARCH_PAGE') {
-         ///
-         const keyword =  response.params as { keyword: string };
-         content = 'Navigating to the search page with keyword: ' + keyword.keyword;
-         console.log(keyword);
-       }
-       else if(routeRs === 'CAST_PAGE') {
-         content = 'Navigating to the detail movie page to see full cast';
-         const param = response.params as { movie_ids: string[] };
-         if(param.movie_ids && param.movie_ids.length > 0) {
-             const movieObjectId = param.movie_ids[0];
-             try {
-               const movie = await apiGetMovieById(movieObjectId);
-               route = `/movie/${movie.tmdbId}?#cast`;
-             } catch (error) {
-               console.error('Failed to fetch movie details', error);
-               showError('Failed to fetch movie details');
-             }
-         }
-       }
-       else if(routeRs === 'GENRE_PAGE') {
-        // navigate search page
-        content = 'Navigating to the search page with genres from your request';
-        const param = response.params as { genres_id: string[] };
-        const genres = param.genres_id;
-        console.log(genres);
-       }
-       else if(routeRs === 'MOVIE_PAGE') {
-        // navigate to the movie page
-        content = 'Navigating to the detail movie page';
-        const param = response.params as { movie_ids: string[] };
-        if(param.movie_ids && param.movie_ids.length > 0) {
+        const routeRs = response.route;
+        if (routeRs === 'HOME_PAGE') {
+          content = 'Navigating to the home page';
+          route = '/';
+        } else if (routeRs === 'PROFILE_PAGE') {
+          content = 'Navigating to the profile page';
+          route = '/profile';
+        } else if (routeRs === 'SEARCH_PAGE') {
+          ///
+          const keyword = response.params as { keyword: string };
+          content = 'Navigating to the search page with keyword: ' + keyword.keyword;
+          route = `/search?querẻ=${keyword.keyword}`;
+        } else if (routeRs === 'CAST_PAGE') {
+          content = 'Navigating to the detail movie page to see full cast';
+          const param = response.params as { movie_ids: string[] };
+          if (param.movie_ids && param.movie_ids.length > 0) {
+            const movieObjectId = param.movie_ids[0];
+            try {
+              const movie = await apiGetMovieById(movieObjectId);
+              route = `/movie/${movie.tmdbId}?#cast`;
+            } catch (error) {
+              console.error('Failed to fetch movie details', error);
+              showError('Failed to fetch movie details');
+            }
+          }
+        } else if (routeRs === 'GENRE_PAGE') {
+          // navigate search page
+          content = 'Navigating to the search page with genres from your request';
+          const param = response.params as { genres_id: string[] };
+          const genres = param.genres_id;
+          console.log(genres);
+        } else if (routeRs === 'MOVIE_PAGE') {
+          // navigate to the movie page
+          content = 'Navigating to the detail movie page';
+          const param = response.params as { movie_ids: string[] };
+          if (param.movie_ids && param.movie_ids.length > 0) {
             const movieObjectId = param.movie_ids[0];
             try {
               const movie = await apiGetMovieById(movieObjectId);
@@ -106,28 +101,19 @@ const Assistant: React.FC = () => {
               console.error('Failed to fetch movie details', error);
               showError('Failed to fetch movie details');
             }
-        }
-       }
-       else if(routeRs == 'NONE')
-       {
+          }
+        } else if (routeRs == 'NONE') {
           content = 'I am sorry, I do not understand what you are saying';
-       }
-       else {
-         content = 'Failed to navigate to the requested page';
-         showError('Failed to navigate to the requested page');
-       }
-       
-
+        } else {
+          content = 'Failed to navigate to the requested page';
+          showError('Failed to navigate to the requested page');
+        }
       } else {
         showError('Failed to navigate to the requested page');
       }
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { type: 'bot', content: content },
-      ]);
+      setMessages((prevMessages) => [...prevMessages, { type: 'bot', content: content }]);
       setIsProcessing(false);
       navigate(route);
-      
     } catch (error) {
       console.error('Failed to process the request', error);
       showError('Failed to process the request');

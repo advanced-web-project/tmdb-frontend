@@ -16,7 +16,7 @@ export const apiGetRatingsByUser = (): Promise<ResponseRatingDTO[]> =>
     method: 'get',
   });
 
-export const apiDeleteRating = (movieId: string): Promise<void> =>
+export const apiDeleteRating = (movieId: number): Promise<void> =>
   axiosInstance({
     url: `/ratings/${movieId}`,
     method: 'delete',

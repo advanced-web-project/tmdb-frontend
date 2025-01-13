@@ -1,4 +1,4 @@
 export interface RequestRatingDTO {
-  movieId: string;
+  tmdb_id: number;
   score: number;
 }

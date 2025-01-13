@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AuthContextType from '../type/auth/auth_context.type';
-import { User } from '../type/user/user';
+import {user} from '../type/user/user'
 import { apiGetUserByAuthorization } from '../apis/profileApi';
+import { setAuthContext } from '../util/authUtils';
 
 // Define types for context
 
@@ -25,7 +26,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [refreshAccessToken, setRefreshAccessToken] = useState<string | null>(null);
 
   // State to manage user information
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<user | null>(null);
+
+  
+  useEffect(() => {
+    setAuthContext({ isAuthenticated, userInfo, accessToken, refreshAccessToken, updateTokens, updateAfterLogin, updateAfterLogout });
+  }, [accessToken, refreshAccessToken]);
 
   /**
    * Updates the authentication state after a successful login.
@@ -33,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    * @param {object} user - The user information.
    * @param {string} token - The JWT token.
    */
-  const updateAfterLogin = (user: User, token: string, refreshAccessToken: string) => {
+  const updateAfterLogin = (user: user, token: string, refreshAccessToken: string) => {
     setIsAuthenticated(true);
     setUserInfo(user);
     setAccessToken(token);
@@ -67,14 +73,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyToken = async () => {
     const token = localStorage.getItem('token');
     const refreshToken = localStorage.getItem('refreshToken');
-    const username = localStorage.getItem('username');
-
+  
     console.log(token);
     console.log(refreshToken);
 
-    if (token && refreshToken && username) {
+    if (token && refreshToken) {
       const userData = await apiGetUserByAuthorization(token);
+      console.log(userData);
       if (userData?.username) {
+        //console.log(userData);
         updateAfterLogin(userData, token, refreshToken);
       } else if (!userData) {
         updateAfterLogout();

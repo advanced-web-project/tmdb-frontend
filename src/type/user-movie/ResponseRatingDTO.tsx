@@ -1,10 +1,10 @@
 export interface ResponseRatingDTO {
-  movieId: string;
+  tmdb_id: number;
   title: string;
-  posterPath: string;
+  poster_path: string;
   overview: string;
-  releaseDate: string;
-  voteAverage: number;
+  release_date: string;
+  vote_average: number;
   score: number;
-  ratedAt: string;
+  rated_at: string;
 }
