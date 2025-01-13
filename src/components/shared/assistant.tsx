@@ -68,6 +68,7 @@ const Assistant: React.FC = () => {
           ///
           const keyword = response.params as { keyword: string };
           content = 'Navigating to the search page with keyword: ' + keyword.keyword;
+          console.log(keyword);
           route = `/search?querẻ=${keyword.keyword}`;
         } else if (routeRs === 'CAST_PAGE') {
           content = 'Navigating to the detail movie page to see full cast';

@@ -50,6 +50,19 @@ export function SearchBar({
       onSearch(searchTerm);
     }
   };
+
+  const getDisplayOptionLabel = () => {
+    if (selectedOption === 'movieName') {
+      return 'Movie Name';
+    } else if (selectedOption === 'actorName') {
+      return 'Actor Name';
+    } else if (selectedOption === 'naturalQuery') {
+      return 'Natural Query';
+    } else {
+      return selectedOption; // Mặc định, hiển thị giá trị của selectedOption
+    }
+  };
+
   return (
     <>
       <div className="relative flex h-[46px] items-center">
@@ -79,7 +92,7 @@ export function SearchBar({
             className="flex h-[30px] items-center rounded bg-[#01b4e4] px-[10px] text-[14px] font-semibold text-white hover:bg-[#0093c4]"
             onClick={() => setIsOptionsOpen(!isOptionsOpen)}
           >
-            {selectedOption}
+            {getDisplayOptionLabel()}
             <ChevronDown className="ml-[6px] h-[16px] w-[16px]" />
           </button>
           {isOptionsOpen && (
