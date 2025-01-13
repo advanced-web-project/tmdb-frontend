@@ -2,7 +2,6 @@ import axios from 'axios';
 import { getAccessToken } from '../util/localStorageUtils';
 import { showError } from '../util/ErrorToastifyRender';
 
-
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
@@ -29,7 +28,7 @@ instance.interceptors.response.use(
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('username');
       if (window.location.pathname !== '/login') {
-       // window.location.href = '/login';
+        // window.location.href = '/login';
       }
     } else if (error.response?.status === 404) {
       window.location.href = '/not-found';

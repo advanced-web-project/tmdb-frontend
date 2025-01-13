@@ -48,19 +48,9 @@ const SearchPage: React.FC<SearchPageProps> = () => {
 
   useEffect(() => {
     handleSearch(searchTerm);
-  }, [
-    searchTerm,
-    selectedOption,
-    naturalQueryValue,
-    fromDate,
-    toDate,
-    selectedGenres,
-    selectedCategories,
-    rangeValues,
-    selectedTrending,
-  ]);
+  }, [fromDate, toDate, selectedGenres, selectedCategories, rangeValues, selectedTrending]);
 
-  const handleSearch = async (term: string, page: number = 1, size: number = 10) => {
+  const handleSearch = async (term: string, page: number = 0, size: number = 6) => {
     const searchValue = term.trim() || searchTerm.trim();
     setLoading(true);
     try {
@@ -76,12 +66,13 @@ const SearchPage: React.FC<SearchPageProps> = () => {
         user_score_end: rangeValues[1] || 10.0,
         threshold: naturalQueryValue / 100 || 0.5,
       };
-      console.log(request);
+      //console.log(request);
       const response = await apiSearchAndFilterMovie(request, page, size);
+      //console.log(response);
       if (response) {
         setResults({
           results: response.data,
-          total_pages: response.totalPages,
+          total_pages: response.total_pages,
           page: response.page,
         });
       } else {

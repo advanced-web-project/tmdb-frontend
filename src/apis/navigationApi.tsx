@@ -6,4 +6,4 @@ export const apiNavigationAI = (query: string, threshold?: number): Promise<Navi
     url: '/navigation',
     method: 'get',
     params: { query, threshold },
-});
+  });
