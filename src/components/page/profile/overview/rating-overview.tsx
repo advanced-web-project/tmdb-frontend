@@ -1,33 +1,25 @@
 import React, { useState } from 'react';
+import { ResponseRatingDTO } from '../../../../type/user-movie/ResponseRatingDTO';
 
-interface RatingData {
-  rating: number;
-  count: number;
+interface RatingOverviewProps {
+  ratings: ResponseRatingDTO[];
 }
 
-const RatingOverview: React.FC = () => {
+const RatingOverview: React.FC<RatingOverviewProps> = ({ ratings }) => {
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
 
-  // Sample data with ratings at positions 1, 6, and 10
-  const ratings: RatingData[] = [
-    { rating: 1, count: 1 },
-    { rating: 2, count: 2 },
-    { rating: 3, count: 5 },
-    { rating: 4, count: 1 },
-    { rating: 5, count: 8 },
-    { rating: 6, count: 2 },
-    { rating: 7, count: 5 },
-    { rating: 8, count: 10 },
-    { rating: 9, count: 4 },
-    { rating: 10, count: 2 },
-  ];
-  const totalCount = ratings.reduce((acc, rating) => acc + rating.count, 0);
+  // Count the number of ratings for each score
+  const ratingCounts = ratings.reduce((acc, rating) => {
+    acc[rating.score] = (acc[rating.score] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
 
   // Create array of all possible ratings 1-10
   const allRatings = Array.from({ length: 10 }, (_, i) => {
-    const existingRating = ratings.find((r) => r.rating === i + 1);
-    return existingRating || { rating: i + 1, count: 0 };
+    return { rating: i + 1, count: ratingCounts[i + 1] || 0 };
   });
+
+  const totalCount = ratings.length;
 
   return (
     <div className="w-full">
@@ -47,7 +39,7 @@ const RatingOverview: React.FC = () => {
                   item.count > 0 ? 'bg-[#E91E63] group-hover:bg-[#FF4081]' : 'bg-transparent'
                 }`}
                 style={{
-                  height: item.count > 0 ? 300 * (item.count / totalCount) + 'px' : '0',
+                  height: item.count > 0 ? 200 * (item.count / totalCount) + 'px' : '0',
                 }}
               />
 

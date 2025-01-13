@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/auth-context';
 
 const Footer: React.FC = () => {
+  const {userInfo} = useAuth();
   return (
     <footer className="bg-[#002B47] text-white py-16 px-10 font-sans min-h-[160px]">
       <div className="max-w-[1300px] mx-auto">
@@ -13,12 +15,18 @@ const Footer: React.FC = () => {
               alt="TMDB Logo"
               className="h-[94px] object-contain"
             />
-            <Link
-              to="/register"
-              className="bg-white text-[#01B4E4] font-bold py-3 px-4 rounded-[8px] hover:text-[#0093C4] max-w-[280px] "
-            >
-              JOIN THE COMMUNITY
-            </Link>
+           {!userInfo ? (
+              <Link
+                to="/register"
+                className="bg-white text-[#01B4E4] font-bold py-3 px-4 rounded-[8px] hover:text-[#0093C4] max-w-[280px]"
+              >
+                JOIN THE COMMUNITY
+              </Link>
+            ) : (
+              <div className="bg-white text-[#01B4E4] font-bold py-3 px-4 rounded-[8px] hover:text-[#0093C4] max-w-[280px]">
+                Welcome, {userInfo.username}!
+              </div>
+            )}
           </div>
 
           {/* Links Section */}

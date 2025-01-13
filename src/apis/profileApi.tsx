@@ -1,6 +1,6 @@
 import axiosInstance from './axios';
 import { ResponseProfileDTO } from '../type/profile/ResponseProfileDTO';
-import { User } from '../type/user/user';
+import { user } from '../type/user/user';
 
 export const apiGetProfile = (): Promise<ResponseProfileDTO> =>
   axiosInstance({
@@ -8,7 +8,7 @@ export const apiGetProfile = (): Promise<ResponseProfileDTO> =>
     method: 'get',
   });
 
-export const apiGetUserByAuthorization = (token: string): Promise<User> =>
+export const apiGetUserByAuthorization = (token: string): Promise<user> =>
   axiosInstance({
     url: '/profile/user',
     method: 'get',

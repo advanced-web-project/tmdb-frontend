@@ -11,7 +11,7 @@ import logo from '../../assets/logo.svg';
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, userInfo, updateAfterLogout } = useAuth();
-
+  //console.log(isAuthenticated,userInfo);
   return (
     <header className="sticky z-[1000] top-0 z-50 w-full bg-[#032541] text-white">
       <div className="container flex h-16 items-center justify-between px-10">

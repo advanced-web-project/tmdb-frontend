@@ -1,36 +1,39 @@
 import HeaderList from '../header-list';
 import MovieCardList from '../movie-card-list';
+import { ResponseProfileDTO } from '../../../../type/profile/ResponseProfileDTO';
 
-const movies = [
-  {
-    title: 'A Nonsense Christmas with Sabrina Carpenter',
-    date: 'December 5, 2024',
-    description:
-      'Pop icon Sabrina Carpenter jingles all the bells in her first-ever variety music special full of holiday hits, unexpected duets and comedic cameos.',
-    rating: 66,
-    image: 'https://media.themoviedb.org/t/p/w440_and_h660_face/41MrZENGRsQXJdnnxg0KeiKcW0N.jpg',
-  },
-  {
-    title: 'Mufasa: The Lion King',
-    date: 'December 20, 2024',
-    description:
-      'Told in flashbacks, Mufasa is an orphaned cub, lost and alone until he meets a sympathetic lion named Taka—the heir to a royal bloodline. The chance meeting sets in motion a journey of misfits searching for their destiny and working together to evade a threatening and deadly foe.',
-    rating: 73,
-    image: 'https://media.themoviedb.org/t/p/w440_and_h660_face/4hSnGq014MGdxCOMWBwyvKoDjrF.jpg',
-  },
-];
+interface FavoriteSectionProps {
+  profile: ResponseProfileDTO;
+}
 
-export default function FavoriteSection() {
+const FavoriteSection: React.FC<FavoriteSectionProps> = ({ profile }) => {
+  const movies = profile.favoriteList.map((favorite) => {
+    const userRating = profile.ratings.find((rating) => rating.tmdb_id === favorite.tmdb_id)?.score || null;
+    return {
+      title: favorite.title,
+      date: favorite.release_date,
+      description: favorite.overview,
+      rating: favorite.vote_average,
+      image: favorite.poster_path,
+      isFavorite: true,
+      isInWatchlist: profile.watchlist.some((watch) => watch.tmdb_id === favorite.tmdb_id),
+      tmdbId: favorite.tmdb_id,
+      userRating: userRating,
+    };
+  });
+
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl py-4 mx-4">
-        <HeaderList title={'My Favorites'} totalMovie={2} />
+        <HeaderList title={'My Favorites'} totalMovie={movies.length} />
         <div className="space-y-8">
           {movies.map((movie) => (
-            <MovieCardList key={movie.title} {...movie} />
+            <MovieCardList key={movie.tmdbId} section='favorite' {...movie} />
           ))}
         </div>
       </div>
     </div>
   );
 }
+
+export default FavoriteSection;

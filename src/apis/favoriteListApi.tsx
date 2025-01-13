@@ -16,7 +16,7 @@ export const apiGetFavoriteListByUser = (): Promise<ResponseFavoriteListDTO[]> =
     method: 'get',
   });
 
-export const apiRemoveFavoriteList = (movieId: string): Promise<void> =>
+export const apiRemoveFavoriteList = (movieId: number): Promise<void> =>
   axiosInstance({
     url: `/favoritelists/${movieId}`,
     method: 'delete',

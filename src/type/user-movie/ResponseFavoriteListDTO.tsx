@@ -1,9 +1,9 @@
 export interface ResponseFavoriteListDTO {
-  movieId: string;
+  tmdb_id: number;
   title: string;
-  posterPath: string;
+  poster_path: string;
   overview: string;
-  releaseDate: string;
-  voteAverage: number;
-  addedAt: string;
+  release_date: string;
+  vote_average: number;
+  added_at: string;
 }

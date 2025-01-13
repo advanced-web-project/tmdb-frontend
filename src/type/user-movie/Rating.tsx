@@ -1,6 +1,6 @@
 export interface Rating {
   id: string;
-  movieId: string;
+  tmdb_id: number;
   userId: string;
   score: number;
   ratedAt: Date;

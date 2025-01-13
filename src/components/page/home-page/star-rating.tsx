@@ -6,11 +6,12 @@ import { motion } from 'framer-motion';
 
 interface StarRatingProps {
   onRate?: (rating: number) => void;
+  initialRating?: number | null;
 }
 
-export function StarRating({ onRate }: StarRatingProps) {
+export function StarRating({ onRate, initialRating = null }: StarRatingProps) {
   const [hoveredStar, setHoveredStar] = useState<number | null>(null);
-  const [rating, setRating] = useState<number | null>(null);
+  const [rating, setRating] = useState<number | null>(initialRating);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function StarRating({ onRate }: StarRatingProps) {
   const handleClick = () => {
     if (hoveredStar !== null) {
       setRating(hoveredStar);
-      onRate?.(hoveredStar);
+      onRate?.(hoveredStar*2);
     }
   };
 

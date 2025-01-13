@@ -1,7 +1,7 @@
-import { User } from '../user/user';
+import { user } from '../user/user';
 
 export interface SignInResponseDto {
   accessToken: string;
   refreshToken: string;
-  user: User;
+  user: user;
 }

@@ -111,6 +111,7 @@ const LoginPage: React.FC = () => {
       try {
         const data: SignInResponseDto | undefined = await login(formData);
         if (data?.accessToken) {
+          console.log(data);
           resetAllErrorMessage();
           showSuccess(LOGIN_SUCCESS_MESSAGE);
           updateAfterLogin(data.user, data.accessToken, data.refreshToken);

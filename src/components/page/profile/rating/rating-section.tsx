@@ -29,7 +29,7 @@ export default function RatingSection() {
         <HeaderList title={'Ratings'} totalMovie={2} />
         <div className="space-y-8">
           {movies.map((movie) => (
-            <MovieCardList key={movie.title} {...movie} />
+            <MovieCardList section='rating' key={movie.title} {...movie} />
           ))}
         </div>
       </div>

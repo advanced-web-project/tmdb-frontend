@@ -31,7 +31,7 @@ export function MovieCard({ tmdbId, title, poster_path, release_date, vote_avera
             />
           </div>
           <div className="absolute top-2 right-2 z-[999]">
-            <DropdownInteraction />
+            <DropdownInteraction tmdb_id={tmdbId} />
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 export interface FavoriteList {
   id: string;
-  movieId: string;
+  tmdb_id: number;
   userId: string;
   addedAt: Date;
 }

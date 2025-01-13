@@ -1,9 +1,18 @@
 import default_avatar from '../../../../assets/default_avatar.jpg';
 import { UserScore } from '../../../shared/UserScore';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../shared/avatar';
-import User from '../../../../type/temp/auth/user.type';
+import { ResponseProfileDTO } from '../../../../type/profile/ResponseProfileDTO';
 
-export const HeaderProfile: React.FC<{ user: User }> = ({ user }) => {
+export const HeaderProfile: React.FC<{ profile: ResponseProfileDTO }> = ({ profile }) => {
+
+  const calculateAverageScore = () => {
+    if (profile.ratings.length === 0) return 0;
+    const totalScore = profile.ratings.reduce((acc, rating) => acc + rating.score, 0);
+    return totalScore / profile.ratings.length;
+  };
+
+  const averageScore = calculateAverageScore();
+
   return (
     <div
       className="relative p-10"
@@ -17,22 +26,22 @@ export const HeaderProfile: React.FC<{ user: User }> = ({ user }) => {
     >
       <div className="flex items-start gap-8">
         <Avatar className="w-32 h-32 border-4 border-white">
-          {user.profile == null ? (
+          {profile.profile == null ? (
             <AvatarImage src={default_avatar} alt="User" />
           ) : (
-            <AvatarImage src={user.profile} alt="User" />
+            <AvatarImage src={profile.profile} alt="User" />
           )}
           <AvatarFallback>MH</AvatarFallback>
         </Avatar>
         <div>
           <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-white text-3xl font-bold mb-2">{user.username}</h1>
-            <p className="text-gray-300">Member since December 2024</p>
+            <h1 className="text-white text-3xl font-bold mb-2">{profile.username}</h1>
+            <p className="text-gray-300">Member since {profile.createdAt}</p>
           </div>
           <div className="flex  gap-8">
             <div className="flex justify-content-center align-center text-white gap-4">
               <div className="relative w-16 h-16 mb-2">
-                <UserScore score={90} />
+                <UserScore score={Math.round(averageScore*10)} />
               </div>
               <p className="text-[15px] mt-2 font-semibold">
                 Average
