@@ -117,7 +117,7 @@ const SearchPage: React.FC<SearchPageProps> = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row mt-5 px-5">
+      <div className="flex flex-col md:flex-row mt-5 px-5 min-h-[180vh]">
         {/* Filter */}
         <FilterPanel
           fromDate={fromDate}

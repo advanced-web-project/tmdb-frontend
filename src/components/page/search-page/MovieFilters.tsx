@@ -108,7 +108,7 @@ export default function FilterPanel({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-12 left-0 right-0 mt-1 rounded-[8px] shadow-lg z-50 max-h-[140vh]  border border-gray-200 shadow-sm bg-[#fff]"
+            className="absolute top-12 left-0 right-0 mt-1 rounded-[8px] shadow-lg z-50 max-h-[170vh]  border border-gray-200 shadow-sm bg-[#fff]"
           >
             <div className="p-4 space-y-6">
               {/* Release Dates Section */}
