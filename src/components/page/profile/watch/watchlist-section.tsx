@@ -1,36 +1,41 @@
 import HeaderList from '../header-list';
 import MovieCardList from '../movie-card-list';
+import { ResponseProfileDTO } from '../../../../type/profile/ResponseProfileDTO';
+import { useState } from 'react';
+interface WatchingSectionProps {
+  profile: ResponseProfileDTO;
+}
 
-const movies = [
-  {
-    title: 'A Nonsense Christmas with Sabrina Carpenter',
-    date: 'December 5, 2024',
-    description:
-      'Pop icon Sabrina Carpenter jingles all the bells in her first-ever variety music special full of holiday hits, unexpected duets and comedic cameos.',
-    rating: 66,
-    image: 'https://media.themoviedb.org/t/p/w440_and_h660_face/41MrZENGRsQXJdnnxg0KeiKcW0N.jpg',
-  },
-  {
-    title: 'Mufasa: The Lion King',
-    date: 'December 20, 2024',
-    description:
-      'Told in flashbacks, Mufasa is an orphaned cub, lost and alone until he meets a sympathetic lion named Taka—the heir to a royal bloodline. The chance meeting sets in motion a journey of misfits searching for their destiny and working together to evade a threatening and deadly foe.',
-    rating: 73,
-    image: 'https://media.themoviedb.org/t/p/w440_and_h660_face/4hSnGq014MGdxCOMWBwyvKoDjrF.jpg',
-  },
-];
-
-export default function WatchListSection() {
+const WatchlistSection: React.FC<WatchingSectionProps> = ({ profile }) => {
+  const [movies, setMovies] = useState(profile.watchlist.map((watchlist) => {
+    const userRating = profile.ratings.find((rating) => rating.tmdb_id === watchlist.tmdb_id)?.score || null;
+    return {
+      title: watchlist.title,
+      date: watchlist.release_date,
+      description: watchlist.overview,
+      rating: watchlist.vote_average,
+      image: watchlist.poster_path,
+      isFavorite: profile.favoriteList.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
+      isInWatchlist: profile.watchlist.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
+      tmdbId: watchlist.tmdb_id,
+      userRating: userRating
+    };
+  }));
+  const handleRemove = (tmdbId: number) => {
+    setMovies((prevMovies) => prevMovies.filter((movie) => movie.tmdbId !== tmdbId));
+  };
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl py-4 mx-4">
-        <HeaderList title={'My Watchlist'} totalMovie={2} />
+        <HeaderList title={'My Watchlist'} totalMovie={movies.length} />
         <div className="space-y-8">
           {movies.map((movie) => (
-            <MovieCardList key={movie.title} {...movie} />
+            <MovieCardList section='watchlist' key={movie.title} {...movie} onRemove={handleRemove}/>
           ))}
         </div>
       </div>
     </div>
   );
 }
+
+export default WatchlistSection;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bot, X, Send, Minimize2, Mic } from 'lucide-react';
+import { Bot, X, Send, Minimize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProcessingDots from './processing-dot';
 import { NavigationDto } from '../../type/navigation/Navigation';
@@ -17,7 +17,6 @@ const Assistant: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [isListening, setIsListening] = useState<boolean>(false);
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -69,7 +68,7 @@ const Assistant: React.FC = () => {
           const keyword = response.params as { keyword: string };
           content = 'Navigating to the search page with keyword: ' + keyword.keyword;
           console.log(keyword);
-          route = `/search?querẻ=${keyword.keyword}`;
+          route = `/search?query=${keyword.keyword}`;
         } else if (routeRs === 'CAST_PAGE') {
           content = 'Navigating to the detail movie page to see full cast';
           const param = response.params as { movie_ids: string[] };
@@ -122,35 +121,7 @@ const Assistant: React.FC = () => {
     }
   };
 
-  const startListening = () => {
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new (window as any).webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.onstart = () => {
-        setIsListening(true);
-      };
-
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setMessage(transcript);
-        sendMessage(transcript);
-      };
-
-      recognition.onerror = (event: any) => {
-        console.error('Speech recognition error', event.error);
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognition.start();
-    } else {
-      console.log('Web Speech API is not supported in this browser.');
-    }
-  };
+ 
 
   return (
     <div className="fixed bottom-4 right-4 z-[1100]">
@@ -210,15 +181,7 @@ const Assistant: React.FC = () => {
                   className="flex-1 rounded-[10px] border bg-gray-50 px-4 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 />
                 <button
-                  type="button"
-                  onClick={startListening}
-                  className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-gray-200 text-gray-600 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
-                >
-                  <Mic className="h-4 w-4" />
-                </button>
-                <button
                   type="submit"
-                  disabled={!message.trim() && !isListening}
                   className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-purple-600 text-white transition-colors hover:bg-purple-700 disabled:bg-gray-400"
                 >
                   <Send className="h-4 w-4" />

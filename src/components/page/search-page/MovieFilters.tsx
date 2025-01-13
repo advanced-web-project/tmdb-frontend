@@ -74,7 +74,7 @@ export default function FilterPanel({
   };
 
   const handleTrendingChange = (trending: string) => {
-    setSelectedTrending(trending);
+    setSelectedTrending((prevTrending) => (prevTrending === trending ? '' : trending));
   };
 
   const trendings = [

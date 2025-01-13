@@ -72,7 +72,7 @@ const SearchPage: React.FC<SearchPageProps> = () => {
       if (response) {
         setResults({
           results: response.data,
-          total_pages: response.total_pages,
+          total_pages: response.totalPages,
           page: response.page,
         });
       } else {

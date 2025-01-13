@@ -1,13 +1,13 @@
 import HeaderList from '../header-list';
 import MovieCardList from '../movie-card-list';
 import { ResponseProfileDTO } from '../../../../type/profile/ResponseProfileDTO';
-
+import { useState } from 'react';
 interface FavoriteSectionProps {
   profile: ResponseProfileDTO;
 }
 
 const FavoriteSection: React.FC<FavoriteSectionProps> = ({ profile }) => {
-  const movies = profile.favoriteList.map((favorite) => {
+  const [movies, setMovies] = useState(profile.favoriteList.map((favorite) => {
     const userRating = profile.ratings.find((rating) => rating.tmdb_id === favorite.tmdb_id)?.score || null;
     return {
       title: favorite.title,
@@ -20,7 +20,11 @@ const FavoriteSection: React.FC<FavoriteSectionProps> = ({ profile }) => {
       tmdbId: favorite.tmdb_id,
       userRating: userRating,
     };
-  });
+  }));
+
+  const handleRemove = (tmdbId: number) => {
+    setMovies((prevMovies) => prevMovies.filter((movie) => movie.tmdbId !== tmdbId));
+  };
 
   return (
     <div className="min-h-screen">
@@ -28,7 +32,7 @@ const FavoriteSection: React.FC<FavoriteSectionProps> = ({ profile }) => {
         <HeaderList title={'My Favorites'} totalMovie={movies.length} />
         <div className="space-y-8">
           {movies.map((movie) => (
-            <MovieCardList key={movie.tmdbId} section='favorite' {...movie} />
+            <MovieCardList key={movie.tmdbId} section='favorite' {...movie} onRemove={handleRemove}  />
           ))}
         </div>
       </div>

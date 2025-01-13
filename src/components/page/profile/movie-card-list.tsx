@@ -1,7 +1,17 @@
 import { Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { apiAddFavoriteList, apiRemoveFavoriteList } from '../../../apis/favoriteListApi';
+import { apiAddWatchlist, apiRemoveWatchlist } from '../../../apis/watchListApi';
+import { RequestFavoriteListDTO } from '../../../type/user-movie/RequestFavoriteListDTO';
+import { RequestWatchListDTO } from '../../../type/user-movie/RequestWatchListDTO';
+import RatingProgressBar from '../../shared/rating-progress-bar';
+import { StarRating } from '../home-page/star-rating';
+import { RequestRatingDTO } from '../../../type/user-movie/RequestRatingDTO';
+import { apiUpdateRating } from '../../../apis/ratingListApi';
+import { apiDeleteRating } from '../../../apis/ratingListApi';
 interface MovieCardListProps {
-  section : string
+  section: string;
   title: string;
   date: string;
   description: string;
@@ -11,11 +21,11 @@ interface MovieCardListProps {
   isInWatchlist: boolean;
   tmdbId: number;
   userRating: number | null;
+  onRemove: (tmdbId: number) => void; 
 }
 
 const IMAGE_MOVIE_TRENDING_CARD = import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD as string;
 
-import RatingProgressBar from '../../shared/rating-progress-bar';
 const MovieCardList: React.FC<MovieCardListProps> = ({
   section,
   title,
@@ -23,35 +33,126 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
   description,
   rating,
   image,
-  isFavorite,
-  isInWatchlist,
+  isFavorite: initialIsFavorite,
+  isInWatchlist: initialIsInWatchlist,
   tmdbId,
-  userRating,
+  userRating: initialUserRating,
+  onRemove,
 }) => {
   const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  const [isInWatchlist, setIsInWatchlist] = useState(initialIsInWatchlist);
+  const [showStarRating, setShowStarRating] = useState(false);
+  const [userRating, setUserRating] = useState(initialUserRating);
 
   const handleClick = () => {
     navigate(`/movie/${tmdbId}`);
-  }
+  };
+
+  const handleFavoriteClick = async () => {
+    if (section === 'favorite') {
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await apiRemoveFavoriteList(tmdbId);
+        setIsFavorite(false);
+      } else {
+        const data: RequestFavoriteListDTO = {
+          tmdb_id: tmdbId
+        };
+        await apiAddFavoriteList(data);
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error('Failed to update favorite status:', error);
+    }
+  };
+
+  const handleWatchlistClick = async () => {
+    if (section === 'watchlist') {
+      return;
+    }
+    try {
+      if (isInWatchlist) {
+        await apiRemoveWatchlist(tmdbId);
+        setIsInWatchlist(false);
+      } else {
+        const data: RequestWatchListDTO = {
+          tmdb_id: tmdbId
+        };
+        await apiAddWatchlist(data);
+        setIsInWatchlist(true);
+      }
+      onRemove(tmdbId);
+    } catch (error) {
+      console.error('Failed to update watchlist status:', error);
+    }
+  };
+
+  const handleRating = async (newRating: number) => {
+    try {
+      const data: RequestRatingDTO = {
+        tmdb_id: tmdbId,
+        score: newRating,
+      };
+      await apiUpdateRating(data);
+      console.log(`Rated ${title} with ${newRating}`);
+      setUserRating(newRating); // Update the local userRating state
+      setShowStarRating(false);
+    } catch (error) {
+      console.error('Failed to update rating:', error);
+    }
+  };
+
+  const handleRateClick = () => {
+    setShowStarRating(!showStarRating);
+  };
+
+  const handleRemoveClick = async () => {
+    try {
+      if (section === 'rating') {
+        await apiDeleteRating(tmdbId);
+      } else if (section === 'favorite') {
+        await apiRemoveFavoriteList(tmdbId);
+      } else if (section === 'watchlist') {
+        await apiRemoveWatchlist(tmdbId);
+      }
+      onRemove(tmdbId); // Call the callback to remove the component from the list
+    } catch (error) {
+      console.error('Failed to remove item:', error);
+    }
+  };
 
   return (
     <div className="flex gap-6 pr-6 mx-2 bg-white rounded-[10px] shadow-md animate-fadeIn">
-      <img onClick={handleClick} src={IMAGE_MOVIE_TRENDING_CARD + image} alt={title} className="w-40 h-56 object-cover rounded-[10px]" />
+      <img
+        onClick={handleClick}
+        src={IMAGE_MOVIE_TRENDING_CARD + image}
+        alt={title}
+        className="w-40 h-56 object-cover rounded-[10px]"
+      />
       <div className="flex-1 space-y-4 py-4">
         <div className="flex items-start gap-3">
           <div className="relative w-[38px] h-[38px] mt-2">
             <div className="absolute inset-0 rounded-[8px]" />
-            <RatingProgressBar rating={Math.round(rating*10)} />
+            <RatingProgressBar rating={Math.round(rating * 10)} />
           </div>
           <div>
-            <h2 onClick={handleClick} className="text-xl font-semibold">{title}</h2>
+            <h2 onClick={handleClick} className="text-xl font-semibold">
+              {title}
+            </h2>
             <p className="text-gray-500">{date}</p>
           </div>
         </div>
         <p className="text-gray-700 leading-relaxed">{description}</p>
         <div className="flex items-center gap-4">
-          <button className={`flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors ${
-              userRating ? 'text-pink-500' : 'text-gray-600 hover:bg-gray-100'}`}>
+          <button  onClick={handleRateClick}
+            className={`flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors ${
+              userRating ? 'text-pink-500' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -62,7 +163,10 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
             </svg>
             {userRating ? `Your Rating: ${userRating}` : 'Rate it!'}
           </button>
+          {showStarRating && <StarRating onRate={handleRating} initialRating={userRating} />}
+
           <button
+            onClick={handleFavoriteClick}
             className={`flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors ${
               isFavorite ? 'text-pink-500' : 'text-gray-600 hover:bg-gray-100'
             }`}
@@ -73,6 +177,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
             Favorite
           </button>
           <button
+            onClick={handleWatchlistClick}
             className={`flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors ${
               isInWatchlist ? 'text-pink-500' : 'text-gray-600 hover:bg-gray-100'
             }`}
@@ -80,7 +185,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
             <Bookmark className={`mr-2 mt-1 h-4 w-4 cursor-pointer`} />
             {isInWatchlist ? 'In Watchlist' : 'Add to watchlist'}
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
+          <button onClick={handleRemoveClick} className="flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -93,4 +198,3 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
 };
 
 export default MovieCardList;
-  

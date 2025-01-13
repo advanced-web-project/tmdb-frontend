@@ -3,16 +3,9 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 interface DataPoint {
   year: number;
-  movies: number;
+  movieCount: number;
 }
 
-const data: DataPoint[] = [
-  { year: 2021, movies: 1 },
-  { year: 2022, movies: 0 },
-  { year: 2023, movies: 0 },
-  { year: 2024, movies: 2 },
-  { year: 2025, movies: 1 },
-];
 
 interface TooltipProps {
   active?: boolean;
@@ -28,7 +21,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
     return (
       <div className="bg-[#1a2b4b] text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300 animate-fade-in">
         <p className="font-medium text-sm">
-          {data.year}: {data.movies} Movies
+          {data.year}: {data.movieCount} Movies
         </p>
       </div>
     );
@@ -43,7 +36,7 @@ interface DotProps {
 }
 
 const CustomDot: React.FC<DotProps> = ({ cx, cy, payload }) => {
-  if (!cx || !cy || !payload || payload.movies <= 0) {
+  if (!cx || !cy || !payload || payload.movieCount <= 0) {
     return null;
   }
 
@@ -60,7 +53,11 @@ const CustomDot: React.FC<DotProps> = ({ cx, cy, payload }) => {
   );
 };
 
-export default function RatingsChart() {
+interface RatingsChartProps {
+  data: DataPoint[];
+}
+
+const RatingsChart: React.FC<RatingsChartProps> = ({ data }) => {
   return (
     <div className="w-full bg-white">
       <h2 className="text-xl font-bold ml-2 mb-6">Ratings By Year</h2>
@@ -76,16 +73,16 @@ export default function RatingsChart() {
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
             <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fill: '#666', fontSize: 12 }} />
             <YAxis
-              domain={[0, 3]}
+              domain={[0, 7]}
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#666', fontSize: 12 }}
-              ticks={[0, 1, 2, 3]}
+              ticks={[0, 1, 2, 3,4,5,6,7]}
             />
             <Tooltip content={<CustomTooltip />} cursor={false} />
             <Area
               type="monotone"
-              dataKey="movies"
+              dataKey="movieCount"
               stroke="#ff4d94"
               fillOpacity={1}
               fill="url(#colorRating)"
@@ -98,3 +95,5 @@ export default function RatingsChart() {
     </div>
   );
 }
+
+export default RatingsChart;

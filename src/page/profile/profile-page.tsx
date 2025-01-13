@@ -37,7 +37,7 @@ const ProfilePage: React.FC = () => {
   }, [accessToken, refreshAccessToken, userInfo?.username, updateTokens, updateAfterLogout, navigate, tab]);
 
   if (loading) {
-    return <Spinner alignStyle={'flex justify-center items-center mt-6'} loading={true} />;
+    return <Spinner alignStyle={'flex justify-center items-center my-12'} loading={true} />;
   }
   if (!profile) {
     return null;
@@ -85,8 +85,8 @@ const ProfilePage: React.FC = () => {
       {/* Static Section */}
       {tab == 'overview' && <StaticSection profile={profile} />}
       {tab == 'favorite' && <FavoriteSection  profile={profile}/>}
-      {tab == 'ratings' && <RatingSection />}
-      {tab == 'watchlist' && <WatchListSection />}
+      {tab == 'ratings' && <RatingSection profile={profile}/>}
+      {tab == 'watchlist' && <WatchListSection profile={profile} />}
     </>
   );
 };
