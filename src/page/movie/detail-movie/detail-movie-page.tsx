@@ -10,7 +10,7 @@ import { Movie } from '../../../type/movie/Movie';
 import Spinner from '../../../components/shared/spinner';
 import { Recommendations } from '../../../components/page/detail-movie-page/Recommendations';
 import { HistoryMovies } from '../../../components/page/detail-movie-page/HistoryMovie';
-import { apiGetHistoryMovies,apiGetSimilarMovies } from '../../../apis/movieApi';
+import { apiGetHistoryMovies, apiGetSimilarMovies } from '../../../apis/movieApi';
 
 const DetailMoviePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

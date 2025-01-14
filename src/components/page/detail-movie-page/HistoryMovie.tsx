@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar} from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../../../type/movie/Movie';
 import DropdownInteraction from '../home-page/dropdown-interaction';
@@ -30,15 +30,17 @@ export const HistoryMovies: React.FC<HistoryMoviesProps> = ({ historyMovies }) =
                       <Calendar className="w-3.5 h-3.5 mr-2" />
                       {item.release_date}
                     </div>
-                   
                   </div>
                   <div className="absolute top-2 right-2 z-[999]">
-                                               <DropdownInteraction tmdb_id={item.id} />
-                                             </div>
+                    <DropdownInteraction tmdb_id={item.id} />
+                  </div>
                 </div>
               </div>
               <div className="mt-2 flex justify-between items-start">
-                <Link to={`/movie/${item.id}`} className="text-[1em] font-medium leading-tight text-[#000000] hover:text-[#01b4e4] transition-colors">
+                <Link
+                  to={`/movie/${item.id}`}
+                  className="text-[1em] font-medium leading-tight text-[#000000] hover:text-[#01b4e4] transition-colors"
+                >
                   {item.title}
                 </Link>
                 <span className="text-[1em] text-[#666666]">{Math.round(item.vote_average)}%</span>
