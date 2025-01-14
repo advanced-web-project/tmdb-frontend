@@ -4,6 +4,7 @@ import { getAccessToken, updateAfterLogout } from '../util/authUtils';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true, 
 });
 
 instance.interceptors.request.use(
