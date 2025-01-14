@@ -30,13 +30,9 @@ function TrailerCard({
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   };
   return (
-    <motion.div
-      className="flex-none w-[300px] rounded-[10px] group"
-      onHoverStart={onHover}
-      onHoverEnd={onLeave}
-    >
+    <motion.div className="flex-none w-[300px] rounded-[10px] group" onHoverStart={onHover} onHoverEnd={onLeave}>
       <div className="relative aspect-video rounded-[10px] overflow-auto ">
-        <img 
+        <img
           src={MOVIE_TRAILER + poster_path}
           alt={title}
           className="relative z-10 w-full h-full object-cover rounded-[10px]"

@@ -25,15 +25,13 @@ interface DropdownInteractionProps {
   tmdb_id: number;
 }
 
-
-
 export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProps) {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isInWatchlist, setIsInWatchlist] = useState<boolean>(false);
   const [rating, setRating] = useState<number | null>(null);
 
   const handleOpenChange = async (open: boolean) => {
-    if(open) {
+    if (open) {
       try {
         const profileData: ResponseProfileDTO = await apiGetProfile();
         const favorite = profileData.favoriteList.some((item) => item.tmdb_id === tmdb_id);
@@ -49,7 +47,7 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
         console.error('Failed to fetch profile data:', error);
       }
     }
-  }
+  };
 
   const handleRating = async (newRating: number) => {
     try {
@@ -79,7 +77,7 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
         showSuccess('Removed from favorite list');
       } else {
         const favoriteData: RequestFavoriteListDTO = {
-          tmdb_id: tmdb_id
+          tmdb_id: tmdb_id,
         };
         await apiAddFavoriteList(favoriteData);
         setIsFavorite(true);
@@ -111,7 +109,6 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
     }
   };
 
-  
   return (
     <DropdownMenu modal={false} onOpenChange={(open) => handleOpenChange(open)}>
       <DropdownMenuTrigger asChild>
@@ -125,12 +122,12 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
         className="w-40 z-[1100] bg-white shadow-lg rounded-[10px] p-2 border-gray-200 bottom-2"
       >
         <DropdownMenuItem className="text-gray-700 hover:bg-gray-100 flex my-1" onClick={handleFavoriteClick}>
-        <Heart className={`mr-2 mt-1 h-4 w-4 cursor-pointer ${isFavorite ? 'text-pink-500' : ''}`} />
+          <Heart className={`mr-2 mt-1 h-4 w-4 cursor-pointer ${isFavorite ? 'text-pink-500' : ''}`} />
           <span>Favorite</span>
         </DropdownMenuItem>
         <hr />
         <DropdownMenuItem className="text-gray-700 hover:bg-gray-100 flex my-1" onClick={handleWatchlistClick}>
-        <Bookmark className={`mr-2 mt-1 h-4 w-4 cursor-pointer ${isInWatchlist ? 'text-pink-500' : ''}`} />
+          <Bookmark className={`mr-2 mt-1 h-4 w-4 cursor-pointer ${isInWatchlist ? 'text-pink-500' : ''}`} />
           <span>Watchlist</span>
         </DropdownMenuItem>
         <hr />
@@ -141,10 +138,7 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent className="mt-4 bg-white z-[1000] border-gray-200 rounded-[10px]">
-              <StarRating
-                onRate={handleRating}
-                initialRating={rating ? rating / 2 : 0}
-              />
+              <StarRating onRate={handleRating} initialRating={rating ? rating / 2 : 0} />
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>

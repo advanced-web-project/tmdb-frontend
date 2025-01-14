@@ -4,11 +4,11 @@ import { SignInDto } from '../type/auth/SignInDto';
 import { VerifyOtpDto } from '../type/auth/VerifyOtpDto';
 import { NewAccessTokenDto } from '../type/auth/NewAccessTokenDto';
 import { ResetPasswordDto } from '../type/auth/ResetPasswordDto';
-import { User } from '../type/user/user';
+import { user } from '../type/user/user';
 import { SignInResponseDto } from '../type/auth/SignInResponseDto';
 import { RefreshToken } from '../type/auth/RefreshToken';
 
-export const register = (signUpDto: SignUpDto): Promise<User> =>
+export const register = (signUpDto: SignUpDto): Promise<user> =>
   axiosInstance({
     url: '/auth/register',
     method: 'post',

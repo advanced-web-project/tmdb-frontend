@@ -9,10 +9,13 @@ const RatingOverview: React.FC<RatingOverviewProps> = ({ ratings }) => {
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
 
   // Count the number of ratings for each score
-  const ratingCounts = ratings.reduce((acc, rating) => {
-    acc[rating.score] = (acc[rating.score] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
+  const ratingCounts = ratings.reduce(
+    (acc, rating) => {
+      acc[rating.score] = (acc[rating.score] || 0) + 1;
+      return acc;
+    },
+    {} as Record<number, number>,
+  );
 
   // Create array of all possible ratings 1-10
   const allRatings = Array.from({ length: 10 }, (_, i) => {

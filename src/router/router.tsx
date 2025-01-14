@@ -80,7 +80,7 @@ const router = createBrowserRouter(
       />
 
       {/* Profile route */}
-      <Route path="profile" element={<ProfilePage />} />
+      <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}/>
       <Route
         path="authenticate"
         element={

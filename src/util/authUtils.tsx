@@ -1,4 +1,4 @@
-import AuthContextType from "../type/auth/auth_context.type";
+import AuthContextType from '../type/auth/auth_context.type';
 
 let authContext: AuthContextType | null = null;
 

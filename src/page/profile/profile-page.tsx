@@ -84,8 +84,8 @@ const ProfilePage: React.FC = () => {
 
       {/* Static Section */}
       {tab == 'overview' && <StaticSection profile={profile} />}
-      {tab == 'favorite' && <FavoriteSection  profile={profile}/>}
-      {tab == 'ratings' && <RatingSection profile={profile}/>}
+      {tab == 'favorite' && <FavoriteSection profile={profile} />}
+      {tab == 'ratings' && <RatingSection profile={profile} />}
       {tab == 'watchlist' && <WatchListSection profile={profile} />}
     </>
   );

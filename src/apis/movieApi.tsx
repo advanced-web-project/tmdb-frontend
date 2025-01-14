@@ -46,3 +46,15 @@ export const apiGetLastTrailersByCategories = (
     method: 'get',
     params: { page, size },
   });
+
+export const apiGetHistoryMovies = (): Promise<Movie[]> =>
+  axiosInstance({
+    url: `/movies/recommendation`,
+    method: 'get',
+  });
+
+export const apiGetSimilarMovies = (tmdbId: number): Promise<Movie[]> =>
+  axiosInstance({
+    url: `/movies/similar/${tmdbId}`,
+    method: 'get',
+  });

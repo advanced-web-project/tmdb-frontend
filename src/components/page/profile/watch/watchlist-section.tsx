@@ -7,20 +7,22 @@ interface WatchingSectionProps {
 }
 
 const WatchlistSection: React.FC<WatchingSectionProps> = ({ profile }) => {
-  const [movies, setMovies] = useState(profile.watchlist.map((watchlist) => {
-    const userRating = profile.ratings.find((rating) => rating.tmdb_id === watchlist.tmdb_id)?.score || null;
-    return {
-      title: watchlist.title,
-      date: watchlist.release_date,
-      description: watchlist.overview,
-      rating: watchlist.vote_average,
-      image: watchlist.poster_path,
-      isFavorite: profile.favoriteList.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
-      isInWatchlist: profile.watchlist.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
-      tmdbId: watchlist.tmdb_id,
-      userRating: userRating
-    };
-  }));
+  const [movies, setMovies] = useState(
+    profile.watchlist.map((watchlist) => {
+      const userRating = profile.ratings.find((rating) => rating.tmdb_id === watchlist.tmdb_id)?.score || null;
+      return {
+        title: watchlist.title,
+        date: watchlist.release_date,
+        description: watchlist.overview,
+        rating: watchlist.vote_average,
+        image: watchlist.poster_path,
+        isFavorite: profile.favoriteList.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
+        isInWatchlist: profile.watchlist.some((watch) => watch.tmdb_id === watchlist.tmdb_id),
+        tmdbId: watchlist.tmdb_id,
+        userRating: userRating,
+      };
+    }),
+  );
   const handleRemove = (tmdbId: number) => {
     setMovies((prevMovies) => prevMovies.filter((movie) => movie.tmdbId !== tmdbId));
   };
@@ -30,12 +32,12 @@ const WatchlistSection: React.FC<WatchingSectionProps> = ({ profile }) => {
         <HeaderList title={'My Watchlist'} totalMovie={movies.length} />
         <div className="space-y-8">
           {movies.map((movie) => (
-            <MovieCardList section='watchlist' key={movie.title} {...movie} onRemove={handleRemove}/>
+            <MovieCardList section="watchlist" key={movie.title} {...movie} onRemove={handleRemove} />
           ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default WatchlistSection;

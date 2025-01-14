@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '../../../shared/avatar';
 import { ResponseProfileDTO } from '../../../../type/profile/ResponseProfileDTO';
 
 export const HeaderProfile: React.FC<{ profile: ResponseProfileDTO }> = ({ profile }) => {
-
   const calculateAverageScore = () => {
     if (profile.ratings.length === 0) return 0;
     const totalScore = profile.ratings.reduce((acc, rating) => acc + rating.score, 0);
@@ -41,7 +40,7 @@ export const HeaderProfile: React.FC<{ profile: ResponseProfileDTO }> = ({ profi
           <div className="flex  gap-8">
             <div className="flex justify-content-center align-center text-white gap-4">
               <div className="relative w-16 h-16 mb-2">
-                <UserScore score={Math.round(averageScore*10)} />
+                <UserScore score={Math.round(averageScore * 10)} />
               </div>
               <p className="text-[15px] mt-2 font-semibold">
                 Average

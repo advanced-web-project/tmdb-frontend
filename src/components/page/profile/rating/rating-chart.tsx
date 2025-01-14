@@ -6,7 +6,6 @@ interface DataPoint {
   movieCount: number;
 }
 
-
 interface TooltipProps {
   active?: boolean;
   payload?: Array<{
@@ -77,7 +76,7 @@ const RatingsChart: React.FC<RatingsChartProps> = ({ data }) => {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#666', fontSize: 12 }}
-              ticks={[0, 1, 2, 3,4,5,6,7]}
+              ticks={[0, 1, 2, 3, 4, 5, 6, 7]}
             />
             <Tooltip content={<CustomTooltip />} cursor={false} />
             <Area
@@ -94,6 +93,6 @@ const RatingsChart: React.FC<RatingsChartProps> = ({ data }) => {
       </div>
     </div>
   );
-}
+};
 
 export default RatingsChart;

@@ -33,7 +33,7 @@ export function StarRating({ onRate, initialRating = null }: StarRatingProps) {
   const handleClick = () => {
     if (hoveredStar !== null) {
       setRating(hoveredStar);
-      onRate?.(hoveredStar*2);
+      onRate?.(hoveredStar * 2);
     }
   };
 

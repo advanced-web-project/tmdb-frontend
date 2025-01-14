@@ -22,7 +22,7 @@ const StaticSection: React.FC<{ profile: ResponseProfileDTO }> = ({ profile }) =
           <h3 className="text-lg mb-4">Total Watchlist</h3>
           <div className="text-5xl font-bold text-pink-500">{totalWatchlist}</div>
         </div>
-        <RatingOverview ratings={profile.ratings}  />
+        <RatingOverview ratings={profile.ratings} />
         <GenreChart />
       </div>
     </div>

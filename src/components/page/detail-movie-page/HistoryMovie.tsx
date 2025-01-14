@@ -1,7 +1,8 @@
 import React from 'react';
-import { Calendar, Star, Heart, Bookmark } from 'lucide-react';
+import { Calendar} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../../../type/movie/Movie';
+import DropdownInteraction from '../home-page/dropdown-interaction';
 
 interface HistoryMoviesProps {
   historyMovies: Movie[];
@@ -16,7 +17,7 @@ export const HistoryMovies: React.FC<HistoryMoviesProps> = ({ historyMovies }) =
       <div className="relative">
         <div className="flex gap-[14px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
           {historyMovies.map((item) => (
-            <Link to={`/movie/${item.id}`} className="group cursor-pointer">
+            <div className="group cursor-pointer">
               <div className="relative rounded-[10px] overflow-hidden bg-[#032541] h-40 w-72">
                 <img
                   src={`${IMAGE_RECOMMENDATION}/${item.poster_path}`}
@@ -29,27 +30,20 @@ export const HistoryMovies: React.FC<HistoryMoviesProps> = ({ historyMovies }) =
                       <Calendar className="w-3.5 h-3.5 mr-2" />
                       {item.release_date}
                     </div>
-                    <div className="flex gap-3">
-                      <button className="w-7 h-7 rounded-full bg-[#032541]/60 hover:bg-[#032541] flex items-center justify-center">
-                        <Star className="w-3.5 h-3.5 text-white" />
-                      </button>
-                      <button className="w-7 h-7 rounded-full bg-[#032541]/60 hover:bg-[#032541] flex items-center justify-center">
-                        <Heart className="w-3.5 h-3.5 text-white" />
-                      </button>
-                      <button className="w-7 h-7 rounded-full bg-[#032541]/60 hover:bg-[#032541] flex items-center justify-center">
-                        <Bookmark className="w-3.5 h-3.5 text-white" />
-                      </button>
-                    </div>
+                   
                   </div>
+                  <div className="absolute top-2 right-2 z-[999]">
+                                               <DropdownInteraction tmdb_id={item.id} />
+                                             </div>
                 </div>
               </div>
               <div className="mt-2 flex justify-between items-start">
-                <h3 className="text-[1em] font-medium leading-tight text-[#000000] hover:text-[#01b4e4] transition-colors">
+                <Link to={`/movie/${item.id}`} className="text-[1em] font-medium leading-tight text-[#000000] hover:text-[#01b4e4] transition-colors">
                   {item.title}
-                </h3>
+                </Link>
                 <span className="text-[1em] text-[#666666]">{Math.round(item.vote_average)}%</span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
         <div

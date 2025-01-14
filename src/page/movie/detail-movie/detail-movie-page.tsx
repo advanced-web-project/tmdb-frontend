@@ -10,13 +10,14 @@ import { Movie } from '../../../type/movie/Movie';
 import Spinner from '../../../components/shared/spinner';
 import { Recommendations } from '../../../components/page/detail-movie-page/Recommendations';
 import { HistoryMovies } from '../../../components/page/detail-movie-page/HistoryMovie';
+import { apiGetHistoryMovies,apiGetSimilarMovies } from '../../../apis/movieApi';
 
 const DetailMoviePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [detailMovie, setDetailMovie] = useState<Movie>({} as Movie);
   const [loading, setLoading] = useState(true);
-  const [arrMovie, setArrMovie] = useState<Movie[]>([]);
   const [historyMovies, setHistoryMovies] = useState<Movie[]>([]);
+  const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -26,22 +27,29 @@ const DetailMoviePage: React.FC = () => {
         //console.log(detailedMovie);
         setDetailMovie(detailedMovie); // Set the movie details in the state
 
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
-        setArrMovie((prev) => [...prev, detailedMovie]);
+        try {
+          const similarMovies = await apiGetSimilarMovies(parseInt(id, 10));
+          setSimilarMovies(similarMovies);
+        } catch (error) {
+          console.error('Failed to fetch similar movies:', error);
+        } finally {
+          setLoading(false);
+        }
 
-        // Update history movies in local storage
-        const historyMovies = JSON.parse(localStorage.getItem('historyMovies') || '[]');
-        const updatedHistoryMovies = [
-          detailedMovie,
-          ...historyMovies.filter((movie: Movie) => movie.id !== detailedMovie.id),
-        ];
-        localStorage.setItem('historyMovies', JSON.stringify(updatedHistoryMovies));
-        setHistoryMovies(updatedHistoryMovies.filter((movie: Movie) => movie.id !== detailedMovie.id));
+        try {
+          const recommendedMovies = await apiGetHistoryMovies();
+          setHistoryMovies(recommendedMovies);
+        } catch (error) {
+          console.error('Failed to fetch recommended movies:', error);
+          // Update history movies in local storage
+          const historyMovies = JSON.parse(localStorage.getItem('historyMovies') || '[]');
+          const updatedHistoryMovies = [...historyMovies.filter((movie: Movie) => movie.id !== detailedMovie.id)];
+          localStorage.setItem('historyMovies', JSON.stringify(updatedHistoryMovies));
+          setHistoryMovies(updatedHistoryMovies.filter((movie: Movie) => movie.id !== detailedMovie.id));
+        } finally {
+          setLoading(false);
+        }
+
         setLoading(false); // Set loading
       } else {
         showError('Movie ID is undefined');
@@ -62,7 +70,7 @@ const DetailMoviePage: React.FC = () => {
           <div className="flex-1">
             <CastSection cast={detailMovie.credits.cast} />
             <SocialSection reviews={detailMovie.reviews} />
-            <Recommendations recommendations={arrMovie} />
+            <Recommendations recommendations={similarMovies} />
             <HistoryMovies historyMovies={historyMovies} />
           </div>
           <FactsSidebar detailMovie={detailMovie} />

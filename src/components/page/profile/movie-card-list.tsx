@@ -21,7 +21,7 @@ interface MovieCardListProps {
   isInWatchlist: boolean;
   tmdbId: number;
   userRating: number | null;
-  onRemove: (tmdbId: number) => void; 
+  onRemove: (tmdbId: number) => void;
 }
 
 const IMAGE_MOVIE_TRENDING_CARD = import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD as string;
@@ -60,7 +60,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
         setIsFavorite(false);
       } else {
         const data: RequestFavoriteListDTO = {
-          tmdb_id: tmdbId
+          tmdb_id: tmdbId,
         };
         await apiAddFavoriteList(data);
         setIsFavorite(true);
@@ -80,7 +80,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
         setIsInWatchlist(false);
       } else {
         const data: RequestWatchListDTO = {
-          tmdb_id: tmdbId
+          tmdb_id: tmdbId,
         };
         await apiAddWatchlist(data);
         setIsInWatchlist(true);
@@ -148,7 +148,8 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
         </div>
         <p className="text-gray-700 leading-relaxed">{description}</p>
         <div className="flex items-center gap-4">
-          <button  onClick={handleRateClick}
+          <button
+            onClick={handleRateClick}
             className={`flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors ${
               userRating ? 'text-pink-500' : 'text-gray-600 hover:bg-gray-100'
             }`}
@@ -185,7 +186,10 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
             <Bookmark className={`mr-2 mt-1 h-4 w-4 cursor-pointer`} />
             {isInWatchlist ? 'In Watchlist' : 'Add to watchlist'}
           </button>
-          <button onClick={handleRemoveClick} className="flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
+          <button
+            onClick={handleRemoveClick}
+            className="flex items-center gap-2 px-4 py-2 text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+          >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>

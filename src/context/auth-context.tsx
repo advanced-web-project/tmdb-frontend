@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AuthContextType from '../type/auth/auth_context.type';
-import {user} from '../type/user/user'
+import { user } from '../type/user/user';
 import { apiGetUserByAuthorization } from '../apis/profileApi';
 import { setAuthContext } from '../util/authUtils';
 
@@ -28,9 +28,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // State to manage user information
   const [userInfo, setUserInfo] = useState<user | null>(null);
 
-  
   useEffect(() => {
-    setAuthContext({ isAuthenticated, userInfo, accessToken, refreshAccessToken, updateTokens, updateAfterLogin, updateAfterLogout });
+    setAuthContext({
+      isAuthenticated,
+      userInfo,
+      accessToken,
+      refreshAccessToken,
+      updateTokens,
+      updateAfterLogin,
+      updateAfterLogout,
+    });
   }, [accessToken, refreshAccessToken]);
 
   /**
@@ -73,7 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyToken = async () => {
     const token = localStorage.getItem('token');
     const refreshToken = localStorage.getItem('refreshToken');
-  
+
     console.log(token);
     console.log(refreshToken);
 
