@@ -14,6 +14,7 @@ import { ListCreatorPage, ListEditorPage } from '../page/list';
 import { DetailPerson } from '../page/person';
 import { ForgotPasswordPage, ResetPasswordPage, ResendEmailPage, SendOtpPage } from '../page/auth';
 import SendOtpActiveAccountPage from '../page/auth/send-otp-active-page';
+import ServerErrorPage from '../page/error/server-error-page';
 
 // Define the router with typed routes
 const router = createBrowserRouter(
@@ -95,6 +96,7 @@ const router = createBrowserRouter(
       <Route path="search" element={<SearchPage />} />
       <Route path="person/:id" element={<DetailPerson />} />
       <Route path="not-found" element={<NotFoundPage />} />
+      <Route path="server-error" element={<ServerErrorPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Route>,
   ),

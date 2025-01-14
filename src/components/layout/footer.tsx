@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
             />
             {!userInfo ? (
               <Link
-                to="/register"
+                to="/tmdb-frontend/register"
                 className="bg-white text-[#01B4E4] font-bold py-3 px-4 rounded-[8px] hover:text-[#0093C4] max-w-[280px]"
               >
                 JOIN THE COMMUNITY

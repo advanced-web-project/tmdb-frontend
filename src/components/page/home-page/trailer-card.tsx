@@ -24,7 +24,7 @@ function TrailerCard({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/movie/${tmdb_id}`);
+    navigate(`/tmdb-frontend/movie/${tmdb_id}`);
   };
   const truncateName = (name: string, maxLength: number) => {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;

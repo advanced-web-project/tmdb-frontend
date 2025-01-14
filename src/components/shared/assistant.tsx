@@ -59,16 +59,16 @@ const Assistant: React.FC = () => {
         const routeRs = response.route;
         if (routeRs === 'HOME_PAGE') {
           content = 'Navigating to the home page';
-          route = '/';
+          route = '/tmdb-frontend';
         } else if (routeRs === 'PROFILE_PAGE') {
           content = 'Navigating to the profile page';
-          route = '/profile';
+          route = '/tmdb-frontend/profile';
         } else if (routeRs === 'SEARCH_PAGE') {
           ///
           const keyword = response.params as { keyword: string };
           content = 'Navigating to the search page with keyword: ' + keyword.keyword;
           console.log(keyword);
-          route = `/search?query=${keyword.keyword}`;
+          route = `/tmdb-frontend/search?query=${keyword.keyword}`;
         } else if (routeRs === 'CAST_PAGE') {
           content = 'Navigating to the detail movie page to see full cast';
           const param = response.params as { movie_ids: string[] };
@@ -76,7 +76,7 @@ const Assistant: React.FC = () => {
             const movieObjectId = param.movie_ids[0];
             try {
               const movie = await apiGetMovieById(movieObjectId);
-              route = `/movie/${movie.tmdbId}?#cast`;
+              route = `/tmdb-frontend/movie/${movie.tmdbId}?#cast`;
             } catch (error) {
               console.error('Failed to fetch movie details', error);
               showError('Failed to fetch movie details');
@@ -96,7 +96,7 @@ const Assistant: React.FC = () => {
             const movieObjectId = param.movie_ids[0];
             try {
               const movie = await apiGetMovieById(movieObjectId);
-              route = `/movie/${movie.tmdbId}`;
+              route = `/tmdb-frontend/movie/${movie.tmdbId}`;
             } catch (error) {
               console.error('Failed to fetch movie details', error);
               showError('Failed to fetch movie details');

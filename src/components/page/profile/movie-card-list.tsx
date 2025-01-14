@@ -46,7 +46,7 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
   const [userRating, setUserRating] = useState(initialUserRating);
 
   const handleClick = () => {
-    navigate(`/movie/${tmdbId}`);
+    navigate(`/tmdb-frontend/movie/${tmdbId}`);
   };
 
   const handleFavoriteClick = async () => {

@@ -12,7 +12,7 @@ export function MovieCard({ tmdbId, title, poster_path, release_date, vote_avera
   const navigate = useNavigate();
 
   const handleNavigateToDetail = () => {
-    navigate(`/movie/${tmdbId}`);
+    navigate(`/tmdb-frontend/movie/${tmdbId}`);
   };
 
   return (

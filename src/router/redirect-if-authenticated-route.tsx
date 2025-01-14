@@ -8,7 +8,7 @@ interface RouteProps {
 function RedirectIfAuthenticated({ children }: RouteProps) {
   const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/tmdb-frontend" replace />;
   }
   return <>{children}</>;
 }

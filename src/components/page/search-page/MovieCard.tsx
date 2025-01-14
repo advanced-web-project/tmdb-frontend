@@ -14,7 +14,7 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
       <div className="flex flex-col p-4 sm:p-3 flex-grow">
         <h2 className="mb-1">
           <Link
-            to={`/movie/${movie.id}`}
+            to={`/tmdb-frontend/movie/${movie.id}`}
             className="text-[1.1em] sm:text-[1.2em] font-bold leading-[1.1] text-black no-underline hover:text-[#01b4e4]"
           >
             {movie.title}

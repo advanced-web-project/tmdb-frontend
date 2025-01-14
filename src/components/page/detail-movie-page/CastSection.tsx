@@ -19,7 +19,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ cast }) => {
         <div className="flex gap-[12px] overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-rounded">
           {cast.map((member) => (
             <Link
-              to={`/person/${member.id}`}
+              to={`/tmdb-frontend/person/${member.id}`}
               key={member.id}
               className="flex-shrink-0 w-[160px] rounded-[12px] bg-white shadow-[0_2px_8px_rgb(0,0,0,0.1)] 
                        hover:shadow-[0_2px_8px_rgb(0,0,0,0.2)] transition-shadow duration-300"

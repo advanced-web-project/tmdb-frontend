@@ -24,13 +24,13 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       showError('Unauthorized! Token may be invalid or expired.');
       if (window.location.pathname !== '/login') {
-        // window.location.href = '/login';
+         window.location.href = '/tmdb-frontend/login';
       }
       updateAfterLogout();
     } else if (error.response?.status === 404) {
-      window.location.href = '/not-found';
+      window.location.href = '/tmdb-frontend/not-found';
     } else if (error.response?.status === 500) {
-      window.location.href = '/server-error';
+      window.location.href = '/tmdb-frontend/server-error';
     } else {
       showError(error.response?.data.errors);
     }

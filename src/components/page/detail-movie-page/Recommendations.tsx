@@ -39,7 +39,7 @@ export const Recommendations: React.FC<RecommendationsProps> = ({ recommendation
               </div>
               <div className="mt-2 flex justify-between items-start">
                 <Link
-                  to={`/movie/${item.id}`}
+                  to={`/tmdb-frontend/movie/${item.id}`}
                   className="text-[1em] font-medium leading-tight text-[#000000] hover:text-[#01b4e4] transition-colors"
                 >
                   {item.title}

@@ -115,7 +115,7 @@ const LoginPage: React.FC = () => {
           resetAllErrorMessage();
           showSuccess(LOGIN_SUCCESS_MESSAGE);
           updateAfterLogin(data.user, data.accessToken, data.refreshToken);
-          navigate('/');
+          navigate('/tmdb-frontend');
         }
       } catch (error) {
         console.error('Login failed:', error);
@@ -153,14 +153,14 @@ const LoginPage: React.FC = () => {
         <p className="mb-2 text-[14px] leading-[1.5]">
           In order to use the editing and rating capabilities of TMDB, as well as get personal recommendations you will
           need to login to your account. If you do not have an account, registering for an account is free and simple.{' '}
-          <Link to="/register" className="text-blue-500">
+          <Link to="/tmdb-frontend/register" className="text-blue-500">
             Click here
           </Link>{' '}
           to get started.
         </p>
         <p className="mb-5 text-[14px] leading-[1.5]">
           If you signed up but didn't get your verification email,{' '}
-          <Link to="/resend-email-verification" className="text-blue-500">
+          <Link to="/tmdb-frontend/resend-email-verification" className="text-blue-500">
             click here
           </Link>{' '}
           to have it resent.
@@ -251,7 +251,7 @@ const LoginPage: React.FC = () => {
                     ':hover': { backgroundColor: '#333' },
                   }}
                 >
-                  <Link to="/forgot-password">Reset password</Link>
+                  <Link to="/tmdb-frontend/forgot-password">Reset password</Link>
                 </Button>
                 <Button
                   onClick={handleClick}

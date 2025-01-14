@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
       } catch (error) {
         console.error(error);
         updateAfterLogout();
-        navigate('/login');
+        navigate('/tmdb-frontend/login');
       } finally {
         setLoading(false);
       }

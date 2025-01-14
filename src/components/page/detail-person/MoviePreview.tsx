@@ -20,7 +20,7 @@ const MOVIE_PREVIEW_URL = import.meta.env.VITE_MOVIE_PREVIEW;
 export default function MoviePreview({ id, title, description, rating, image, style }: MoviePreviewProps) {
   const navigate = useNavigate();
   const handleNavigate = (id: number) => () => {
-    navigate(`/movie/${id}`);
+    navigate(`/tmdb-frontend/movie/${id}`);
   };
   return (
     <div

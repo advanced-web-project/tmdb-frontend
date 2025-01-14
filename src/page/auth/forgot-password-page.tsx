@@ -37,7 +37,7 @@ const ForgotPasswordPage: React.FC = () => {
       try {
         await getOtp(email);
         showSuccess('Password reset instructions sent successfully! Please check your email.');
-        navigate('/send-otp/' + email);
+        navigate('/tmdb-frontend/send-otp/' + email);
       } catch (error) {
         console.log(error);
         showError('Failed to send password reset instructions');
@@ -101,7 +101,7 @@ const ForgotPasswordPage: React.FC = () => {
               >
                 Continue
               </Button>
-              <Link to="/login" className="text-blue-500 font-semibold hover:underline">
+              <Link to="/tmdb-frontend/login" className="text-blue-500 font-semibold hover:underline">
                 Cancel
               </Link>
             </>

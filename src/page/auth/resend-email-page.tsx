@@ -34,7 +34,7 @@ const ResendEmailPage: React.FC = () => {
       try {
         await getOtp(email);
         showSuccess('Activation email resent successfully! Please check your email.');
-        navigate('/send-otp-verify-account/' + email);
+        navigate('/tmdb-frontend/send-otp-verify-account/' + email);
       } catch (error) {
         console.log('Failed to resend activation email: ' + error);
       }
@@ -89,7 +89,7 @@ const ResendEmailPage: React.FC = () => {
               >
                 Send
               </Button>
-              <Link to="/login" className="text-blue-500 font-semibold hover:underline">
+              <Link to="/tmdb-frontend/login" className="text-blue-500 font-semibold hover:underline">
                 Cancel
               </Link>
             </>

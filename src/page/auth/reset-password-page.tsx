@@ -113,7 +113,7 @@ const ResetPasswordPage: React.FC = () => {
       try {
         await resetPassword(resetPasswordDto);
         showSuccess('Password reset successfully! You can now log in with your new password.');
-        navigate('/login');
+        navigate('/tmdb-frontend/login');
       } catch (error) {
         console.log('Failed to reset password: ' + error);
       }

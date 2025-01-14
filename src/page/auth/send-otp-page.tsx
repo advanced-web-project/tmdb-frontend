@@ -50,7 +50,7 @@ const SendOtpPage: React.FC = () => {
         const response = await verifyOtpChangePassword(verifyOtpDto);
         showSuccess('OTP verified successfully! You can now reset your password.');
         console.log(response);
-        navigate(`/reset-password/${response.token}`);
+        navigate(`/tmdb-frontend/reset-password/${response.token}`);
       } catch (error) {
         console.log('Failed to verify OTP: ' + error);
       }

@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const handleSearch = () => {
     if (searchValue.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchValue)}`);
+      navigate(`/tmdb-frontend/search?query=${encodeURIComponent(searchValue)}`);
     }
   };
 

@@ -147,7 +147,7 @@ const RegistrationPage: React.FC = () => {
         try {
           await register(signUpDto);
           const isNotVeriable = true;
-          navigate('/send-otp-verify-account/' + formData.email, { state: { isNotVeriable } });
+          navigate('/tmdb-frontend/send-otp-verify-account/' + formData.email, { state: { isNotVeriable } });
         } catch (error) {
           console.log('Registration failed: ' + error);
         }

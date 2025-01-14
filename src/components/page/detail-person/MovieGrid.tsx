@@ -39,7 +39,7 @@ export function MovieGrid({ movies }: MovieGridProps) {
   }, []);
 
   const handleNavigate = (id: number) => () => {
-    navigate(`/movie/${id}`);
+    navigate(`/tmdb-frontend/movie/${id}`);
   };
 
   return (

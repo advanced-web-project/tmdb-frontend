@@ -43,7 +43,7 @@ const SendOtpActiveAccountPage: React.FC = () => {
         try {
           await verifyOtp(verifyOtpDto);
           const isEmailVerification = true;
-          navigate('/login', { state: { isEmailVerification } });
+          navigate('/tmdb-frontend/login', { state: { isEmailVerification } });
         } catch (error) {
           console.log('Failed to verify OTP: ' + error);
           showError('Failed to verify OTP');
