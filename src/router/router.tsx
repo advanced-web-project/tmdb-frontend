@@ -18,9 +18,8 @@ import SendOtpActiveAccountPage from '../page/auth/send-otp-active-page';
 // Define the router with typed routes
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<MainLayout />}>
+    <Route path="/tmdb-frontend" element={<MainLayout />}>
       <Route index element={<HomePage />} />
-
       {/* Auth routes */}
       <Route
         path="login"
@@ -80,14 +79,7 @@ const router = createBrowserRouter(
       />
 
       {/* Profile route */}
-      <Route
-        path="profile"
-        element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}/>
       <Route
         path="authenticate"
         element={

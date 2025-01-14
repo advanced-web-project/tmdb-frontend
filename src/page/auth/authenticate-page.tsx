@@ -21,7 +21,7 @@ export default function Authenticate(): JSX.Element {
         .then((data) => {
           console.log(data);
           updateAfterLogin(data.user, data.accessToken, data.refreshToken);
-          navigate('/');
+          navigate('/tmdb-frontend');
           setIsLoggedin(true);
         })
         .catch((error) => {
@@ -32,7 +32,7 @@ export default function Authenticate(): JSX.Element {
 
   useEffect(() => {
     if (isLoggedin) {
-      navigate('/');
+      navigate('/tmdb-frontend');
     }
   }, [isLoggedin, navigate]);
 

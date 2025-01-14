@@ -17,7 +17,7 @@ const Header: React.FC = () => {
       <div className="container flex h-16 items-center justify-between px-10">
         <div className="flex items-center gap-8">
           {/* Your content for left section if needed */}
-          <Link to="/" className="flex items-center">
+          <Link to="/tmdb-frontend" className="flex items-center">
             <img src={logo} width={154} height={20}></img>
           </Link>
         </div>
@@ -25,10 +25,10 @@ const Header: React.FC = () => {
           {!isAuthenticated ? (
             <>
               <Button variant="ghost" className="h-8 mb-2 px-0 text-[15px] font-semibold hover:text-[#01b4e4]">
-                <Link to="/login">Login</Link>
+                <Link to="/tmdb-frontend/login">Login</Link>
               </Button>
               <Button variant="ghost" className="h-8 mb-2 px-0 text-[15px] font-semibold hover:text-[#01b4e4]">
-                <Link to="/register">Sign up</Link>
+                <Link to="/tmdb-frontend/register">Sign up</Link>
               </Button>
             </>
           ) : (
