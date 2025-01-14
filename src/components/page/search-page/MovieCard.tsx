@@ -1,3 +1,4 @@
+import {Movie} from '../../../type/movie/Movie';
 import { Link } from 'react-router-dom';
 const IMAGE_MOVIE_POSTER = import.meta.env.VITE_IMAGE_MOVIE_POSTER;
 const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
