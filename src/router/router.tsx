@@ -20,7 +20,12 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<HomePage />} />
-
+      <Route
+        path="/tmdb-frontend"
+        element={
+            <HomePage />
+        }
+      />
       {/* Auth routes */}
       <Route
         path="login"
