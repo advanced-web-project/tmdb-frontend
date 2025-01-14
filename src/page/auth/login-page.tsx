@@ -170,7 +170,7 @@ const LoginPage: React.FC = () => {
           <AlertBox header="Account verification required">
             Your email address hasn't been verified. Please click the verification link in the email that was sent to
             the address you signed up with. (Don't forget to check your spam folder.) You may{' '}
-            <a href="/resend-email-verification" className="text-[#DC004E] hover:underline">
+            <a href="/tmdb-frontend/resend-email-verification" className="text-[#DC004E] hover:underline">
               request the email be resent
             </a>{' '}
             if you are unable to locate your activation email.
