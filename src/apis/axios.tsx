@@ -23,10 +23,7 @@ instance.interceptors.response.use(
   (error) => {
     console.error(error.response?.status);
     if (error.response?.status === 401) {
-      showError('Unauthorized! Token may be invalid or expired.');
-      if (window.location.pathname !== '/login') {
-         window.location.href = '/tmdb-frontend/login';
-      }
+      showError('Your session has expired. Please log in again to explore more.');
       updateAfterLogout();
     } else if (error.response?.status === 404) {
       window.location.href = '/tmdb-frontend/not-found';

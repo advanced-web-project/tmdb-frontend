@@ -18,6 +18,7 @@ const DetailMoviePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [historyMovies, setHistoryMovies] = useState<Movie[]>([]);
   const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
+  const [recommendationsLoading, setRecommendationsLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -25,17 +26,7 @@ const DetailMoviePage: React.FC = () => {
       if (id) {
         const detailedMovie = await apiGetMovieByTmdbId(id); // Fetch movie details using the id
         //console.log(detailedMovie);
-        setDetailMovie(detailedMovie); // Set the movie details in the state
-
-        try {
-          const similarMovies = await apiGetSimilarMovies(parseInt(id, 10));
-          setSimilarMovies(similarMovies);
-        } catch (error) {
-          console.error('Failed to fetch similar movies:', error);
-        } finally {
-          setLoading(false);
-        }
-
+        setDetailMovie(detailedMovie); // Set the movie details in the st
         try {
           const recommendedMovies = await apiGetHistoryMovies();
           setHistoryMovies(recommendedMovies);
@@ -58,6 +49,20 @@ const DetailMoviePage: React.FC = () => {
     fetchDetailMovie(); // Call the fetchDetailMovie function to fetch movie details
   }, [id]);
 
+  
+
+  const handleRecommendationClick = async () => {
+    setRecommendationsLoading(true);
+    try {
+      const similarMovies = await apiGetSimilarMovies(parseInt(id!, 10));
+      setSimilarMovies(similarMovies);
+    } catch (error) {
+      console.error('Failed to fetch similar movies:', error);
+    } finally {
+      setRecommendationsLoading(false);
+    }
+  };
+
   if (loading) {
     return <Spinner loading={true} alignStyle="flex justify-center items-center h-screen" />;
   }
@@ -70,7 +75,7 @@ const DetailMoviePage: React.FC = () => {
           <div className="flex-1">
             <CastSection cast={detailMovie.credits.cast} />
             <SocialSection reviews={detailMovie.reviews} />
-            <Recommendations recommendations={similarMovies} />
+            <Recommendations loading={recommendationsLoading} recommendations={similarMovies} onHeaderClick={handleRecommendationClick} />
             <HistoryMovies historyMovies={historyMovies} />
           </div>
           <FactsSidebar detailMovie={detailMovie} />

@@ -42,7 +42,7 @@ const RatingOverview: React.FC<RatingOverviewProps> = ({ ratings }) => {
                   item.count > 0 ? 'bg-[#E91E63] group-hover:bg-[#FF4081]' : 'bg-transparent'
                 }`}
                 style={{
-                  height: item.count > 0 ? 200 * (item.count / totalCount) + 'px' : '0',
+                  height: item.count > 0 ? 140 * (item.count / totalCount) + 'px' : '0',
                 }}
               />
 

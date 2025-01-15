@@ -6,8 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { TrendingMovie } from '../../components/page/home-page/trending-movies';
 import { TrailerSection } from '../../components/page/home-page/trailer-movies';
 import { PopularMovie } from '../../components/page/home-page/popular-movies';
+import { useAuth } from '../../context/auth-context';
 
 const HomePage: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  console.log(isAuthenticated);
   const [searchValue, setSearchValue] = useState('');
 
   const navigate = useNavigate();

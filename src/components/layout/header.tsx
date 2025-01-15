@@ -73,7 +73,7 @@ const Header: React.FC = () => {
                     <User className="mr-2 h-4 w-4" />
                     <span
                       onClick={() => {
-                        navigate('/profile');
+                        navigate('/tmdb-frontend/profile');
                       }}
                     >
                       View profile
