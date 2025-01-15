@@ -23,7 +23,7 @@ jobs:
 
       - name: Inject environment variables
         run: |
-          echo "VITE_BACKEND_URL=https://localhost:8080" >> .env.production
+          echo "VITE_BACKEND_URL=https://tmdb-acedhqe6c0atfrb6.japanwest-01.azurewebsites.net" >> .env.production
           echo "VITE_CLIENT_ID=585374389420-p1e98040g0lsppltcsr2qms0kuct004c.apps.googleusercontent.com" >> .env.production
           echo "VITE_REDIRECT_URI=https://advanced-web-project.github.io/tmdb-frontend/authenticate" >> .env.production
           echo "VITE_AUTH_URI=https://accounts.google.com/o/oauth2/auth" >> .env.production
