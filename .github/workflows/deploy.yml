@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "VITE_BACKEND_URL=https://localhost:8080" >> .env.production
           echo "VITE_CLIENT_ID=585374389420-p1e98040g0lsppltcsr2qms0kuct004c.apps.googleusercontent.com" >> .env.production
-          echo "VITE_REDIRECT_URI=https://localhost:3000/tmdb-frontend/authenticate" >> .env.production
+          echo "VITE_REDIRECT_URI=https://advanced-web-project.github.io/tmdb-frontend/authenticate" >> .env.production
           echo "VITE_AUTH_URI=https://accounts.google.com/o/oauth2/auth" >> .env.production
           echo "VITE_AVATAR_CAST_URL=https://image.tmdb.org/t/p/w276_and_h350_face" >> .env.production
           echo "VITE_AVATAR_REVIEWER=https://media.themoviedb.org/t/p/w90_and_h90_face" >> .env.production
