@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { showError } from '../util/ErrorToastifyRender';
-import { getAccessToken, updateAfterLogout } from '../util/authUtils';
+import { getAccessToken } from '../util/authUtils';
+import { store } from '../context/store';
+import { logout } from '../context/authSlice';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -9,7 +11,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken();
+    const accessToken = localStorage.getItem('token') ?? getAccessToken();
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -24,7 +26,7 @@ instance.interceptors.response.use(
     console.error(error.response?.status);
     if (error.response?.status === 401) {
       showError('Your session has expired. Please log in again to explore more.');
-      updateAfterLogout();
+      store.dispatch(logout());
     } else if (error.response?.status === 404) {
       window.location.href = '/tmdb-frontend/not-found';
     } else if (error.response?.status === 500) {

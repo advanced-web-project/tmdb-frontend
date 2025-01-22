@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/auth-context';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../context/store';
 
 const Footer: React.FC = () => {
-  const { userInfo } = useAuth();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   return (
     <footer className="bg-[#002B47] text-white py-16 px-10 font-sans min-h-[160px]">
       <div className="max-w-[1300px] mx-auto">

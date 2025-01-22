@@ -1,15 +1,6 @@
-import AuthContextType from '../type/auth/auth_context.type';
-
-let authContext: AuthContextType | null = null;
-
-export const setAuthContext = (context: AuthContextType) => {
-  authContext = context;
-};
+import { store } from '../context/store';
 
 export const getAccessToken = () => {
-  return authContext?.accessToken || '';
-};
-
-export const updateAfterLogout = () => {
-  authContext?.updateAfterLogout();
+  const state = store.getState();
+  return state.auth.accessToken || '';
 };

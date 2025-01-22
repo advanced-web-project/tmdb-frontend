@@ -7,18 +7,20 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import InputAdornment from '@mui/material/InputAdornment';
 import { showSuccess } from '../../util/SuccessToastifyRender';
 import IconButton from '@mui/material/IconButton';
-import { useAuth } from '../../context/auth-context';
 import { AlertBox } from '../../components/page/auth/error-alert';
 import { InfoAlert } from '../../components/page/auth/info-alert';
 import { SignInDto } from '../../type/auth/SignInDto';
 import { SignInResponseDto } from '../../type/auth/SignInResponseDto';
 import { login } from '../../apis/authApi';
+import { useDispatch } from 'react-redux';
+import { login as loginAction } from '../../context/authSlice';
 
 const LOGIN_SUCCESS_MESSAGE = 'Login successfully!';
 // Define the LoginPage component
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const [isUsernameError, setUsernameError] = useState<boolean>(false);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>('');
@@ -30,9 +32,6 @@ const LoginPage: React.FC = () => {
   const titleResendEmail = location.state?.titleResendEmail;
   const isNotVeriable = location.state?.isNotVeriable;
   const isEmailVerification = location.state?.isEmailVerification;
-
-  // Auth context
-  const { updateAfterLogin } = useAuth();
 
   // Initial form data
   const initialData: SignInDto = {
@@ -58,11 +57,11 @@ const LoginPage: React.FC = () => {
     window.location.href = targetUrl;
   };
   // Reducer hook for form data
-  const [formData, dispatch] = useReducer(formReducer, initialData);
+  const [formData, dispatchForm] = useReducer(formReducer, initialData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    dispatch({ name, value });
+    dispatchForm({ name, value });
   };
 
   // Reset error messages
@@ -114,7 +113,7 @@ const LoginPage: React.FC = () => {
           console.log(data);
           resetAllErrorMessage();
           showSuccess(LOGIN_SUCCESS_MESSAGE);
-          updateAfterLogin(data.user, data.accessToken, data.refreshToken);
+          dispatch(loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }));
           navigate('/tmdb-frontend');
         }
       } catch (error) {

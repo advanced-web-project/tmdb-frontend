@@ -4,14 +4,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarImage, AvatarFallback } from '../shared/avatar';
 import { LogOut, User } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useAuth } from '../../context/auth-context';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../context/store';
+import { logout } from '../../context/authSlice';
 import default_avatar from '../../assets/default_avatar.jpg';
 import logo from '../../assets/logo.svg';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, userInfo, updateAfterLogout } = useAuth();
-  //console.log(isAuthenticated,userInfo);
+  const dispatch = useDispatch();
+  const { isAuthenticated, userInfo } = useSelector((state: RootState) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <header className="sticky z-[1000] top-0 z-50 w-full bg-[#032541] text-white">
       <div className="container flex h-16 items-center justify-between px-10">
@@ -35,7 +42,6 @@ const Header: React.FC = () => {
             <>
               <DropdownMenu.Root>
                 {/* Dropdown Trigger */}
-
                 <DropdownMenu.Trigger asChild>
                   <button className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10">
@@ -44,7 +50,6 @@ const Header: React.FC = () => {
                       ) : (
                         <AvatarImage src={userInfo?.profile} alt="User" />
                       )}
-
                       <AvatarFallback>MH</AvatarFallback>
                     </Avatar>
                   </button>
@@ -82,7 +87,7 @@ const Header: React.FC = () => {
                   <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
                   <DropdownMenu.Item className="flex items-center px-3 py-2 cursor-pointer rounded">
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span onClick={updateAfterLogout}>Log out</span>
+                    <span onClick={handleLogout}>Log out</span>
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>

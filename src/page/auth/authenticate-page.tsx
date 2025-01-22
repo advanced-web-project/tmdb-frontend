@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import { useAuth } from '../../context/auth-context';
+import { useDispatch } from 'react-redux';
+import { login as loginAction } from '../../context/authSlice';
 
 export default function Authenticate(): JSX.Element {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoggedin, setIsLoggedin] = useState<boolean>(false);
-  const { updateAfterLogin } = useAuth();
+
   useEffect(() => {
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
@@ -20,7 +22,7 @@ export default function Authenticate(): JSX.Element {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          updateAfterLogin(data.user, data.accessToken, data.refreshToken);
+          dispatch(loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }));
           navigate('/tmdb-frontend');
           setIsLoggedin(true);
         })
@@ -28,7 +30,7 @@ export default function Authenticate(): JSX.Element {
           console.error('Authentication failed:', error);
         });
     }
-  }, []);
+  }, [BACKEND_URL, dispatch, navigate]);
 
   useEffect(() => {
     if (isLoggedin) {
