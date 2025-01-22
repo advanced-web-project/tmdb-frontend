@@ -64,6 +64,7 @@ const SearchPage: React.FC<SearchPageProps> = () => {
   };
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    event.preventDefault();
     setPage(value);
   };
 
