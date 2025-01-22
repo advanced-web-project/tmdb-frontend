@@ -2,33 +2,29 @@ import TimeWindowButton from './time-window-button';
 import { MovieCard } from '../home-page/movie-card';
 import ToggleShowMoreButton from './toggle-showmore-button';
 import { useState, useEffect } from 'react';
-import { apiGetTrendingMovies } from '../../../apis/movieApi';
 import { Movie } from '../../../type/movie/Movie';
+import { useTrendingMovies } from '../../../apis/movieApi';
+import Spinner from '../../shared/spinner';
 
 export function TrendingMovie() {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
   const [timeWindowTrending, setTimeWindowTrending] = useState<'day' | 'week'>('day');
   const [visibleMovies, setVisibleMovies] = useState(6);
   const [initialVisibleMovies] = useState(6);
+  const { data: trendingMoviesData, isLoading, isError } = useTrendingMovies(timeWindowTrending, 0, 20); // Adjust page and size as needed
+
   useEffect(() => {
-    const fetchTrendingMovie = async () => {
-      //console.log(timeWindowTrending);
-      const response = await apiGetTrendingMovies(timeWindowTrending, 0, 20); // Adjust page and size as needed
-      const movies = response.data;
-      //console.log(movies);
-      //console.log(movies);
-      const transformedMovies = movies.map((movie) => ({
-        ...movie,
-        poster_path: movie.poster_path
-          ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
-          : '/placeholder.svg',
-        vote_average: movie.vote_average,
-      }));
-      setTrendingMovies(transformedMovies);
-      setVisibleMovies(initialVisibleMovies);
-    };
-    fetchTrendingMovie();
-  }, [timeWindowTrending]);
+    const transformedMovies = trendingMoviesData?.data.map((movie: Movie) => ({
+      ...movie,
+      poster_path: movie.poster_path
+        ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
+        : '/placeholder.svg',
+      vote_average: movie.vote_average,
+    })) || [];
+
+    setTrendingMovies(transformedMovies);
+    setVisibleMovies(initialVisibleMovies);
+  }, [trendingMoviesData, initialVisibleMovies]);
 
   const handleSeeMore = () => {
     setVisibleMovies((prev) => prev + 6);
@@ -37,6 +33,14 @@ export function TrendingMovie() {
   const handleSeeLess = () => {
     setVisibleMovies(initialVisibleMovies);
   };
+
+  if (isLoading) {
+    return <Spinner alignStyle={'flex justify-center items-center my-12'} loading={true} />;
+  }
+
+  if (isError) {
+    return <div>Error loading trending movies</div>;
+  }
 
   return (
     <>

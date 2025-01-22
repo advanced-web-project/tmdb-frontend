@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { TrailerCard } from './trailer-card';
 import { trailerTabs } from '../../../data/tabs';
 import { trailerMovies } from '../../../data/trailer-movies';
-import { apiGetLastTrailersByCategories } from '../../../apis/movieApi';
-import { TrailerWithMovieInfo } from '../../../type/movie/TrailerWithMovieInfo';
+import { useLastTrailersByCategories } from '../../../apis/movieApi';
+import Spinner from '../../shared/spinner';
 import { showError } from '../../../util/ErrorToastifyRender';
 
 const MOVIE_TRAILER = import.meta.env.VITE_MOVIE_TRAILER;
@@ -12,21 +12,24 @@ const MOVIE_TRAILER = import.meta.env.VITE_MOVIE_TRAILER;
 export function TrailerSection() {
   const [activeTrailerTab, setActiveTrailerTab] = useState(trailerTabs[0].id);
   const [hoveredImage, setHoveredImage] = useState<string | null>(trailerMovies[0].image);
-  const [trailers, setTrailers] = useState<TrailerWithMovieInfo[]>([]);
+  const { data: trailersData, isLoading, isError } = useLastTrailersByCategories(activeTrailerTab, 1, 20);
 
   useEffect(() => {
-    const fetchTrailers = async () => {
-      try {
-        const response = await apiGetLastTrailersByCategories(activeTrailerTab, 1, 20);
-        setTrailers(response.data);
-        setHoveredImage(response.data[0].poster_path ? MOVIE_TRAILER + response.data[0].poster_path : null);
-      } catch (error) {
-        console.error(error);
-        showError('Failed to fetch trailers');
-      }
-    };
-    fetchTrailers();
-  }, [activeTrailerTab]);
+    if (trailersData && trailersData.data.length > 0) {
+      setHoveredImage(trailersData.data[0].poster_path ? MOVIE_TRAILER + trailersData.data[0].poster_path : null);
+    }
+  }, [trailersData]);
+
+  if (isLoading) {
+    return <Spinner alignStyle={'flex justify-center items-center my-12'} loading={true} />;
+  }
+
+  if (isError) {
+    showError('Failed to fetch trailers');
+    return <div>Error loading trailers</div>;
+  }
+
+  const trailers = trailersData?.data || [];
 
   return (
     <section

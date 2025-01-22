@@ -113,7 +113,9 @@ const LoginPage: React.FC = () => {
           console.log(data);
           resetAllErrorMessage();
           showSuccess(LOGIN_SUCCESS_MESSAGE);
-          dispatch(loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }));
+          dispatch(
+            loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }),
+          );
           navigate('/tmdb-frontend');
         }
       } catch (error) {

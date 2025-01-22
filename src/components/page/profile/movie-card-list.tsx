@@ -1,15 +1,17 @@
 import { Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { apiAddFavoriteList, apiRemoveFavoriteList } from '../../../apis/favoriteListApi';
-import { apiAddWatchlist, apiRemoveWatchlist } from '../../../apis/watchListApi';
-import { RequestFavoriteListDTO } from '../../../type/user-movie/RequestFavoriteListDTO';
-import { RequestWatchListDTO } from '../../../type/user-movie/RequestWatchListDTO';
+import { useAddFavoriteList, useRemoveFavoriteList } from '../../../apis/favoriteListApi';
+import { useAddWatchlist, useRemoveWatchlist } from '../../../apis/watchListApi';
+import { useAddRating, useUpdateRating, useDeleteRating } from '../../../apis/ratingListApi';
 import RatingProgressBar from '../../shared/rating-progress-bar';
 import { StarRating } from '../home-page/star-rating';
+import { showError } from '../../../util/ErrorToastifyRender';
+import { showSuccess } from '../../../util/SuccessToastifyRender';
+import { RequestFavoriteListDTO } from '../../../type/user-movie/RequestFavoriteListDTO';
+import { RequestWatchListDTO } from '../../../type/user-movie/RequestWatchListDTO';
 import { RequestRatingDTO } from '../../../type/user-movie/RequestRatingDTO';
-import { apiUpdateRating } from '../../../apis/ratingListApi';
-import { apiDeleteRating } from '../../../apis/ratingListApi';
+
 interface MovieCardListProps {
   section: string;
   title: string;
@@ -45,6 +47,14 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
   const [showStarRating, setShowStarRating] = useState(false);
   const [userRating, setUserRating] = useState(initialUserRating);
 
+  const addFavoriteListMutation = useAddFavoriteList();
+  const removeFavoriteListMutation = useRemoveFavoriteList();
+  const addWatchlistMutation = useAddWatchlist();
+  const removeWatchlistMutation = useRemoveWatchlist();
+  const addRatingMutation = useAddRating();
+  const updateRatingMutation = useUpdateRating();
+  const deleteRatingMutation = useDeleteRating();
+
   const handleClick = () => {
     navigate(`/tmdb-frontend/movie/${tmdbId}`);
   };
@@ -56,16 +66,19 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
 
     try {
       if (isFavorite) {
-        await apiRemoveFavoriteList(tmdbId);
+        await removeFavoriteListMutation.mutateAsync(tmdbId);
         setIsFavorite(false);
+        showSuccess('Removed from favorite list');
       } else {
         const data: RequestFavoriteListDTO = {
           tmdb_id: tmdbId,
         };
-        await apiAddFavoriteList(data);
+        await addFavoriteListMutation.mutateAsync(data);
         setIsFavorite(true);
+        showSuccess('Added to favorite list');
       }
     } catch (error) {
+      showError('Failed to update favorite status');
       console.error('Failed to update favorite status:', error);
     }
   };
@@ -76,17 +89,19 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
     }
     try {
       if (isInWatchlist) {
-        await apiRemoveWatchlist(tmdbId);
+        await removeWatchlistMutation.mutateAsync(tmdbId);
         setIsInWatchlist(false);
+        showSuccess('Removed from watchlist');
       } else {
         const data: RequestWatchListDTO = {
           tmdb_id: tmdbId,
         };
-        await apiAddWatchlist(data);
+        await addWatchlistMutation.mutateAsync(data);
         setIsInWatchlist(true);
+        showSuccess('Added to watchlist');
       }
-      onRemove(tmdbId);
     } catch (error) {
+      showError('Failed to update watchlist status');
       console.error('Failed to update watchlist status:', error);
     }
   };
@@ -97,11 +112,17 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
         tmdb_id: tmdbId,
         score: newRating,
       };
-      await apiUpdateRating(data);
-      console.log(`Rated ${title} with ${newRating}`);
+      if (userRating !== null) {
+        await updateRatingMutation.mutateAsync(data);
+        showSuccess('Rating updated');
+      } else {
+        await addRatingMutation.mutateAsync(data);
+        showSuccess('Rating added');
+      }
       setUserRating(newRating); // Update the local userRating state
       setShowStarRating(false);
     } catch (error) {
+      showError('Failed to update rating');
       console.error('Failed to update rating:', error);
     }
   };
@@ -113,14 +134,16 @@ const MovieCardList: React.FC<MovieCardListProps> = ({
   const handleRemoveClick = async () => {
     try {
       if (section === 'rating') {
-        await apiDeleteRating(tmdbId);
+        await deleteRatingMutation.mutateAsync(tmdbId);
       } else if (section === 'favorite') {
-        await apiRemoveFavoriteList(tmdbId);
+        await removeFavoriteListMutation.mutateAsync(tmdbId);
       } else if (section === 'watchlist') {
-        await apiRemoveWatchlist(tmdbId);
+        await removeWatchlistMutation.mutateAsync(tmdbId);
       }
       onRemove(tmdbId); // Call the callback to remove the component from the list
+      showSuccess('Item removed');
     } catch (error) {
+      showError('Failed to remove item');
       console.error('Failed to remove item:', error);
     }
   };

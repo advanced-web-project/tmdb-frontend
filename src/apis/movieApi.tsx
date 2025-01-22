@@ -2,6 +2,7 @@ import axiosInstance from './axios';
 import { DataPageResponse } from '../type/page/DataPageResponse';
 import { Movie } from '../type/movie/Movie';
 import { TrailerWithMovieInfo } from '../type/movie/TrailerWithMovieInfo';
+import { useQuery } from '@tanstack/react-query';
 
 export const apiGetMovieById = (id: string): Promise<Movie> =>
   axiosInstance({
@@ -58,3 +59,35 @@ export const apiGetSimilarMovies = (tmdbId: number): Promise<Movie[]> =>
     url: `/movies/similar/${tmdbId}`,
     method: 'get',
   });
+
+  export const useMovieById = (id: string) => {
+    return useQuery({ queryKey: ['movie', id], queryFn: () => apiGetMovieById(id) });
+  };
+  
+  export const useMovieByTmdbId = (id: string) => {
+    return useQuery({ queryKey: ['movieTmdb', id], queryFn: () => apiGetMovieByTmdbId(id) });
+  };
+  
+  export const useTrendingMovies = (type: string, page: number, size: number) => {
+    return useQuery({ queryKey: ['trendingMovies', type, page, size], queryFn: () => apiGetTrendingMovies(type, page, size) });
+  };
+  
+  export const useMovies = (page: number, size: number) => {
+    return useQuery({ queryKey: ['movies', page, size], queryFn: () => apiGetMovies(page, size) });
+  };
+  
+  export const useCategoriesMovies = (type: string, page: number, size: number) => {
+    return useQuery({ queryKey: ['categoriesMovies', type, page, size], queryFn: () => apiGetCategoriesMovies(type, page, size) });
+  };
+  
+  export const useLastTrailersByCategories = (type: string, page: number, size: number) => {
+    return useQuery({ queryKey: ['lastTrailersByCategories', type, page, size], queryFn: () => apiGetLastTrailersByCategories(type, page, size) });
+  };
+  
+  export const useHistoryMovies = () => {
+    return useQuery({ queryKey: ['historyMovies'], queryFn: apiGetHistoryMovies });
+  };
+  
+  export const useSimilarMovies = (tmdbId: number) => {
+    return useQuery({ queryKey: ['similarMovies', tmdbId], queryFn: () => apiGetSimilarMovies(tmdbId) });
+  };

@@ -1,18 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MovieCard } from '../home-page/movie-card';
-import { apiGetCategoriesMovies } from '../../../apis/movieApi';
-import { Movie } from '../../../type/movie/Movie';
+import { useCategoriesMovies } from '../../../apis/movieApi';
+import Spinner from '../../shared/spinner';
 
 export function PopularMovie() {
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [page] = useState(1);
+  const [size] = useState(20);
+  const { data: popularMoviesData, isLoading, isError } = useCategoriesMovies('popular', page, size);
 
-  useEffect(() => {
-    const fetchPopularMovies = async () => {
-      const response = await apiGetCategoriesMovies('popular', 1, 20); // Adjust page and size as needed
-      setPopularMovies(response.data);
-    };
-    fetchPopularMovies();
-  }, []);
+  const popularMovies = popularMoviesData?.data.map((movie) => ({
+    ...movie,
+    poster_path: movie.poster_path
+      ? `${import.meta.env.VITE_IMAGE_MOVIE_TRENDING_CARD}${movie.poster_path}`
+      : '/placeholder.svg',
+    vote_average: movie.vote_average,
+  })) || [];
+
+  if (isLoading) {
+    return <Spinner alignStyle={'flex justify-center items-center my-12'} loading={true} />;
+  }
+
+  if (isError) {
+    return <div>Error loading popular movies</div>;
+  }
 
   return (
     <>

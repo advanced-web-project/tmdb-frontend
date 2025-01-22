@@ -6,7 +6,7 @@ import { logout } from '../context/authSlice';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 instance.interceptors.request.use(

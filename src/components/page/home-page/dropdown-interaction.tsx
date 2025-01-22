@@ -10,16 +10,15 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { StarRating } from './star-rating';
 import { MoreHorizontal, Heart, Bookmark, Star } from 'lucide-react';
-import { apiGetProfile } from '../../../apis/profileApi';
-import { ResponseProfileDTO } from '../../../type/profile/ResponseProfileDTO';
-import { useState } from 'react';
-import { RequestFavoriteListDTO } from '../../../type/user-movie/RequestFavoriteListDTO';
-import { apiRemoveFavoriteList, apiAddFavoriteList } from '../../../apis/favoriteListApi';
+import { useProfile } from '../../../apis/profileApi';
+import { useAddFavoriteList, useRemoveFavoriteList } from '../../../apis/favoriteListApi';
+import { useAddWatchlist, useRemoveWatchlist } from '../../../apis/watchListApi';
+import { useAddRating, useUpdateRating } from '../../../apis/ratingListApi';
 import { showError } from '../../../util/ErrorToastifyRender';
 import { showSuccess } from '../../../util/SuccessToastifyRender';
-import { apiAddWatchlist, apiRemoveWatchlist } from '../../../apis/watchListApi';
+import { useState, useEffect } from 'react';
+import { RequestFavoriteListDTO } from '../../../type/user-movie/RequestFavoriteListDTO';
 import { RequestRatingDTO } from '../../../type/user-movie/RequestRatingDTO';
-import { apiAddRating, apiUpdateRating } from '../../../apis/ratingListApi';
 
 interface DropdownInteractionProps {
   tmdb_id: number;
@@ -30,24 +29,25 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
   const [isInWatchlist, setIsInWatchlist] = useState<boolean>(false);
   const [rating, setRating] = useState<number | null>(null);
 
-  const handleOpenChange = async (open: boolean) => {
-    if (open) {
-      try {
-        const profileData: ResponseProfileDTO = await apiGetProfile();
-        const favorite = profileData.favoriteList.some((item) => item.tmdb_id === tmdb_id);
-        const watchlist = profileData.watchlist.some((item) => item.tmdb_id === tmdb_id);
-        const rated = profileData.ratings.find((item) => item.tmdb_id === tmdb_id);
+  const { data: profileData, refetch: refetchProfile } = useProfile();
+  const addFavoriteListMutation = useAddFavoriteList();
+  const removeFavoriteListMutation = useRemoveFavoriteList();
+  const addWatchlistMutation = useAddWatchlist();
+  const removeWatchlistMutation = useRemoveWatchlist();
+  const addRatingMutation = useAddRating();
+  const updateRatingMutation = useUpdateRating();
 
-        setIsFavorite(favorite);
-        setIsInWatchlist(watchlist);
-        console.log(rated);
-        setRating(rated ? rated.score : null);
-      } catch (error) {
-        //showError('Failed to fetch profile data');
-        console.error('Failed to fetch profile data:', error);
-      }
+  useEffect(() => {
+    if (profileData) {
+      const favorite = profileData.favoriteList.some((item) => item.tmdb_id === tmdb_id);
+      const watchlist = profileData.watchlist.some((item) => item.tmdb_id === tmdb_id);
+      const rated = profileData.ratings.find((item) => item.tmdb_id === tmdb_id);
+
+      setIsFavorite(favorite);
+      setIsInWatchlist(watchlist);
+      setRating(rated ? rated.score : null);
     }
-  };
+  }, [profileData, tmdb_id]);
 
   const handleRating = async (newRating: number) => {
     try {
@@ -56,13 +56,14 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
         score: newRating,
       };
       if (rating !== null) {
-        await apiUpdateRating(ratingData);
+        await updateRatingMutation.mutateAsync(ratingData);
         showSuccess('Rating updated');
       } else {
-        await apiAddRating(ratingData);
+        await addRatingMutation.mutateAsync(ratingData);
         showSuccess('Rating added');
       }
       setRating(newRating);
+      refetchProfile();
     } catch (error) {
       showError('Failed to update rating');
       console.error('Failed to update rating:', error);
@@ -72,17 +73,18 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
   const handleFavoriteClick = async () => {
     try {
       if (isFavorite) {
-        await apiRemoveFavoriteList(tmdb_id);
+        await removeFavoriteListMutation.mutateAsync(tmdb_id);
         setIsFavorite(false);
         showSuccess('Removed from favorite list');
       } else {
         const favoriteData: RequestFavoriteListDTO = {
           tmdb_id: tmdb_id,
         };
-        await apiAddFavoriteList(favoriteData);
+        await addFavoriteListMutation.mutateAsync(favoriteData);
         setIsFavorite(true);
         showSuccess('Added to favorite list');
       }
+      refetchProfile();
     } catch (error) {
       showError('Failed to update favorite list');
       console.error('Failed to update favorite list:', error);
@@ -92,17 +94,18 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
   const handleWatchlistClick = async () => {
     try {
       if (isInWatchlist) {
-        await apiRemoveWatchlist(tmdb_id);
+        await removeWatchlistMutation.mutateAsync(tmdb_id);
         setIsInWatchlist(false);
         showSuccess('Removed from watchlist');
       } else {
         const watchlistData = {
           tmdb_id: tmdb_id,
         };
-        await apiAddWatchlist(watchlistData);
+        await addWatchlistMutation.mutateAsync(watchlistData);
         setIsInWatchlist(true);
         showSuccess('Added to watchlist');
       }
+      refetchProfile();
     } catch (error) {
       showError('Failed to update watchlist');
       console.error('Failed to update watchlist:', error);
@@ -110,7 +113,7 @@ export default function DropdownInteraction({ tmdb_id }: DropdownInteractionProp
   };
 
   return (
-    <DropdownMenu modal={false} onOpenChange={(open) => handleOpenChange(open)}>
+    <DropdownMenu modal={false} onOpenChange={(open) => open && refetchProfile()}>
       <DropdownMenuTrigger asChild>
         <button className="w-8 h-8 z-1000 rounded-full bg-black/30 flex items-center justify-center text-white hover:bg-black/50 transition-colors">
           <MoreHorizontal className="w-5 h-5" />

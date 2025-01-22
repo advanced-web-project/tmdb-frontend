@@ -15,7 +15,9 @@ const IMAGE_RECOMMENDATION = import.meta.env.VITE_IMAGE_RECOMMENDATION;
 export const Recommendations: React.FC<RecommendationsProps> = ({ recommendations, onHeaderClick, loading }) => {
   return (
     <div className="mt-8 max-w-[900px]">
-      <h2 className="text-[1.5em] font-semibold mb-4 cursor-pointer hover:text-blue-500" onClick={onHeaderClick}>Recommendations</h2>
+      <h2 className="text-[1.5em] font-semibold mb-4 cursor-pointer hover:text-blue-500" onClick={onHeaderClick}>
+        Recommendations
+      </h2>
       {loading ? (
         <Spinner loading={true} alignStyle="flex justify-center items-center h-40" />
       ) : (

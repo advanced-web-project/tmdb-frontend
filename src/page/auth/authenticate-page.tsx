@@ -22,7 +22,9 @@ export default function Authenticate(): JSX.Element {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          dispatch(loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }));
+          dispatch(
+            loginAction({ userInfo: data.user, accessToken: data.accessToken, refreshAccessToken: data.refreshToken }),
+          );
           navigate('/tmdb-frontend');
           setIsLoggedin(true);
         })

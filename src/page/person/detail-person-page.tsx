@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { ProfileInfo } from '../../components/page/detail-person/ProfileInfo';
 import { MovieGrid } from '../../components/page/detail-person/MovieGrid';
 import { Filmography } from '../../components/page/detail-person/Filmography';
 import { Biography } from '../../components/page/detail-person/Biography';
-import { apiGetPersonById } from '../../apis/personApi';
-import { showError } from '../../util/ErrorToastifyRender';
-import { Person } from '../../type/person/Person';
+import { usePersonById } from '../../apis/personApi';
 import Spinner from '../../components/shared/spinner';
+import { showError } from '../../util/ErrorToastifyRender';
 
 const DetailPersonPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [personDetail, setPersonDetail] = useState<Person | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: personDetail, isLoading, isError } = usePersonById(id!);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchPersonDetail = async () => {
-      if (id) {
-        const person = await apiGetPersonById(id);
-        setPersonDetail(person);
-        setLoading(false);
-      } else {
-        showError('Person ID is undefined');
-      }
-    };
-    fetchPersonDetail();
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return <Spinner loading={true} alignStyle="flex justify-center items-center h-screen" />;
+  }
+
+  if (isError) {
+    showError('Failed to load person details');
+    return <div>Error loading person details</div>;
   }
 
   if (!personDetail) {

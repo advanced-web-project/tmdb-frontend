@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from '../../components/shared/tabs';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {useDispatch } from 'react-redux';
 
 import Spinner from '../../components/shared/spinner';
 import HeaderProfile from '../../components/page/profile/overview/header-profile';
@@ -9,38 +9,28 @@ import StaticSection from '../../components/page/profile/overview/statics';
 import FavoriteSection from '../../components/page/profile/favorite/favorite-section';
 import RatingSection from '../../components/page/profile/rating/rating-section';
 import WatchListSection from '../../components/page/profile/watch/watchlist-section';
-import { ResponseProfileDTO } from '../../type/profile/ResponseProfileDTO';
-import { apiGetProfile } from '../../apis/profileApi';
-import { RootState } from '../../context/store';
 import { logout } from '../../context/authSlice';
+import { useProfile } from '../../apis/profileApi';
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { accessToken, refreshAccessToken, userInfo } = useSelector((state: RootState) => state.auth);
   const [tab, setTab] = useState('overview');
-  const [profile, setProfile] = useState<ResponseProfileDTO | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const { data: profile, isLoading, isError } = useProfile();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const profileData = await apiGetProfile();
-        setProfile(profileData);
-      } catch (error) {
-        console.error(error);
-        dispatch(logout());
-        navigate('/tmdb-frontend/login');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserInfo();
-  }, [accessToken, refreshAccessToken, userInfo?.username, navigate, tab, dispatch]);
+    if (isError) {
+      console.error('Failed to load profile');
+      dispatch(logout());
+      navigate('/tmdb-frontend/login');
+    }
+  }, [isError, dispatch, navigate]);
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner alignStyle={'flex justify-center items-center my-12'} loading={true} />;
   }
+
   if (!profile) {
     return null;
   }
