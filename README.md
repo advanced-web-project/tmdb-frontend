@@ -38,11 +38,10 @@ The Movie Recommendation Website is designed to help users easily discover and w
    - Support for smart search and quick navigation.
 
 ### Technologies Used:
-- **Frontend**:
   - ReactJS
+  - Redux
+  - React Query
   - Deployed using **GitHub Pages**
-- **Backend**:
-  - Spring Security: for user authentication and authorization.
 
 ## Deployment Instructions
 
@@ -50,3 +49,6 @@ The Movie Recommendation Website is designed to help users easily discover and w
 1. Build the React project:
    ```bash
    npm run build
+2. Push the build folder to the gh-pages branch.
+3. Use GitHub Pages to host the frontend.
+   
